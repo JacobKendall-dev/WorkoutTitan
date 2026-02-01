@@ -1,9 +1,21 @@
-import { View, Text, StyleSheet, FlatList, Pressable } from 'react-native'
+import { View, Text, StyleSheet, FlatList, Pressable, Modal } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useGoals } from '../../hooks/useGoals'
+import { useState } from 'react'
+import Slider from '@react-native-community/slider';
 
 const Goals = () => {
-  const { goals } = useGoals()
+  const [selected, setSelected] = useState(null)
+  const { goals, updateGoal, deleteGoal } = useGoals()
+
+  const handleProgressChange = async (value) => {
+    await updateGoal(selected.id, {progress: value})
+  }
+
+  const handleDelete = async () => {
+    await deleteGoal(selected.id)
+    setSelected(null)
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -12,8 +24,9 @@ const Goals = () => {
       <FlatList
         data={goals}
         keyExtractor={(item) => item.id}
+        contentContainerStyle={styles.list}
         renderItem={({ item }) => (
-          <Pressable>
+          <Pressable onPress={() => setSelected(item)}>
             <View style={styles.goal}>
               <Text style={{margin: 16}}>{item.goal}</Text>
               <View style={[styles.progress, { width: `${item.progress}%` }]} />
@@ -21,6 +34,38 @@ const Goals = () => {
           </Pressable>
         )}
       />
+
+      {selected && (
+        <Modal animationType="slide" visible={selected !== null}>
+          <View style={styles.modal}>     
+            <Text style={styles.title}>{selected.goal}</Text>
+            <Text>Adjust the progress of this goal:</Text>
+
+            <Slider 
+              style={{width: '80%', height: 40, marginVertical: 20}}
+              value={selected.progress}
+              minimumValue={0}
+              maximumValue={100}
+              minimumTrackTintColor="#21cc8d"
+              maximumTrackTintColor="#ddd"
+              thumbTintColor="#21cc8d"
+              onSlidingComplete={handleProgressChange}
+            />
+
+            <View style={styles.buttonsWrapper}>
+              <Pressable style={styles.btn} onPress={() => setSelected(null)}>
+                <Text style={{color: 'white'}}>Close</Text>
+              </Pressable>
+              <Pressable 
+                style={[styles.btn, {backgroundColor: 'red'}]} 
+                onPress={handleDelete}>
+                <Text style={{color: 'white'}}>Delete Goals</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+      )}
+
     </SafeAreaView>
   )
 }
@@ -50,5 +95,25 @@ const styles = StyleSheet.create({
     minWidth: 10,
     borderRadius: 2,
   },
-  
+  modal: {
+    margin: 20,
+    marginTop: 100,
+    alignItems: 'center',
+  },
+  buttonsWrapper: {
+    width: '80%',
+    marginTop: 20,
+    borderTopWidth: 1,
+    borderTopColor: '#ddd',
+    paddingTop: 20,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 20,
+  },
+  btn: {
+    borderRadius: 8,
+    padding: 16,
+    backgroundColor: '#21cc8d',
+  },
 })
