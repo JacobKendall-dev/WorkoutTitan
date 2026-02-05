@@ -1,18 +1,20 @@
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
 import { Link } from 'expo-router'
-import { View, Text, StyleSheet } from 'react-native'
 
-const Home = () => {
+const Armoire = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>
-        WORKOUT TITAN
-      </Text>
-      <Link style={styles.link} href="/dashboard">
-        Start now
+      <Text style={styles.title}>Armoire</Text>
+
+      <Link style={styles.link} href="/shop">
+          The Shop
       </Link>
     </View>
   )
 }
+
+export default Armoire
 
 const styles = StyleSheet.create({
   container: {
@@ -31,5 +33,3 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
 })
-
-export default Home

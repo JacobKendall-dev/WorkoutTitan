@@ -1,18 +1,15 @@
-import { Link } from 'expo-router'
-import { View, Text, StyleSheet } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
 
-const Home = () => {
+const Challenges = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>
-        WORKOUT TITAN
-      </Text>
-      <Link style={styles.link} href="/dashboard">
-        Start now
-      </Link>
+      <Text style={styles.title}>Challenges</Text>
     </View>
   )
 }
+
+export default Challenges
 
 const styles = StyleSheet.create({
   container: {
@@ -31,5 +28,3 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
 })
-
-export default Home
