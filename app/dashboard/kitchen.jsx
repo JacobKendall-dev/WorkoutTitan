@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
+import SignButton from "../../components/SignButton"; 
 import { Link } from 'expo-router'
 import React from 'react'
 
@@ -7,18 +8,24 @@ const Kitchen = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Kitchen Title Screen</Text>
 
+    <Link href="/dashboard/kitchenfields/currentmealplan" asChild>
+      <SignButton title="Current Meal Plan" />
+    </Link>
 
-        <Link style={styles.link} href="/dashboard/kitchenfields/currentmealplan">
-        Current Meal Plan
-        </Link>
+    <Link style={styles.link} href="/dashboard/kitchenfields/tracker">
+       <SignButton title="Tracker" />
+    </Link>
 
-        <Link style={styles.link} href="/dashboard/kitchenfields/tracker">
-        This will be a modal for Protein/Calories 
-        </Link>
+    <Link style={styles.link} href="/dashboard/kitchenfields/recipes">
+      <SignButton title="Recipes" />
+    </Link>
+      
 
-        <Link style={styles.link} href="/dashboard/kitchenfields/recipes">
-        Recipes
-        </Link>
+     
+
+        
+
+        
     </View>
   )
 }

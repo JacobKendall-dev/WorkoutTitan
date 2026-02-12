@@ -15,7 +15,7 @@ const SignButton = ({ title, onPress, imageSource, style, textStyle, ...props })
         {...props}
         >
             <ImageBackground
-                source={require("C:/Users/kayly/OneDrive/Documents/UT School 25-26/Spring 26/Capstone/WorkoutTitan/assets/images/wooden-sign.png")}
+                source={require("../assets/images/wooden-sign.png")}
                 style={styles.image}
                 imageStyle={styles.imageBorder}
                 >
