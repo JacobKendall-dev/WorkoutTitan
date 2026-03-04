@@ -1,4 +1,4 @@
-/*import { StyleSheet, Text, View, FlatList, ActivityIndicator, Pressable } from 'react-native'
+import { StyleSheet, Text, View, FlatList, ActivityIndicator, Pressable } from 'react-native'
 import { Link } from 'expo-router'
 import React, {useEffect, useMemo, useState} from 'react'
 
@@ -51,7 +51,7 @@ const Recipes = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Recipes</Text>
 
-      {/* Optional link to an "add recipe" screen if you have one *}
+      {/* Optional link to an "add recipe" screen if you have one */}
       <Link href="/add-recipe" style={styles.link}>
         Add a recipe
       </Link>
@@ -122,4 +122,4 @@ const styles = StyleSheet.create({
   },
 
 })
-  */
+  
