@@ -10,6 +10,9 @@ const Home = () => {
       <Link style={styles.link} href="/dashboard">
         Start now
       </Link>
+      <Link style={styles.link} href="/login">
+        Login
+      </Link>
     </View>
   )
 }
