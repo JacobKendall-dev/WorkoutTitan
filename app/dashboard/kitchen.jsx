@@ -14,16 +14,16 @@ const Kitchen = () => {
     >
       <Text style={styles.title}>Kitchen Title Screen</Text>
 
-      <Link style={styles.link} href="/dashboard/kitchenfields/currentmealplan" asChild>
-        <SignButton title="Current Meal Plan" />
+      <Link href="/dashboard/kitchenfields/currentmealplan" asChild>
+        <SignButton title="Current Meal Plan" style={styles.buttonSpacing}/>
       </Link>
 
-      <Link style={styles.link} href="/dashboard/kitchenfields/tracker" asChild>
-        <SignButton title="Tracker" />
+      <Link href="/dashboard/kitchenfields/tracker" asChild>
+        <SignButton title="Tracker" style={styles.buttonSpacing}/>
       </Link>
 
-      <Link style={styles.link} href="/dashboard/kitchenfields/recipes" asChild>
-        <SignButton title="Recipes" />
+      <Link href="/dashboard/kitchenfields/recipes" asChild>
+        <SignButton title="Recipes" style={styles.buttonSpacing}/>
       </Link>
       
 
@@ -64,5 +64,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         textDecorationLine: 'underline'
     },
+    buttonSpacing: {
+        marginVertical: 20,
+},
 
 })

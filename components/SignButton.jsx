@@ -15,12 +15,16 @@ const SignButton = ({ title, onPress, imageSource, style, textStyle, ...props })
         {...props}
         >
             <ImageBackground
-                source={require("../assets/images/wooden-sign.png")}
+                source={imageSource ?? require("../assets/images/plankwobg.png")}
                 style={styles.image}
                 imageStyle={styles.imageBorder}
+                resizeMode='cover'
                 >
-                <View style={styles.overlay} />
-                <Text style={[styles.text, textStyle]}>
+                <Text 
+                style={[styles.text, textStyle]} 
+                numberOfLines={1}
+                adjustsFontSizeToFit
+                minimumFontScale={0.6}>
                     {title}
                 </Text>
             </ImageBackground>
@@ -30,12 +34,13 @@ const SignButton = ({ title, onPress, imageSource, style, textStyle, ...props })
 
 export default SignButton
 
+
 const styles = StyleSheet.create({
 container: {
-    width: 220,
-    height: 60,
+    width: 350,
+    height: 80,
     borderRadius: 12,
-    overflow: "hidden",
+    backgroundColor: "transparent",
   },
   image: {
     flex: 1,
@@ -51,8 +56,12 @@ container: {
   },
   text: {
     color: "white",
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: 20,
+    fontWeight: "500",
+    textShadowColor: "rgba(0,0,0,0.8)", // ✅ makes text readable on wood
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 4,
+    paddingHorizontal: 12,
   },
   pressed: {
     transform: [{ scale: 0.97 }],
