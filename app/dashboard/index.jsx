@@ -1,12 +1,18 @@
-import { StyleSheet, Text, View,  } from 'react-native'
+import { StyleSheet, Text, View, Button } from 'react-native'
 import React from 'react'
 import { Link } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useUser } from '../../hooks/useUser'
 
 const Dashboard = () => {
+   
+
+
   return (
     <View style={styles.container}>
         <Text style={styles.title}>Welcome Traveler</Text>
+
+        
 
         <Link style={styles.link} href="/dashboard/campsite">
         Go to Campsite
@@ -26,6 +32,10 @@ const Dashboard = () => {
 
         <Link style={styles.link} href="/dashboard/leaderboard">
         Leaderboard
+        </Link>
+
+        <Link style={styles.link} href="/dashboard/profile">
+        Profile
         </Link>
     </View>
   )
