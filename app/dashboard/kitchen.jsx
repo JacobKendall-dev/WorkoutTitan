@@ -6,8 +6,10 @@ import React from 'react'
 
 const Kitchen = () => {
   return (
+    //../../assets/images/iphone gif background.gif
     <ScreenBackground
-      imageSource={require("../../assets/images/iphone gif background.gif")}
+      imageSource={require("../../assets/images/CookingIdleCustom.gif")}
+      style={styles.image}
       overlay
       overlayOpacity={0.3}
       contentStyle={styles.container}
@@ -67,5 +69,12 @@ const styles = StyleSheet.create({
     buttonSpacing: {
         marginVertical: 20,
 },
+    image: {
+        width: '140%',
+        height: 100,
+        resizeMode: 'contain',
+        alignItems: 'center',
+}
+
 
 })
