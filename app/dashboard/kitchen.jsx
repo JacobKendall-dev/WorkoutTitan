@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 import SignButton from "../../components/SignButton"; 
+import SafeView from '../../components/SafeView';
 import ScreenBackground from '../../components/ScreenBackground';
 import { Link } from 'expo-router'
 import React from 'react'
@@ -7,15 +8,12 @@ import React from 'react'
 const Kitchen = () => {
   return (
     //../../assets/images/iphone gif background.gif
-    <ScreenBackground
-      imageSource={require("../../assets/images/CookingIdleCustom.gif")}
-      style={styles.image}
-      overlay
-      overlayOpacity={0.3}
-      contentStyle={styles.container}
-    >
-      <Text style={styles.title}>Kitchen Title Screen</Text>
+    <SafeView style={styles.container} safe={true}>
+    <View style = {styles.container}>
+      <Text style={styles.title}>Campsite Cooking</Text>
+    </View>
 
+    <View style={styles.container}>
       <Link href="/dashboard/kitchenfields/currentmealplan" asChild>
         <SignButton title="Current Meal Plan" style={styles.buttonSpacing}/>
       </Link>
@@ -27,18 +25,29 @@ const Kitchen = () => {
       <Link href="/dashboard/kitchenfields/recipes" asChild>
         <SignButton title="Recipes" style={styles.buttonSpacing}/>
       </Link>
+    </View>
+
+    <View style={styles.card}>
+        <ScreenBackground
+          imageSource={require("../../assets/images/CookingIdleCustom.gif")}
+          overlay={false}
+          resizeMode='contain'
+          />
+    </View>
       
 
-     
+     </SafeView>
 
         
 
         
-    </ScreenBackground>
+  
   )
 }
 
 export default Kitchen
+
+
 
 const styles = StyleSheet.create({
     title: {
@@ -67,14 +76,23 @@ const styles = StyleSheet.create({
         textDecorationLine: 'underline'
     },
     buttonSpacing: {
-        marginVertical: 20,
+        marginVertical: 10,
 },
     image: {
         width: '140%',
         height: 100,
         resizeMode: 'contain',
         alignItems: 'center',
-}
+},
+    card: {
+        width: '90%',
+        height: 250,
+        backgroundColor: '#fff',
+        borderRadius: 20,
+        marginTop: 350,
+        marginLeft: 20,
+        overflow: 'hidden',
+      },
 
 
 })
