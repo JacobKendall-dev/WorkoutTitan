@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import SignButton from "../../components/SignButton"; 
 import SafeView from '../../components/SafeView';
 import ScreenBackground from '../../components/ScreenBackground';
+import Card from '../../components/Card';
 import { Link } from 'expo-router'
 import React from 'react'
 
@@ -27,13 +28,13 @@ const Kitchen = () => {
       </Link>
     </View>
 
-    <View style={styles.card}>
+    <Card>
         <ScreenBackground
           imageSource={require("../../assets/images/CookingIdleCustom.gif")}
           overlay={false}
           resizeMode='contain'
           />
-    </View>
+    </Card>
       
 
      </SafeView>
