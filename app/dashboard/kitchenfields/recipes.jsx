@@ -4,7 +4,7 @@ import React, {useEffect, useMemo, useState} from 'react'
 
 // Firestore imports
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
-import { db } from "../firebaseConfig"; //adjust this to our config file!!!!
+import { db } from "../../../lib/firebaseConfig"; 
 
 
 
