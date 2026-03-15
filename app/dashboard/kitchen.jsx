@@ -18,7 +18,7 @@ const Kitchen = () => {
         resizeMode='cover'
         
         >
-     <SafeView style={styles.container} safe={true}>
+     
         <View style = {styles.titleBlock}>                        //VIEW1
           <Text style={styles.title}>Campsite Cooking</Text>
         </View>
@@ -51,7 +51,7 @@ const Kitchen = () => {
               />
         </Card>
       
-      </SafeView>
+    
 </ScreenBackground>
         
 
@@ -143,6 +143,7 @@ const styles = StyleSheet.create({
       bottomRow: {
         marginTop: 12,
         alignItems: 'center',
+        marginBottom: 100,
       },
 
       sideButtonLeft: {
