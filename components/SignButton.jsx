@@ -18,7 +18,7 @@ const SignButton = ({ title, onPress, imageSource, style, textStyle, ...props })
                 source={imageSource ?? require("../assets/images/plankwobg.png")}
                 style={styles.image}
                 imageStyle={styles.imageBorder}
-                resizeMode='cover'
+                resizeMode="cover"
                 >
                 <Text 
                 style={[styles.text, textStyle]} 
@@ -37,8 +37,8 @@ export default SignButton
 
 const styles = StyleSheet.create({
 container: {
-    width: 350,
-    height: 80,
+    width: 260,
+    height: 60,
     borderRadius: 12,
     backgroundColor: "transparent",
   },
@@ -56,9 +56,9 @@ container: {
   },
   text: {
     color: "white",
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "500",
-    textShadowColor: "rgba(0,0,0,0.8)", // ✅ makes text readable on wood
+    textShadowColor: "rgba(0,0,0,0.8)", 
     textShadowOffset: { width: 0, height: 2 },
     textShadowRadius: 4,
     paddingHorizontal: 12,
