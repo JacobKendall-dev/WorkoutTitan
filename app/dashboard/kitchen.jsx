@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import SignButton from "../../components/SignButton"; 
 import SafeView from '../../components/SafeView';
 import ScreenBackground from '../../components/ScreenBackground';
+import PlainButton from '../../components/SolidColorButton';
 import Card from '../../components/Card';
 import { Link } from 'expo-router'
 import React from 'react'
@@ -18,24 +19,28 @@ const Kitchen = () => {
         
         >
      <SafeView style={styles.container} safe={true}>
-        <View style = {styles.titleBlock}>
+        <View style = {styles.titleBlock}>                        //VIEW1
           <Text style={styles.title}>Campsite Cooking</Text>
         </View>
 
-        <View style={styles.buttonBlock}>
+//---------------------------------------------------------------------------------------------
+
+        <View style={styles.topRow}>                         //VIEW2
           <Link href="/dashboard/kitchenfields/currentmealplan" asChild>
-            <SignButton title="Current Meal Plan" style={styles.mealPlanButton}/>
+            <PlainButton title="Current Meal Plan" style={styles.sideButton}/>
           </Link>
 
           <Link href="/dashboard/kitchenfields/tracker" asChild>
-            <SignButton title="Tracker" style={styles.trackerButton}/>
-          </Link>
-
-          <Link href="/dashboard/kitchenfields/recipes" asChild>
-            <SignButton title="Recipes" style={styles.recipesButton}/>
+            <PlainButton title="Tracker" style={styles.sideButton}/>
           </Link>
         </View>
 
+        <View style={styles.bottomRow}>                                           //VIEW3
+          <Link href="/dashboard/kitchenfields/recipes" asChild>
+            <PlainButton title="Recipes" style={styles.bottomButton}/>
+          </Link>
+        </View>
+//---------------------------------------------------------------------------------------------
         <Card>
             <ScreenBackground
               imageSource={require("../../assets/images/CookingIdleCustom.gif")}
@@ -118,25 +123,33 @@ const styles = StyleSheet.create({
          justifyContent: 'flex-start',
          paddingTop: 30,
       },
-      mealPlanButton: {
+     buttonSection: {
+        alignItems: 'center',
+        marginBottom: 24,
+      },
+
+      topRow: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
+        
       },
 
-      trackerButton: {
-        marginTop: 20,
-        marginLeft: 40,
-        width: 200,
-        height: 50,
+      bottomRow: {
+        marginTop: 12,
+        alignItems: 'center',
       },
 
-      recipesButton: {
-        marginTop: 15,
-        marginRight: 30,
-        width: 210,
-        height: 50,
+      sideButton: {
+        width: 260,
+        height: 55,
+        marginLeft: .2,
+        marginRight: 1,
       },
 
+      bottomButton: {
+        width: 220,
+        height: 55,
+      },
 
 })
