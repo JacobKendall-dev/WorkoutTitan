@@ -17,7 +17,7 @@ const PlainButton = ({ title, onPress, imageSource, style, textStyle, ...props }
             >
             <Text 
                     style={[styles.text, textStyle]} 
-                    numberOfLines={1}
+                    numberOfLines={2}
                     adjustsFontSizeToFit
                     minimumFontScale={0.6}>
                         {title}
@@ -32,9 +32,9 @@ export default PlainButton
 
 const styles = StyleSheet.create({
 container: {
-    width: 260,
+    width: 100,
     height: 55,
-    borderRadius: 12,
+    borderRadius: 18,
     backgroundColor: "#9ED2B7",
     outlineColor: "#699B82",
     justifyContent: 'center',
@@ -51,7 +51,7 @@ container: {
     textShadowColor: "rgba(0,0,0,0.8)", 
     textShadowOffset: { width: 0, height: 2 },
     textShadowRadius: 4,
-    paddingHorizontal: 12,
+    paddingHorizontal: 6,
   },
   pressed: {
     transform: [{ scale: 0.97 }],

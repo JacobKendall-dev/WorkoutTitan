@@ -27,11 +27,12 @@ const Kitchen = () => {
 
         <View style={styles.topRow}>                         //VIEW2
           <Link href="/dashboard/kitchenfields/currentmealplan" asChild>
-            <PlainButton title="Current Meal Plan" style={styles.sideButton}/>
+            <PlainButton title="Current Meal Plan" style={styles.sideButtonLeft}/>
           </Link>
-
+        </View>
+        <View style={styles.middleRow}>
           <Link href="/dashboard/kitchenfields/tracker" asChild>
-            <PlainButton title="Tracker" style={styles.sideButton}/>
+            <PlainButton title="Tracker" style={styles.sideButtonRight}/>
           </Link>
         </View>
 
@@ -65,12 +66,12 @@ export default Kitchen
 
 const styles = StyleSheet.create({
     title: {
-        marginVertical: 40,
+        marginVertical: 20,
         fontSize: 28,
         fontWeight: "bold",
-        marginTop: 30,
-        marginBottom: 24,
-        color: "#A46856",
+        marginTop: 15,
+        marginBottom: 15,
+        color: "#F6DDD6",
         paddingVertical: 5,
         paddingHorizontal: 10,
         borderRadius: 10,
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
     },
     titleBlock: {
       alignItems: 'center',
-      marginBottom: 24,
+      marginBottom: 5,
     },
     container: {
         flex: 1,
@@ -129,10 +130,14 @@ const styles = StyleSheet.create({
       },
 
       topRow: {
-        flexDirection: 'row',
-        justifyContent: 'center',
+        marginTop: 12,
         alignItems: 'center',
-        
+      },
+
+      middleRow: {
+        marginTop: 12,
+        alignItems: 'center',
+      
       },
 
       bottomRow: {
@@ -140,15 +145,21 @@ const styles = StyleSheet.create({
         alignItems: 'center',
       },
 
-      sideButton: {
-        width: 260,
+      sideButtonLeft: {
+        width: 150,
         height: 55,
-        marginLeft: .2,
-        marginRight: 1,
+        marginLeft: 1,
+        alignItems: 'center',
+      },
+      sideButtonRight: {
+        width: 150,
+        height: 55,
+        marginLeft: 1,
+        alignItems: 'center',
       },
 
       bottomButton: {
-        width: 220,
+        width: 150,
         height: 55,
       },
 
