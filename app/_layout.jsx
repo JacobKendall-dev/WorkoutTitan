@@ -1,6 +1,7 @@
 import { Stack } from "expo-router"
 import { StatusBar } from "expo-status-bar"
 import { UserProvider } from "../contexts/UserContext"
+import { StyleSheet } from "react-native"
 
 export default function RootLayout() {
   return (
@@ -13,3 +14,7 @@ export default function RootLayout() {
     </UserProvider>
   )
 }
+
+const syles = StyleSheet.create({
+
+})

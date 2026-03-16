@@ -1,8 +1,19 @@
+import { StyleSheet, Text, View } from 'react-native'
+import ScreenBackground from '../components/ScreenBackground'
 import { Link } from 'expo-router'
-import { View, Text, StyleSheet } from 'react-native'
+import PlainButton from '../components/SolidColorButton'
+import Card from '../components/Card'
 
 const Home = () => {
   return (
+  <ScreenBackground
+        imageSource={require("../assets/images/Gradient2.png")}
+        overlay
+        overlayOpacity={0.3}
+        contentStyle={styles.screenContent}
+        resizeMode='cover'
+        
+        >
     <View style={styles.container}>
       <Text style={styles.title}>
         WORKOUT TITAN
@@ -14,6 +25,9 @@ const Home = () => {
         Login
       </Link>
     </View>
+
+
+   </ScreenBackground>
   )
 }
 
