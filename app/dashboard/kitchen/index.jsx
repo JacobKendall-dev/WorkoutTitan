@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native'
-import SignButton from "../../components/SignButton"; 
-import SafeView from '../../components/SafeView';
-import ScreenBackground from '../../components/ScreenBackground';
-import PlainButton from '../../components/SolidColorButton';
-import Card from '../../components/Card';
+import SignButton from "../../../components/SignButton"; 
+import SafeView from '../../../components/SafeView';
+import ScreenBackground from '../../../components/ScreenBackground';
+import PlainButton from '../../../components/SolidColorButton';
+import Card from '../../../components/Card';
 import { Link } from 'expo-router'
 import React from 'react'
 
