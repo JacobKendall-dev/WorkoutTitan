@@ -7,7 +7,11 @@ export default function DashboardLayout() {
 
     <Stack
       screenOptions={{
-        headerShown: true
+        headerShown: true,
+        headerTintColor: '#723a45',
+        headerStyle: { backgroundColor: "#ffeace" },
+        title: '',
+
       }}>
       
     </Stack>

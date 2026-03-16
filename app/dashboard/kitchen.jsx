@@ -11,7 +11,7 @@ const Kitchen = () => {
   return (
     //../../assets/images/iphone gif background.gif
      <ScreenBackground
-        imageSource={require("../../assets/images/Fantasy.gif")}
+        imageSource={require("../../assets/images/Gradient2.png")}
         overlay
         overlayOpacity={0.3}
         contentStyle={styles.screenContent}
@@ -67,16 +67,20 @@ export default Kitchen
 const styles = StyleSheet.create({
     title: {
         marginVertical: 20,
-        fontSize: 28,
+        fontSize: 30,
         fontWeight: "bold",
+        textShadowColor: '#524439',
+        textShadowOffset: { width: 2, height: 2 },
+        textShadowRadius: 4,
         marginTop: 15,
         marginBottom: 15,
-        color: "#F6DDD6",
+        color: "#f0e3e0",
         paddingVertical: 5,
         paddingHorizontal: 10,
-        borderRadius: 10,
+        borderRadius: 5,
         overflow: "hidden",
         alignItems: 'center'
+        
 
     },
     titleBlock: {
@@ -143,7 +147,7 @@ const styles = StyleSheet.create({
       bottomRow: {
         marginTop: 12,
         alignItems: 'center',
-        marginBottom: 100,
+        marginBottom: 50,
       },
 
       sideButtonLeft: {
