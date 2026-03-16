@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Image, FlatList, Pressable } from 'react-native'
 import React from 'react'
 import { Link } from 'expo-router'
+import ScreenBackground from '../../components/ScreenBackground';
 
 
 const DATA = [
@@ -27,6 +28,12 @@ const DATA = [
 const Shop = () => {
 
   return (
+    <ScreenBackground style = {styles.background}
+    imageSource ={require("../../assets/images/CleaningIdleDefault.gif")} 
+    overlay = {false}
+    resizeMode = "contain"
+    >
+
     <View style={styles.container}>
       <Text style={styles.title}>Shop</Text>
       <FlatList
@@ -44,6 +51,7 @@ const Shop = () => {
     Back to Dashboard
     </Link>
     </View>
+    </ScreenBackground>
   )
 }
 

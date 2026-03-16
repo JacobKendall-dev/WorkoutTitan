@@ -18,6 +18,7 @@ const SignButton = ({ title, onPress, imageSource, style, textStyle, ...props })
                 source={require("../assets/images/wooden-sign.png")}
                 style={styles.image}
                 imageStyle={styles.imageBorder}
+                resizeMode = 'center'
                 >
                 <View style={styles.overlay} />
                 <Text style={[styles.text, textStyle]}>
@@ -39,6 +40,8 @@ container: {
   },
   image: {
     flex: 1,
+    height: 90,
+    width: '100%',
     justifyContent: "center",
     alignItems: "center",
   },

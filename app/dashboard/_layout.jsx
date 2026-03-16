@@ -1,5 +1,5 @@
 import { Stack, Tabs } from 'expo-router'
-import {ArmorContext} from '/context/ArmorContext'
+import {ArmorContext} from '../../contexts/ArmorContext'
 import { Ionicons } from "@expo/vector-icons"
 
 export default function DashboardLayout() {

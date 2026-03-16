@@ -6,7 +6,7 @@ const ScreenBackground = ({imageSource, children, overlay= true, overlayOpacity=
     <View style={[styles.root, style]}>
      <ImageBackground
         source={imageSource}
-        resizeMode={resizeMode}
+        resizeMode="cover"
         style={styles.bg}
         {...props}
     />

@@ -14,4 +14,10 @@ export const ArmorProvider = ({children}) => {
             asset: newAsset
         }))
     }
+
+    return (
+        <ArmorContext.Provider value = {{armor, setArmor}}>
+            {childern}
+        </ArmorContext.Provider>
+    )
 }
