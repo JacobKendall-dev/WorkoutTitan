@@ -20,13 +20,13 @@ const Running = () => {
   const totalDistanceRef = useRef(0);
   const timerIdRef = useRef(null);
   
-  //beginning of watchback function
-  const startRun = async ({distanceGoal = 0, timeGoal = null} = {}) => {
-
-  monitorRef.current?.remove();
+const startRun = async ({distanceGoal = 0, timeGoal = null} = {}) => {
+  if (monitorRef.current) {
+    monitorRef.current.remove();
+    monitorRef.current = null;
+  }
   clearInterval(timerIdRef.current);
 
-  //For permissions
   const { status } = await Location.requestForegroundPermissionsAsync();
   if (status !== "granted") {
     alert("Permission denied");
@@ -34,8 +34,6 @@ const Running = () => {
   }
 
   setIsTimedRun(Boolean(timeGoal));
-
-  //Reset states and UI
   setRunCompleted(false);
   setAverageSpeed(null);
   setCurrentSpeed(0);
@@ -44,74 +42,82 @@ const Running = () => {
   setElapsedTime(0);
   totalDistanceRef.current = 0;
 
-  //To get initiall location values stored in start
-  const start = await Location.getCurrentPositionAsync({ 
-  accuracy: Location.Accuracy.Highest 
-  })
-  //To extract the coordinates location values specifically in start and put in prevLOcation
+  // Warm up GPS immediately with low accuracy (fast),
+  // then watchPositionAsync will upgrade to high accuracy
+  const warmup = await Location.getCurrentPositionAsync({
+    accuracy: Location.Accuracy.Balanced // fast, not perfect
+  });
   previousLocation.current = {
-    latitude: start.coords.latitude,
-    longitude: start.coords.longitude
-  }
-  //Start time we will use to calculate the average speed at the end
-  startTime.current = Date.now()
+    latitude: warmup.coords.latitude,
+    longitude: warmup.coords.longitude
+  };
+  startTime.current = Date.now();
 
-  //This is for the UI values to render
   const endRun = () => {
-  monitorRef.current?.remove();
-  clearInterval(timerIdRef.current);
+    monitorRef.current?.remove();
+    monitorRef.current = null;
+    clearInterval(timerIdRef.current);
+    const endTimeVal = (Date.now() - startTime.current) / 1000;
+    const avgSpeed = totalDistanceRef.current / endTimeVal;
+    setFinalTime(endTimeVal);
+    setAverageSpeed(avgSpeed);
+    setRunCompleted(true);
+  };
 
-  const endTimeVal = (Date.now() - startTime.current) / 1000
-  const avgSpeed = totalDistanceRef.current / endTimeVal;
-  setFinalTime(endTimeVal)
-  setAverageSpeed(avgSpeed)
-  setRunCompleted(true)
-  }
-
-  //the watchPosition function that pings the GPS every (1 secs or 1 meter)
   monitorRef.current = await Location.watchPositionAsync(
-  {
-    accuracy: Location.Accuracy.Highest,
-    timeInterval: 1000,      // milliseconds between updates
-    distanceInterval: 1      // meters between updates
-  }, 
-  (location) => {
-    if (!location?.coords) return;
+    {
+      accuracy: Location.Accuracy.BestForNavigation, // upgrade from Highest
+      timeInterval: 1000,
+      distanceInterval: 1
+    },
+    (location) => {
+      if (!location?.coords) return;
 
-    const newCoords  = {
+      // Reject low accuracy readings (accuracy = radius of uncertainty in meters)
+      // Typical good GPS is under 10m, bad readings can be 50-100m+
+      if (location.coords.accuracy > 20) return;
+
+      const newCoords = {
         latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
+        longitude: location.coords.longitude
+      };
+
+      // Speed gate — ignore update if basically stationary
+      const speed = location.coords.speed ?? 0;
+      if (speed < 0 || speed < 0.5) {
+        setCurrentSpeed(0);
+        previousLocation.current = newCoords; // still update position
+        return;
       }
 
-    const distance = getDistance(previousLocation.current, newCoords)
-    if (distance > 0.5) totalDistanceRef.current += distance; //it was jittery and apparently this helps with jumps
-    previousLocation.current = newCoords
-    setDistanceCovered(totalDistanceRef.current)
+      // Low-pass filter to smooth coordinates
+      // Blends 70% new reading with 30% previous to reduce jitter
+      const smoothed = {
+        latitude:  0.7 * newCoords.latitude  + 0.3 * previousLocation.current.latitude,
+        longitude: 0.7 * newCoords.longitude + 0.3 * previousLocation.current.longitude
+      };
 
+      const distance = getDistance(previousLocation.current, smoothed);
+      if (distance > 0.1) totalDistanceRef.current += distance;
+      previousLocation.current = smoothed;
 
-    const speed = location.coords.speed
-    setCurrentSpeed(speed)
+      setDistanceCovered(totalDistanceRef.current);
+      setCurrentSpeed(speed);
 
-    //for rendering the distance presets
-    if (distanceGoal && totalDistanceRef.current >= distanceGoal)
-    {
-      endRun()
+      if (distanceGoal && totalDistanceRef.current >= distanceGoal) {
+        endRun();
+      }
     }
+  );
 
-  }) //end of monitor function
-
-  //for rendering the time presets
   if (timeGoal) {
     timerIdRef.current = setInterval(() => {
       const elapsed = (Date.now() - startTime.current) / 1000;
-      setElapsedTime(elapsed)
-      if (elapsed >= timeGoal) {
-        endRun();
-      }
-    }, 500); // check every 0.5s
+      setElapsedTime(elapsed);
+      if (elapsed >= timeGoal) endRun();
+    }, 500);
   }
-
-} //end of startRun
+};
 
   return (
     <ScrollView
