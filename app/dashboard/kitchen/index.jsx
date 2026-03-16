@@ -11,7 +11,7 @@ const Kitchen = () => {
   return (
     //../../assets/images/iphone gif background.gif
      <ScreenBackground
-        imageSource={require("../../assets/images/Gradient2.png")}
+        imageSource={require('../../../assets/images/Gradient2.png')}
         overlay
         overlayOpacity={0.3}
         contentStyle={styles.screenContent}
@@ -19,32 +19,32 @@ const Kitchen = () => {
         
         >
      
-        <View style = {styles.titleBlock}>                        //VIEW1
+        <View style = {styles.titleBlock}>                        
           <Text style={styles.title}>Campsite Cooking</Text>
         </View>
 
 //---------------------------------------------------------------------------------------------
 
-        <View style={styles.topRow}>                         //VIEW2
-          <Link href="/dashboard/kitchenfields/currentmealplan" asChild>
+        <View style={styles.topRow}>                       
+          <Link href="/dashboard/kitchen/currentmealplan" asChild>
             <PlainButton title="Current Meal Plan" style={styles.sideButtonLeft}/>
           </Link>
         </View>
         <View style={styles.middleRow}>
-          <Link href="/dashboard/kitchenfields/tracker" asChild>
+          <Link href="/dashboard/kitchen/tracker" asChild>
             <PlainButton title="Tracker" style={styles.sideButtonRight}/>
           </Link>
         </View>
 
-        <View style={styles.bottomRow}>                                           //VIEW3
-          <Link href="/dashboard/kitchenfields/recipes" asChild>
+        <View style={styles.bottomRow}>                                      
+          <Link href="/dashboard/kitchen/recipes" asChild>
             <PlainButton title="Recipes" style={styles.bottomButton}/>
           </Link>
         </View>
 //---------------------------------------------------------------------------------------------
         <Card>
             <ScreenBackground
-              imageSource={require("../../assets/images/CookingIdleCustom.gif")}
+              imageSource={require("../../../assets/images/CookingIdleCustom.gif")}
               overlay={false}
               resizeMode='contain'
               
