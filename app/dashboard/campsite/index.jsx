@@ -7,9 +7,7 @@ const Campsite = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Campsite</Text>
 
-      <Link style={styles.link} href="/shop">
-          The Shop
-      </Link>
+      
     </View>
   )
 }

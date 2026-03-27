@@ -7,9 +7,7 @@ const Armoire = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Armoire</Text>
 
-      <Link style={styles.link} href="/shop">
-          The Shop
-      </Link>
+      
     </View>
   )
 }
