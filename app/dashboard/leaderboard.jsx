@@ -1,6 +1,16 @@
 import { StyleSheet, Text, View, FlatList, Pressable } from 'react-native'
 import React, {useState}  from 'react'
+import TabbedMenu from '../../components/TabbedMenu'
+import DropdownMenu from '../../components/DropdownMenu'
+import ScreenBackground from '../../components/ScreenBackground'
 
+
+const friendsTabs = ["leaderboard"];
+const globalTabs =["leaderboard"]
+
+const columnConfig ={
+  leaderboard: ["title", "highscore"],
+}
 
 const FRIEND_DATA = [
   {
@@ -49,54 +59,56 @@ const Leaderboard = () => {
   )
 
 
-   const [showFriendMenu, setShowFriendMenu] = useState(false)
-   const [showGlobalMenu, setShowGlobalMenu] = useState(false)
+    const [activeMenu, setActiveMenu] = useState(null)
+
+    const toggleMenu = (menu) => {
+      setActiveMenu((prev) => (prev === menu ? null: menu))
+    }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Leaderboard</Text>
     <ScreenBackground style = {styles.background}
         imageSource ={require("../../assets/images/CleaningIdleDefault.gif")} 
         overlay = {false}
         resizeMode = "contain"
       >
+    <View style={styles.titleContainer}>
+      <Text style={styles.title}>Leaderboard</Text>
+    </View>
+   
     <View style={styles.row}>
+    <DropdownMenu
+    title = "Friend's Leaderboard"
+    menuName= "friend"
+    activeMenu = {activeMenu}
+    toggleMenu = {toggleMenu}>
+      <TabbedMenu 
+        tabs = {friendsTabs} 
+        data ={FRIEND_DATA}
+        columns ={columnConfig}/>
+    </DropdownMenu>
 
-    <Pressable style = {styles.buttonOpen} onPress={() => setShowFriendData(prev => !prev)}> 
-      <Text style= {styles.buttonText}>Friends</Text>
-    </Pressable>
 
-    <Pressable style = {styles.buttonOpen} onPress={() => setShowGlobalData(prev => !prev)}>
-      <Text style= {styles.buttonText}>Global</Text>
-    </Pressable>
+    <DropdownMenu
+    title = "Global Leaderboard"
+    menuName= "global"
+    activeMenu = {activeMenu}
+    toggleMenu = {toggleMenu}>
+      <TabbedMenu 
+        tabs = {globalTabs} 
+        data ={GLOBAL_DATA}
+        columns = {columnConfig}/>
+    </DropdownMenu>
+
+
     </View>
-
-    {showFriendMenu && (
-    <View style = {styles.list}>
-    <FlatList
-      data={FRIEND_DATA}
-      contentContainerStyle = {styles.list}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.id}/>
-      </View>
-    )}
-
-    {showGlobalMenu && (
-    <View style = {styles.list}>
-    <FlatList
-    data={GLOBAL_DATA}
-    contentContainerStyle = {styles.list}
-    renderItem={renderItem}
-    keyExtractor= {(item) => item.id}/>
-    </View>
-    )}
     </ScreenBackground>
     </View>
 
   )
 }
 
-export default Leaderboard
+export default Leaderboard;
 
 const styles = StyleSheet.create({
   container: {
@@ -104,9 +116,14 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   title: {
-    marginVertical: 40,
+    textAlign: "center",
     color: 'black',
     fontSize: 28,
+  },
+  titleContainer: {
+    width: "100%",
+    alignContent: "center",
+    marginVertical: 20,
   },
   itemText: {
     marginVertical: 20,
@@ -129,6 +146,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   row:{
+    width: "100%",
     flexDirection: "row",
     justifyContent: "space-between"
   },

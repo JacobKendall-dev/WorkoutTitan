@@ -4,7 +4,7 @@ import {useState} from "react"
 
 
 
-export function ToggleMenu(){
+const ToggleMenuController= () => {
 
     const [openMenu, setOpenMenu] = useState(null)
 
@@ -12,4 +12,12 @@ export function ToggleMenu(){
     const toggleMenu = (menuName) => {
        setActiveMenu(prev => (prev === menuName ? null: menuName))
     }
+
+    const closeMenu = (menuName) => {
+        setActiveMenu(null)
+    }
+
+    return {openMenu, toggleMenu, closeMenu}
 }
+
+export default ToggleMenuController 

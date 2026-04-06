@@ -4,36 +4,64 @@ import { Link } from 'expo-router'
 import { setArmor } from '../../contexts/ArmorContext'
 import SafeView from '../../components/SafeView'
 import ScreenBackground from '../../components/ScreenBackground'
+import DropdownMenu from '../../components/DropdownMenu'
 
 
-const DATA = [
+
+const armorTab = ["armorTab"]
+const colorTab =["armorColor"]
+
+const columnConfig ={
+  armorTab: ["title", "assetImage"],
+  armorColor: ["title", "assetImage"]
+}
+
+const ARMOR_DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
+    title: 'Bucket Hat',
+    assetImage: '../../assets/images/hats/BucketHat.png',
+  },
+  {
+    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+    title: 'Beanie',
+    assetImage: '../../assets/images/hats/Beanie.png ',
+  },
+  {
+    id: '58694a0f-3da1-471f-bd96-145571e29d72',
+    title: 'Baseball Cap',
+    assetImage: '../../assets/images/hats/BaseballCap.png',
+  },
+];
+
+
+
+const COLOR_DATA = [
+  {
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    title: 'Blue',
+    assetImage: require('../../assets/images/colors/BlueColor.png'),
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
     title: 'Second Item',
+    assetImage: require('../../assets/images/colors/BlueColor.png'),
   },
   {
     id: '58694a0f-3da1-471f-bd96-145571e29d72',
     title: 'Third Item',
+    assetImage: require('../../assets/images/colors/BlueColor.png'),
   },
 ];
 
- const Item = ({ title }) => (
-    <View style = {styles.item}>
-        <Text style = {styles.textStyle}> { title } </Text>
-    </View>
- );
-
+const toggleMenu = (menuName) => {
+  setActiveMenu(prev => (prev=== menuName ? null: menuName))
+}
 
 
 const Armoire = () => {
 
-  const [showHelmets, setShowHelmets] = useState(false)
-
-  const[modalVisible, setModalVisible] = useState(false)
+  const [activeMenu, setActiveMenu] = useState(null)
 
   return (
       <View style = {styles.container}>
@@ -48,70 +76,30 @@ const Armoire = () => {
       <Text style={styles.title}>Armoire</Text>
 
 
-      //Helmets: 
+      {/*Helmets: */}
         <View style = {styles.buttonOpen}>
-          <Pressable onPress={() => setShowHelmets(prev => !prev)}>
+          <Pressable onPress={() => toggleMenu("armor")}>
             <Text style = {styles.textStyle}>Helmets</Text>
           </Pressable>
         </View>
 
-      {showHelmets && (
+      {activeMenu === "armor" && (
         <SafeView style = {styles.list} safe = {true}>
-        <FlatList
-              data = {DATA}
-              keyExtractor = {(item) => item.id }
-              contentContainerStyle = {styles.list}
-              renderItem = {({item}) => (        
-              <Pressable
-              onPress = {() => setArmor({armor, item})}>
-                <Item title = {item.title}/>
-              </Pressable>
-              )}
-            />
-            </SafeView>
+           <DropdownMenu
+            title = "Armor Customization"
+            menuName= "armor"
+            activeMenu = {activeMenu}
+            toggleMenu = {toggleMenu}>
+          <TabbedMenu 
+            tabs ={['Armor', 'Color']} 
+            data ={[ARMOR_DATA, COLOR_DATA]}
+            columns ={columnConfig}/>
+        </DropdownMenu>
+      </SafeView>
 
             
       )}
 
-
-      //Armor Color:
-          
-            <Pressable
-            style = {styles.buttonOpen}
-            onPress={()=> setModalVisible(true)}>
-              <Text style = {styles.textStyle}>Show Armor Colors</Text>
-            </Pressable>
-
-            <Modal
-            animationType="slide"
-            transparent = {true}
-            visible = {modalVisible}
-            onRequestClose ={() => {
-              setModalVisible(false)
-            }}>
-
-              <View style = {styles.modal}>
-                <Card style = {styles.card}>
-
-                </Card>
-              </View>
-
-              <SafeView style = {styles.buttonClose} safe = {true}>
-              <Pressable style = {styles.buttonClose}
-              onPress = {()=> setModalVisible(false)}
-              >
-              <Text style = {styles.textStyle}>Close</Text>
-              </Pressable>
-              </SafeView>
-            </Modal>
-          
-            
-
-          
-    
-      <Link style={styles.link} href="/dashboard/shop">
-          The Shop
-      </Link>
     </SafeView>
     </ScreenBackground>
     </View>
