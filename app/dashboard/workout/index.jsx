@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native'
 import { useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useWorkouts } from '../../../hooks/useWorkouts'
+
 
 const CATEGORIES = [
   {
@@ -12,7 +14,7 @@ const CATEGORIES = [
     lastSession: 'Upper body · Today',
     sessions: 18,
     streak: 3,
-    pb: 'Bench Press · 225 lbs',
+    pb: `Incremented exerciseAmount for personalbests.bench`,
     workouts: [
       { label: 'Upper body', meta: 'Bench press, OHP, Triceps…', href: '/dashboard/workout/weightlifting/upperbodyW' },
       { label: 'Lower body', meta: 'Squats, Deadlift, Lunges…', href: '/dashboard/workout/weightlifting/lowerbodyW' },

@@ -6,8 +6,6 @@ import React, {useEffect, useMemo, useState} from 'react'
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { db } from "../../../lib/firebaseConfig"; 
 
-
-
 const Recipes = () => {
     //Constants
     const Recipes = () => {
