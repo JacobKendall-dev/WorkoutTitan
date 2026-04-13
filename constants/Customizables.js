@@ -1,8 +1,8 @@
 
 export const ASSETS = {
 
-    campfire: require("assets\AppAssets\Campsite\Campfire.gif"),
-    platform: require("assets\AppAssets\Armoire\Platform.png"),
+    campfire: require("assets/AppAssets/Campsite/Campfire.gif"),
+    platform: require("assets/AppAssets/Armoire/Platform.png"),
 
     cleaningKnightColor: {
         black: require("assets/AppAssets/Campsite/CleaningIdle/Knight/Black.gif"),
@@ -749,7 +749,7 @@ export const ASSETS = {
         gpar: require("assets/AppAssets/Armoire/Back/G.Par.gif"),
         gpro: require("assets/AppAssets/Armoire/Back/G.Pro.gif"),
         grac: require("assets/AppAssets/Armoire/Back/G.Rac.gif"),
-        grus: require(""),
+        grus: require("assets/AppAssets/Armoire/Back/G.Rus.gif"),
         gtop: require("assets/AppAssets/Armoire/Back/G.Top.gif"),
         grbas: require("assets/AppAssets/Armoire/Back/Gr.Bas.gif"),
         grbea: require("assets/AppAssets/Armoire/Back/Gr.Bea.gif"),
