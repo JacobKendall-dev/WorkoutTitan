@@ -43,7 +43,8 @@ export default DropdownMenu
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: "center"
+        width: "100%",
+        alignItems: "stretch"
     },
     button: {
         backgroundColor: "black",

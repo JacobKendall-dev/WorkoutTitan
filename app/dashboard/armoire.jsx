@@ -1,36 +1,37 @@
-import { StyleSheet, Text, View, FlatList, Pressable, Modal} from 'react-native'
+import { StyleSheet, Text, View, FlatList, Pressable, Modal, Image} from 'react-native'
 import React, {useState} from 'react'
 import { Link } from 'expo-router'
 import { setArmor } from '../../contexts/ArmorContext'
 import SafeView from '../../components/SafeView'
 import ScreenBackground from '../../components/ScreenBackground'
 import DropdownMenu from '../../components/DropdownMenu'
+import TabbedMenu from '../../components/TabbedMenu'
 
 
 
 const armorTab = ["armorTab"]
 const colorTab =["armorColor"]
 
-const columnConfig ={
-  armorTab: ["title", "assetImage"],
-  armorColor: ["title", "assetImage"]
-}
+const columnConfig =[
+  ["title", "assetImage"],
+  ["title", "assetImage"]
+]
 
 const ARMOR_DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
     title: 'Bucket Hat',
-    assetImage: '../../assets/images/hats/BucketHat.png',
+    assetImage: require('../../assets/images/hats/BucketHat.png'),
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
     title: 'Beanie',
-    assetImage: '../../assets/images/hats/Beanie.png ',
+    assetImage: require('../../assets/images/hats/Beanie.png'),
   },
   {
     id: '58694a0f-3da1-471f-bd96-145571e29d72',
     title: 'Baseball Cap',
-    assetImage: '../../assets/images/hats/BaseballCap.png',
+    assetImage: require('../../assets/images/hats/BaseballCap.png'),
   },
 ];
 
@@ -54,14 +55,15 @@ const COLOR_DATA = [
   },
 ];
 
-const toggleMenu = (menuName) => {
-  setActiveMenu(prev => (prev=== menuName ? null: menuName))
-}
+
 
 
 const Armoire = () => {
 
   const [activeMenu, setActiveMenu] = useState(null)
+
+  const [color, setActiveColor] = useState("blue")
+  const [armor, setActiveArmor] = useState("")
 
   return (
       <View style = {styles.container}>
@@ -78,7 +80,7 @@ const Armoire = () => {
 
       {/*Helmets: */}
         <View style = {styles.buttonOpen}>
-          <Pressable onPress={() => toggleMenu("armor")}>
+          <Pressable onPress={() => setActiveMenu("armor")}>
             <Text style = {styles.textStyle}>Helmets</Text>
           </Pressable>
         </View>
@@ -88,13 +90,20 @@ const Armoire = () => {
            <DropdownMenu
             title = "Armor Customization"
             menuName= "armor"
-            activeMenu = {activeMenu}
-            toggleMenu = {toggleMenu}>
-          <TabbedMenu 
+            activeMenu = {activeMenu}>
+          <TabbedMenu
             tabs ={['Armor', 'Color']} 
             data ={[ARMOR_DATA, COLOR_DATA]}
             columns ={columnConfig}/>
         </DropdownMenu>
+
+        
+
+        {/*Armor Preview Window*/}
+        <View style = {styles.card}>
+          <Image
+          source = {armor}/>
+        </View>
       </SafeView>
 
             
@@ -112,7 +121,7 @@ export default Armoire
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center'
+    alignItems: 'stretch'
   },
   background: {
     flex: 1,
@@ -130,7 +139,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
    list: {
-    maxHeight: 100,
     padding: 16,
     backgroundColor: '#21cc8d',
     color: 'white',
@@ -149,6 +157,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   card: {
+    margin: 30,
     height: 300,
     justifyContent: 'center',
     backgroundColor: '#21cc8d'

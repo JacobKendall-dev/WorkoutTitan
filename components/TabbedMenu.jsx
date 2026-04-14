@@ -40,7 +40,11 @@ const TabbedMenu = ({ tabs, data, columns}) => {
         keyExtractor = {(item) => item.id}
         style = {styles.dataTable}
         renderItem = {({item}) =>
-            <View style = {styles.dataRow}>
+            <Pressable onPress = {() => onRowPress?.(activeTab, item)}
+                style = {({pressed}) => [
+                styles.dataRow,
+                pressed && {opacity: 0.5}
+                ]}>
                 <View style = {{ flexDirection:"row", justifyContent: "space-between"}}>
                     {currentColumns?.map((col, index) => {
                         const value = item[col]
@@ -66,7 +70,7 @@ const TabbedMenu = ({ tabs, data, columns}) => {
                         )
         })}
                 </View>
-            </View>
+            </Pressable>
         }
         />
         </View>
