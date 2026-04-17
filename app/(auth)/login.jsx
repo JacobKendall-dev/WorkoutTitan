@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Pressable, Button, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native'
 import React, { useState } from 'react'
 import Spacer from '../../components/Spacer'
-import { Link } from 'expo-router'
+import { Link, useRouter } from 'expo-router'
 import { useUser } from '../../hooks/useUser'
 
 const Login = () => {
@@ -10,14 +10,30 @@ const Login = () => {
   const [error, setError] = useState(null)
 
   const { login } = useUser()
+  const router = useRouter()
 
   const handleSubmit = async () => {
     setError(null)
 
     try {
       await login(email, password)
+      router.replace('/dashboard')
     } catch (error) {
-      setError(error.message)
+      if (error.message.includes('auth/user-not-found')) {
+        setError('This email is not in use')
+        return
+      }
+
+      if (
+        error.message.includes('auth/wrong-password') ||
+        error.message.includes('auth/invalid-credential') ||
+        error.message.includes('auth/invalid-login-credentials')
+      ) {
+        setError('Email and/or password was incorrect')
+        return
+      }
+
+      setError('Email and/or password was incorrect')
     }
   }
 
