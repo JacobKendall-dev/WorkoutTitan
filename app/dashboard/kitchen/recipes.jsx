@@ -1,27 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import * as DocumentPicker from 'expo-document-picker'
-import {
-  ActivityIndicator,
-  Alert,
-  FlatList,
-  KeyboardAvoidingView,
-  Modal,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native'
-import {
-  addDoc,
-  collection,
-  onSnapshot,
-  orderBy,
-  query,
-  serverTimestamp,
-} from 'firebase/firestore'
+import { ActivityIndicator, Alert, FlatList, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View, } from 'react-native'
+import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp, } from 'firebase/firestore'
 import ScreenBackground from '../../../components/ScreenBackground'
 import { auth, db } from '../../../lib/firebaseConfig'
 
@@ -30,6 +10,7 @@ const SOURCE_TYPES = [
   { label: 'Text Entry', value: 'text' },
 ]
 
+//Formats a Firestore timestamp/date value into a readable saved date string.
 const formatSavedDate = (value) => {
   if (!value) return 'Saving...'
 
@@ -53,6 +34,7 @@ const formatSavedDate = (value) => {
   })
 }
 
+//Builds the preview text shown on each recipe card based on saved source type.
 const getRecipePreviewText = (recipe) => {
   if (recipe.sourceType === 'pdf') {
     return recipe.notes || recipe.content || 'No notes added for this PDF recipe.'
@@ -81,6 +63,7 @@ const Recipes = () => {
   const user = auth.currentUser
   const userId = user?.uid
 
+  //Creates a recipes query for the signed-in user ordered by most recent saves.
   const recipesQuery = useMemo(() => {
     if (!userId) return null
 
@@ -90,6 +73,7 @@ const Recipes = () => {
     )
   }, [userId])
 
+  //Subscribes to live recipe updates and keeps local state in sync with Firestore.
   useEffect(() => {
     if (!recipesQuery) {
       setRecipes([])
@@ -118,6 +102,7 @@ const Recipes = () => {
     return unsubscribe
   }, [recipesQuery])
 
+  //Resets all add-recipe modal form fields back to default values.
   const resetForm = () => {
     setTitle('')
     setSourceType('pdf')
@@ -127,6 +112,7 @@ const Recipes = () => {
     setSelectedPdf(null)
   }
 
+  //Opens the add-recipe modal if a user is signed in.
   const openAddRecipeModal = () => {
     if (!userId) {
       Alert.alert('Sign in required', 'Please sign in before saving recipes.')
@@ -136,6 +122,7 @@ const Recipes = () => {
     setIsModalVisible(true)
   }
 
+  //Closes the add-recipe modal and clears form state unless a save is in progress.
   const closeAddRecipeModal = () => {
     if (isSaving) return
 
@@ -143,6 +130,7 @@ const Recipes = () => {
     resetForm()
   }
 
+  //Switches recipe input mode and clears fields that do not apply to that mode.
   const handleSourceTypeChange = (nextType) => {
     setSourceType(nextType)
 
@@ -156,6 +144,7 @@ const Recipes = () => {
     setSelectedPdf(null)
   }
 
+  //Opens the document picker and stores selected PDF metadata in form state.
   const handlePickPdf = async () => {
     try {
       const result = await DocumentPicker.getDocumentAsync({
@@ -187,6 +176,7 @@ const Recipes = () => {
     }
   }
 
+  //Validates form input, builds recipe payload, and saves it to Firestore.
   const handleSaveRecipe = async () => {
     const trimmedTitle = title.trim()
     const trimmedNotes = notes.trim()
@@ -259,6 +249,7 @@ const Recipes = () => {
     }
   }
 
+  //Renders one recipe card row with expandable preview content.
   const renderRecipe = ({ item }) => {
     const isExpanded = expandedRecipeId === item.id
     const previewText = getRecipePreviewText(item)

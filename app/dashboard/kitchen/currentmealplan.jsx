@@ -1,30 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import {
-  ActivityIndicator,
-  Alert,
-  FlatList,
-  Modal,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
-import {
-  collection,
-  deleteDoc,
-  doc,
-  onSnapshot,
-  orderBy,
-  query,
-  serverTimestamp,
-  setDoc,
-} from 'firebase/firestore'
+import { ActivityIndicator, Alert, FlatList, Modal, Pressable, ScrollView, StyleSheet, Text, View, } from 'react-native'
+import { collection, deleteDoc, doc, onSnapshot, orderBy, query, serverTimestamp, setDoc, } from 'firebase/firestore'
 import ScreenBackground from '../../../components/ScreenBackground'
 import { auth, db } from '../../../lib/firebaseConfig'
 
 const MEAL_TYPES = [
-  { key: 'breakfast', label: 'Breakfast' },
+  { key: 'breakfast', label: 'Breakfast' }, 
   { key: 'lunch', label: 'Lunch' },
   { key: 'dinner', label: 'Dinner' },
   { key: 'snack', label: 'Snack' },
@@ -32,12 +13,14 @@ const MEAL_TYPES = [
 
 const DAY_LABELS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
+//Returns a new Date shifted forward/backward by the requested number of days.
 const addDays = (date, days) => {
   const next = new Date(date)
   next.setDate(next.getDate() + days)
   return next
 }
 
+//Normalizes a date to the start of its week (Sunday at 12:00 AM).
 const getStartOfWeek = (date) => {
   const next = new Date(date)
   next.setHours(0, 0, 0, 0)
@@ -45,6 +28,7 @@ const getStartOfWeek = (date) => {
   return next
 }
 
+//Converts a Date into a stable YYYY-MM-DD key for storage/lookups.
 const toDateKey = (date) => {
   const year = date.getFullYear()
   const month = `${date.getMonth() + 1}`.padStart(2, '0')
@@ -52,6 +36,7 @@ const toDateKey = (date) => {
   return `${year}-${month}-${day}`
 }
 
+//Formats a date as a readable full label.
 const formatFullDate = (date) =>
   date.toLocaleDateString('en-US', {
     weekday: 'long',
@@ -59,6 +44,7 @@ const formatFullDate = (date) =>
     day: 'numeric',
   })
 
+//Builds a one-week date range label from a start date.
 const formatWeekRange = (startDate) => {
   const endDate = addDays(startDate, 6)
 
@@ -71,6 +57,7 @@ const formatWeekRange = (startDate) => {
   })}`
 }
 
+//Checks whether two Date values point to the same calendar day.
 const isSameDay = (left, right) => toDateKey(left) === toDateKey(right)
 
 const CurrentMealPlan = () => {
@@ -85,6 +72,7 @@ const CurrentMealPlan = () => {
   const user = auth.currentUser
   const userId = user?.uid
 
+  //Keeps "now" refreshed every minute so "Today" and week boundaries stay accurate.
   useEffect(() => {
     const interval = setInterval(() => {
       setNow(new Date())
@@ -93,8 +81,10 @@ const CurrentMealPlan = () => {
     return () => clearInterval(interval)
   }, [])
 
+  //Calculates the current week start date from the live clock value.
   const currentWeekStart = useMemo(() => getStartOfWeek(now), [now])
 
+  //Builds 14 planner day objects (current week + next week) used by the UI.
   const plannerDays = useMemo(
     () =>
       Array.from({ length: 14 }, (_, index) => {
@@ -111,6 +101,7 @@ const CurrentMealPlan = () => {
     [currentWeekStart, now]
   )
 
+  //Splits planner days into "This Week" and "Next Week" sections with date ranges.
   const weeks = useMemo(
     () => [
       {
@@ -129,6 +120,7 @@ const CurrentMealPlan = () => {
     [currentWeekStart, plannerDays]
   )
 
+  //Creates the signed-in user's recipes query ordered by most recently saved.
   const recipesQuery = useMemo(() => {
     if (!userId) return null
 
@@ -138,6 +130,7 @@ const CurrentMealPlan = () => {
     )
   }, [userId])
 
+  //Subscribes to real-time recipe updates and stores them in local state.
   useEffect(() => {
     if (!recipesQuery) {
       setRecipes([])
@@ -166,6 +159,7 @@ const CurrentMealPlan = () => {
     return unsubscribe
   }, [recipesQuery])
 
+  //Subscribes to real-time meal plan slot assignments for the signed-in user.
   useEffect(() => {
     if (!userId) {
       setMealPlans({})
@@ -200,6 +194,7 @@ const CurrentMealPlan = () => {
     return unsubscribe
   }, [userId])
 
+  //Opens the recipe picker for a specific day/meal slot, or prompts sign-in if needed.
   const openRecipePicker = (day, mealType) => {
     if (!userId) {
       Alert.alert('Sign in required', 'Please sign in before planning meals.')
@@ -210,11 +205,13 @@ const CurrentMealPlan = () => {
     setIsPickerVisible(true)
   }
 
+  //Closes the recipe picker modal and clears the currently selected slot.
   const closeRecipePicker = () => {
     setIsPickerVisible(false)
     setActiveSlot(null)
   }
 
+  //Saves the selected recipe into the active meal slot in Firestore.
   const handleAssignRecipe = async (recipe) => {
     if (!userId || !activeSlot) return
 
@@ -238,6 +235,7 @@ const CurrentMealPlan = () => {
     }
   }
 
+  //Removes any assigned recipe from the currently active meal slot.
   const handleClearSlot = async () => {
     if (!userId || !activeSlot) return
 
@@ -253,8 +251,10 @@ const CurrentMealPlan = () => {
     }
   }
 
+  //Reads the assigned recipe entry for a date and meal type key.
   const getSlotRecipe = (dateKey, mealTypeKey) => mealPlans[`${dateKey}_${mealTypeKey}`]
 
+  //Renders a pressable meal slot card with assigned recipe title or placeholder text.
   const renderMealSlot = (day, mealType) => {
     const assignedRecipe = getSlotRecipe(day.dateKey, mealType.key)
 
@@ -281,6 +281,7 @@ const CurrentMealPlan = () => {
     )
   }
 
+  //Renders a single day card with all meal slots and a "Today" badge when applicable.
   const renderDayCard = (day) => (
     <View
       key={day.dateKey}
@@ -305,6 +306,7 @@ const CurrentMealPlan = () => {
     </View>
   )
 
+  //Combines loading states so the screen can show one shared loading UI.
   const isLoading = loadingRecipes || loadingMealPlans
 
   return (
