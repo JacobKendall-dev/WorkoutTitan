@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { ActivityIndicator, Alert, FlatList, Modal, Pressable, ScrollView, StyleSheet, Text, View, } from 'react-native'
 import { collection, deleteDoc, doc, onSnapshot, orderBy, query, serverTimestamp, setDoc, } from 'firebase/firestore'
 import ScreenBackground from '../../../components/ScreenBackground'
+import { useUser } from '../../../hooks/useUser'
 import { auth, db } from '../../../lib/firebaseConfig'
 
 const MEAL_TYPES = [
@@ -69,8 +70,9 @@ const CurrentMealPlan = () => {
   const [activeSlot, setActiveSlot] = useState(null)
   const [now, setNow] = useState(() => new Date())
 
-  const user = auth.currentUser
-  const userId = user?.uid
+  const { user, authChecked } = useUser()
+  const currentUser = user ?? auth.currentUser
+  const userId = currentUser?.uid
 
   //Keeps "now" refreshed every minute so "Today" and week boundaries stay accurate.
   useEffect(() => {
@@ -122,16 +124,23 @@ const CurrentMealPlan = () => {
 
   //Creates the signed-in user's recipes query ordered by most recently saved.
   const recipesQuery = useMemo(() => {
+    if (!authChecked || !userId) return null
+
     if (!userId) return null
 
     return query(
       collection(db, 'users', userId, 'recipes'),
       orderBy('savedAt', 'desc')
     )
-  }, [userId])
+  }, [authChecked, userId])
 
   //Subscribes to real-time recipe updates and stores them in local state.
   useEffect(() => {
+    if (!authChecked) {
+      setLoadingRecipes(true)
+      return undefined
+    }
+
     if (!recipesQuery) {
       setRecipes([])
       setLoadingRecipes(false)
@@ -157,10 +166,15 @@ const CurrentMealPlan = () => {
     )
 
     return unsubscribe
-  }, [recipesQuery])
+  }, [authChecked, recipesQuery])
 
   //Subscribes to real-time meal plan slot assignments for the signed-in user.
   useEffect(() => {
+    if (!authChecked) {
+      setLoadingMealPlans(true)
+      return undefined
+    }
+
     if (!userId) {
       setMealPlans({})
       setLoadingMealPlans(false)
@@ -192,7 +206,7 @@ const CurrentMealPlan = () => {
     )
 
     return unsubscribe
-  }, [userId])
+  }, [authChecked, userId])
 
   //Opens the recipe picker for a specific day/meal slot, or prompts sign-in if needed.
   const openRecipePicker = (day, mealType) => {
@@ -307,7 +321,7 @@ const CurrentMealPlan = () => {
   )
 
   //Combines loading states so the screen can show one shared loading UI.
-  const isLoading = loadingRecipes || loadingMealPlans
+  const isLoading = !authChecked || loadingRecipes || loadingMealPlans
 
   return (
     <ScreenBackground

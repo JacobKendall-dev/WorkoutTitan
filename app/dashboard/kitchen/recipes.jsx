@@ -3,6 +3,7 @@ import * as DocumentPicker from 'expo-document-picker'
 import { ActivityIndicator, Alert, FlatList, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View, } from 'react-native'
 import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp, } from 'firebase/firestore'
 import ScreenBackground from '../../../components/ScreenBackground'
+import { useUser } from '../../../hooks/useUser'
 import { auth, db } from '../../../lib/firebaseConfig'
 
 const SOURCE_TYPES = [
@@ -60,21 +61,29 @@ const Recipes = () => {
   const [selectedPdf, setSelectedPdf] = useState(null)
   const [isSaving, setIsSaving] = useState(false)
 
-  const user = auth.currentUser
-  const userId = user?.uid
+  const { user, authChecked } = useUser()
+  const currentUser = user ?? auth.currentUser
+  const userId = currentUser?.uid
 
   //Creates a recipes query for the signed-in user ordered by most recent saves.
   const recipesQuery = useMemo(() => {
+    if (!authChecked || !userId) return null
+
     if (!userId) return null
 
     return query(
       collection(db, 'users', userId, 'recipes'),
       orderBy('savedAt', 'desc')
     )
-  }, [userId])
+  }, [authChecked, userId])
 
   //Subscribes to live recipe updates and keeps local state in sync with Firestore.
   useEffect(() => {
+    if (!authChecked) {
+      setLoading(true)
+      return undefined
+    }
+
     if (!recipesQuery) {
       setRecipes([])
       setLoading(false)
@@ -100,7 +109,7 @@ const Recipes = () => {
     )
 
     return unsubscribe
-  }, [recipesQuery])
+  }, [authChecked, recipesQuery])
 
   //Resets all add-recipe modal form fields back to default values.
   const resetForm = () => {
@@ -183,10 +192,19 @@ const Recipes = () => {
     const trimmedIngredients = ingredients.trim()
     const trimmedInstructions = instructions.trim()
 
-    if (!userId) {
+    if (!authChecked) {
+      Alert.alert('Checking sign in', 'Please wait a moment and try again.')
+      return
+    }
+
+    const user = auth.currentUser
+
+    if (!user) {
       Alert.alert('Sign in required', 'Please sign in before saving recipes.')
       return
     }
+
+    console.log('UID:', user.uid)
 
     if (!trimmedTitle) {
       Alert.alert('Missing title', 'Please give your recipe a title.')
@@ -237,7 +255,10 @@ const Recipes = () => {
               savedAt: serverTimestamp(),
             }
 
-      await addDoc(collection(db, 'users', userId, 'recipes'), payload)
+console.log('Saving recipe for user:', userId)
+
+
+      await addDoc(collection(db, 'users', user.uid, 'recipes'), payload)
 
       setIsModalVisible(false)
       resetForm()
