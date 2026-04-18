@@ -6,6 +6,7 @@ import PlainButton from '../../../components/SolidColorButton';
 import Card from '../../../components/Card';
 import { Link } from 'expo-router'
 import React from 'react'
+import { CookingCard } from '../../../components/AvatarCard';
 
 const Kitchen = () => {
   return (
@@ -42,7 +43,8 @@ const Kitchen = () => {
           </Link>
         </View>
 //---------------------------------------------------------------------------------------------
-        <Card>
+        
+     <Card>
             <ScreenBackground
               imageSource={require("../../../assets/images/CookingIdleCustom.gif")}
               overlay={false}
@@ -50,6 +52,7 @@ const Kitchen = () => {
               
               />
         </Card>
+      
       
     
 </ScreenBackground>
