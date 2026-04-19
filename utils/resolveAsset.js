@@ -10,6 +10,7 @@ const categoryMap ={
             right: ASSETS.armoireRight,
             back: ASSETS.armoireBack,
         },
+    },
     cleaningKnightColor:{
         requiresDirection: false,
         map: ASSETS.cleaningKnightColor
@@ -50,7 +51,6 @@ const categoryMap ={
         map: ASSETS.cookingTentPatterns
     },
     }
-}
 
 export const resolveAsset = ({ category, direction, key }) => {
     const config = categoryMap[category]

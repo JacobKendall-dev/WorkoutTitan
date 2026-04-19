@@ -7,13 +7,13 @@ export const SceneProvider = ({children}) => {
         season: {
             seasonName: null,
             skyName: "Sunny",
-            skyAsset: sn,
+            skyAsset: "sn",
         },
         tent: {
             tentPatternName: "Default",
             tentPatternAsset: null,
             tentColorName: "Default",
-            tentColor: nonnon,
+            tentColor: "nonnon",
         }
     });
 
@@ -39,8 +39,6 @@ export const SceneProvider = ({children}) => {
 
     return (
         <SceneContext.Provider value = {{
-            scene,
-            updateScene,
             updateSeason,
             updateTent}}>
             {children}

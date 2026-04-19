@@ -1,11 +1,12 @@
 import { StyleSheet, Text, View, FlatList, Pressable, Modal, Image} from 'react-native'
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import { Link } from 'expo-router'
-import { setArmor } from '../../contexts/ArmorContext'
 import SafeView from '../../components/SafeView'
 import ScreenBackground from '../../components/ScreenBackground'
 import DropdownMenu from '../../components/DropdownMenu'
 import TabbedMenu from '../../components/TabbedMenu'
+import {ArmorContext} from '../../contexts/ArmorContext'
+import {resolveAsset} from '../../utils/resolveAsset'
 
 
 
@@ -27,12 +28,7 @@ const ARMOR_DATA = [
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
     title: 'Beanie',
     assetImage: require('../../assets/images/hats/Beanie.png'),
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Baseball Cap',
-    assetImage: require('../../assets/images/hats/BaseballCap.png'),
-  },
+  }
 ];
 
 
@@ -60,12 +56,21 @@ const COLOR_DATA = [
 
 const Armoire = () => {
 
+  
+
   const [activeMenu, setActiveMenu] = useState(null)
 
   const [color, setActiveColor] = useState("blue")
-  const [armor, setActiveArmor] = useState("")
+  const {armor, updateArmor} = useContext(ArmorContext)
+
+  console.log(armor)
+  console.log(armor?.name)
+  console.log(armor?.color)
+  console.log(armor?.asset)
+
 
   return (
+    
       <View style = {styles.container}>
        <ScreenBackground style = {styles.background}
         imageSource ={require("../../assets/images/CleaningIdleDefault.gif")} 
@@ -77,10 +82,14 @@ const Armoire = () => {
 
       <Text style={styles.title}>Armoire</Text>
 
+    
+
 
       {/*Helmets: */}
         <View style = {styles.buttonOpen}>
-          <Pressable onPress={() => setActiveMenu("armor")}>
+
+
+          <Pressable onPress={() => setActiveMenu(prev => prev ==="armor"? null: "armor")}>
             <Text style = {styles.textStyle}>Helmets</Text>
           </Pressable>
         </View>
@@ -97,24 +106,15 @@ const Armoire = () => {
             columns ={columnConfig}/>
         </DropdownMenu>
 
-        
-
-        {/*Armor Preview Window*/}
-        <View style = {styles.card}>
-          <Image
-          source = {armor}/>
-        </View>
-
-
-
-        {/*Turn Buttons*/}
-        <Pressable></Pressable>
-
-        <Pressable></Pressable>
       </SafeView>
-
-            
       )}
+
+      <View style = {styles.card}>
+        <Image source ={armor.asset} />
+        <Text style = {styles.title}>{armor.name}</Text>
+      </View>
+
+      
 
     </SafeView>
     </ScreenBackground>

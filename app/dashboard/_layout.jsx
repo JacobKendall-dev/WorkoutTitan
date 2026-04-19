@@ -1,18 +1,19 @@
 import { Stack, Tabs } from 'expo-router'
-import {ArmorContext} from '../../contexts/ArmorContext'
+import {ArmorProvider} from '../../contexts/ArmorContext'
+import {SceneProvider} from '../../contexts/SceneryContext'
 import { Ionicons } from "@expo/vector-icons"
 
 export default function DashboardLayout() {
 
   return (
     <SceneProvider>
-      <ArmorContext>
+      <ArmorProvider>
         <Stack
           screenOptions={{
             headerShown: true
         }}>
         </Stack>
-      </ArmorContext>
+      </ArmorProvider>
     </SceneProvider>
 
   )
