@@ -104,6 +104,13 @@ const Armoire = () => {
           <Image
           source = {armor}/>
         </View>
+
+
+
+        {/*Turn Buttons*/}
+        <Pressable></Pressable>
+
+        <Pressable></Pressable>
       </SafeView>
 
             

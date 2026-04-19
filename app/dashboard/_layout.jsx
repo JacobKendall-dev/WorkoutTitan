@@ -5,13 +5,15 @@ import { Ionicons } from "@expo/vector-icons"
 export default function DashboardLayout() {
 
   return (
-    <ArmorContext>
-      <Stack
-        screenOptions={{
-          headerShown: true
-      }}>
-      </Stack>
-    </ArmorContext>
+    <SceneProvider>
+      <ArmorContext>
+        <Stack
+          screenOptions={{
+            headerShown: true
+        }}>
+        </Stack>
+      </ArmorContext>
+    </SceneProvider>
 
   )
 }

@@ -4,20 +4,23 @@ export const ArmorContext = createContext();
 
 export const ArmorProvider = ({children}) => {
     const [armor, setArmor] = useState({
-        name: "",
-        asset: null,
+        name: "Default Grey",
+        asset: grnon,
+        color: 'grey'
     });
 
-    const updateArmorAsset = (newAsset) => {
+    const updateArmor = (updates) => {
         setArmor(prev => ({
             ...prev,
-            asset: newAsset
+            ...updates
         }))
     }
 
     return (
-        <ArmorContext.Provider value = {{armor, setArmor}}>
-            {childern}
+        <ArmorContext.Provider value = {{
+            armor,
+            updateArmor}}>
+            {children}
         </ArmorContext.Provider>
     )
 }
