@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native'
-import ScreenBackground from '../../../components/ScreenBackground'
 import { Link } from 'expo-router'
 import React from 'react'
 import AppShell from '../../../components/AppShell'
 import SectionCard from '../../../components/SectionCard'
+import { CleaningCampsiteCard } from '../../../components/AvatarCard'
 
 const Kitchen = () => {
   return (
@@ -37,11 +37,9 @@ const Kitchen = () => {
       </View>
 
       <SectionCard style={styles.previewCard}>
-        <ScreenBackground
-          imageSource={require('../../../assets/images/CookingIdleCustom.gif')}
-          overlay={false}
-          resizeMode="contain"
+        <CleaningCampsiteCard
           style={styles.previewImage}
+          cardStyle={styles.previewAvatarCard}
         />
       </SectionCard>
     </AppShell>
@@ -81,7 +79,14 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   previewImage: {
+    width: '100%',
     minHeight: 260,
+  },
+  previewAvatarCard: {
+    width: '100%',
+    height: 260,
+    borderRadius: 0,
+    backgroundColor: 'transparent',
   },
 })
 
