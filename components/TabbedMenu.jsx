@@ -5,7 +5,7 @@ import {View, Pressable, Text, StyleSheet, FlatList, Image} from "react-native"
 import DropdownMenu from "../components/DropdownMenu"
 
 
-const TabbedMenu = ({ tabs, data, columns}) => {
+const TabbedMenu = ({ tabs, data, columns, onRowPress}) => {
     const[activeTab, setActiveTab] = useState(tabs[0])
 
 

@@ -3,7 +3,7 @@ export const ASSETS = {
 
     campfire: require("../assets/AppAssets/Campsite/Campfire.gif"),
     platform: require("../assets/AppAssets/Armoire/Platform.png"),
-
+    
     cleaningKnightColor: {
         black: require("../assets/AppAssets/Campsite/CleaningIdle/Knight/Black.gif"),
         blue: require("../assets/AppAssets/Campsite/CleaningIdle/Knight/Blue.gif"),

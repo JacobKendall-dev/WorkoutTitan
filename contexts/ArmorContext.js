@@ -9,7 +9,10 @@ export const ArmorProvider = ({children}) => {
         asset: resolveAsset({
             category: "armor",
             direction: "front",
-            key: "grnon"
+            parsed: {
+                color: "gr",
+                item: "non"
+            }
         }),
     });
 

@@ -10,9 +10,6 @@ import {resolveAsset} from '../../utils/resolveAsset'
 
 
 
-const armorTab = ["armorTab"]
-const colorTab =["armorColor"]
-
 const columnConfig =[
   ["title", "assetImage"],
   ["title", "assetImage"]
@@ -22,11 +19,13 @@ const ARMOR_DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
     title: 'Bucket Hat',
+    key: 'buc',
     assetImage: require('../../assets/images/hats/BucketHat.png'),
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
     title: 'Beanie',
+    key: 'bea',
     assetImage: require('../../assets/images/hats/Beanie.png'),
   }
 ];
@@ -37,16 +36,7 @@ const COLOR_DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
     title: 'Blue',
-    assetImage: require('../../assets/images/colors/BlueColor.png'),
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
-    assetImage: require('../../assets/images/colors/BlueColor.png'),
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
+    key: 'bl',
     assetImage: require('../../assets/images/colors/BlueColor.png'),
   },
 ];
@@ -90,7 +80,7 @@ const Armoire = () => {
 
 
           <Pressable onPress={() => setActiveMenu(prev => prev ==="armor"? null: "armor")}>
-            <Text style = {styles.textStyle}>Helmets</Text>
+            <Text style = {styles.textStyle}>Customization</Text>
           </Pressable>
         </View>
 
@@ -103,16 +93,32 @@ const Armoire = () => {
           <TabbedMenu
             tabs ={['Armor', 'Color']} 
             data ={[ARMOR_DATA, COLOR_DATA]}
-            columns ={columnConfig}/>
+            columns ={columnConfig}
+            onItemPress={(item, tabIndex) => {
+              if (tabIndex === 0) {
+                updateArmor({
+                  key: item.key
+                })
+              } else {
+                updateArmor({
+                  key: item.key
+                })
+              }
+            }}
+            />
         </DropdownMenu>
 
       </SafeView>
       )}
 
-      <View style = {styles.card}>
-        <Image source ={armor.asset} />
-        <Text style = {styles.title}>{armor.name}</Text>
-      </View>
+    <View style={styles.card}>
+      <Image
+        source={armor.asset}
+        style={styles.armorImage}
+        resizeMode="contain"
+      />
+      <Text style={styles.cardTitle}>{armor.name}</Text>
+    </View>
 
       
 
@@ -138,26 +144,30 @@ const styles = StyleSheet.create({
     marginVertical: 40,
     fontSize: 28,
   },
-  link: {
-    marginVertical: 20,
-    padding: 16,
-    backgroundColor: '#21cc8d',
-    color: 'white',
-    borderRadius: 8,
-  },
    list: {
     padding: 16,
     backgroundColor: '#21cc8d',
-    color: 'white',
     borderRadius: 8,
   },
   buttonOpen: {
-    backgroundColor: '#21cc8d',
-    margin: 20
-  },
-  buttonClose: {
-    backgroundColor: '#2196F3'
-  },
+    backgroundColor: '#2a2a2a',
+    marginHorizontal: 20,
+    marginTop: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+
+    borderWidth: 1,
+    borderColor: '#21cc8d',
+
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    shadowColor: '#000',
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    elevation: 4,
+},
   textStyle: {
     color: 'black',
     fontWeight: 'bold',
@@ -165,17 +175,22 @@ const styles = StyleSheet.create({
   },
   card: {
     margin: 30,
-    height: 300,
-    justifyContent: 'center',
-    backgroundColor: '#21cc8d'
-  },
-  modal: {
-    justifyContent: 'center',
-    marginTop: 30,
+    height: 280,
+    width: 240,
     backgroundColor: '#21cc8d',
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
   },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center'
-  },
+  armorImage: {
+  width: 160,
+  height: 160,
+  marginBottom: 10,
+},
+cardTitle: {
+  fontSize: 16,
+  fontWeight: '600',
+  textAlign: 'center',
+},
 })
