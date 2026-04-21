@@ -3,7 +3,7 @@ import { Link } from 'expo-router'
 import React from 'react'
 import AppShell from '../../../components/AppShell'
 import SectionCard from '../../../components/SectionCard'
-import { CleaningCampsiteCard } from '../../../components/AvatarCard'
+import { CookingCampsiteCard } from '../../../components/AvatarCard'
 
 const Kitchen = () => {
   return (
@@ -37,7 +37,7 @@ const Kitchen = () => {
       </View>
 
       <SectionCard style={styles.previewCard}>
-        <CleaningCampsiteCard
+        <CookingCampsiteCard
           style={styles.previewImage}
           cardStyle={styles.previewAvatarCard}
         />

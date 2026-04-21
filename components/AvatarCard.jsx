@@ -61,7 +61,6 @@ const buildCleaningCampsiteLayers = ({
 ])
 
 const buildCookingCampsiteLayers = ({
-  campfireSource,
   cookingHatKey,
   cookingKnightColorKey,
   cookingTentPatternsKey,
@@ -69,11 +68,6 @@ const buildCookingCampsiteLayers = ({
   cookingGroundAndSkyKey,
   layerStyles,
 }) => normalizeLayers([
-  {
-    key: 'campfire',
-    source: campfireSource ?? ASSETS.campfire,
-    style: layerStyles?.campfire,
-  },
   {
     key: 'cookingHat',
     source: resolveAsset(ASSETS.cookingHat, cookingHatKey),
@@ -124,7 +118,6 @@ function LayeredAvatarCard({
 }
 
 export function CookingCampsiteCard({
-  campfireSource,
   cookingHatKey,
   cookingKnightColorKey,
   cookingTentPatternsKey,
@@ -136,7 +129,6 @@ export function CookingCampsiteCard({
   imageStyle,
 }) {
   const layers = buildCookingCampsiteLayers({
-    campfireSource,
     cookingHatKey,
     cookingKnightColorKey,
     cookingTentPatternsKey,
@@ -190,7 +182,6 @@ export function CleaningCampsiteCard({
 export function CookingCard(props) {
   return (
     <CookingCampsiteCard
-      campfireSource={props.campfireSource}
       cookingHatKey={props.cookingHatKey ?? props.hatKey}
       cookingKnightColorKey={props.cookingKnightColorKey ?? props.knightColorKey}
       cookingTentPatternsKey={props.cookingTentPatternsKey ?? props.tentPatternKey}
