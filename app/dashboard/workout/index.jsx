@@ -3,7 +3,6 @@ import { useRouter } from 'expo-router'
 import AppShell from '../../../components/AppShell'
 import SectionCard from '../../../components/SectionCard'
 
-
 const CATEGORIES = [
   {
     id: 'weights',
@@ -82,10 +81,16 @@ const Workout = () => {
       subtitle={`Choose a workout for ${today}. Don't forget to log your personal best!`}
     >
       <SectionCard style={styles.summaryCard}>
-        <Text style={styles.summaryTitle}>Training categories</Text>
+        <Text style={styles.summaryTitle}>Challenges</Text>
         <Text style={styles.summaryBody}>
-          Jump into a guided workout type, review stats for the category, or open the custom workout builder.
+          Want to check out workout challenges?
         </Text>
+        <Pressable
+          style={({ pressed }) => [styles.challengeLink, pressed && styles.challengeLinkPressed]}
+          onPress={() => router.push('/dashboard/leaderboard')}
+        >
+          <Text style={styles.challengeLinkText}>Open challenges</Text>
+        </Pressable>
       </SectionCard>
 
       <View style={styles.grid}>
@@ -120,6 +125,25 @@ const styles = StyleSheet.create({
     color: '#dac0b8',
     fontSize: 14,
     lineHeight: 21,
+  },
+  challengeLink: {
+    alignSelf: 'flex-start',
+    marginTop: 14,
+    backgroundColor: 'rgba(247, 234, 228, 0.96)',
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: '#ceb1a8',
+    paddingHorizontal: 14,
+    paddingVertical: 9,
+  },
+  challengeLinkPressed: {
+    backgroundColor: '#f2dfd9',
+    borderColor: '#bd9b93',
+  },
+  challengeLinkText: {
+    color: '#5c3238',
+    fontSize: 13,
+    fontWeight: '800',
   },
   grid: {
     flexDirection: 'row',
