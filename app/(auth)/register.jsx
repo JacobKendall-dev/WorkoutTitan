@@ -1,64 +1,87 @@
-import { StyleSheet, Text, View, Pressable, Button, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native'
+import { StyleSheet, Text, View, Pressable, TextInput, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform } from 'react-native'
 import React, { useState } from 'react'
-import Spacer from '../../components/Spacer'
-import { Link } from 'expo-router'
+import { Link, useRouter } from 'expo-router'
 import { useUser } from '../../hooks/useUser'
+import ScreenBackground from '../../components/ScreenBackground'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const Register = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
-
-  // Pulls the register method from our user/auth hook.
   const { register } = useUser()
+  const router = useRouter()
 
-  // Handles register button press: clears old errors, tries signup, and stores any new error.
   const handleSubmit = async () => {
     setError(null)
     try {
       await register(email, password)
-      console.log('current user is:', email, password)
+      router.replace('/dashboard')
     } catch (error) {
-        setError(error.message)
+      setError(error.message)
     }
-
   }
 
   return (
-    // Dismisses the keyboard when user taps outside input fields.
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-    <View style={styles.container}>
-      <Text style={styles.title}>Create Your Account</Text>
+      <ScreenBackground
+        imageSource={require('../../assets/images/Gradient2.png')}
+        overlay
+        overlayOpacity={0.34}
+        contentStyle={styles.screenContent}
+        resizeMode="cover"
+      >
+        <SafeAreaView style={styles.safeArea}>
+          <KeyboardAvoidingView
+            style={styles.keyboardView}
+            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          >
+            <View style={styles.container}>
+              <View style={styles.headerBlock}>
+                <Text style={styles.title}>Create Your Account</Text>
+                <Text style={styles.subtitle}>
+                  Start a new profile so your recipes, meal plans, and exercise logs have a home.
+                </Text>
+              </View>
 
-    // Updates local email state as the user types.
-    <TextInput 
-    style={{width: '80%', marginBottom: 20}}
-    placeholder ="Email"
-    keyboardType="email-address"
-    onChangeText={setEmail}
-    value={email}
-    />
+              <View style={styles.card}>
+                <Text style={styles.fieldLabel}>Email</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="you@example.com"
+                  placeholderTextColor="#998a85"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  onChangeText={setEmail}
+                  value={email}
+                />
 
-    // Updates local password state as the user types. 
-    <TextInput 
-    style={{width: '80%', marginBottom: 20}}
-    placeholder ="Password"
-    onChangeText={setPassword}
-    value={password}
-    secureTextEntry
-    />
+                <Text style={styles.fieldLabel}>Password</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Choose a password"
+                  placeholderTextColor="#998a85"
+                  onChangeText={setPassword}
+                  value={password}
+                  secureTextEntry
+                />
 
-    // Calls submit handler to attempt account creation. 
-    <Button
-    title="Register"
-    onPress={handleSubmit}
-    color="#000"
-    />
+                {error ? <Text style={styles.error}>{error}</Text> : null}
 
-    <Spacer />
-    {error && <Text style={styles.error}>{error}</Text>}
-      
-    </View>
+                <Pressable style={styles.primaryButton} onPress={handleSubmit}>
+                  <Text style={styles.primaryButtonText}>Register</Text>
+                </Pressable>
+
+                <Link href="/login" asChild>
+                  <Pressable style={styles.secondaryButton}>
+                    <Text style={styles.secondaryButtonText}>Already Have An Account?</Text>
+                  </Pressable>
+                </Link>
+              </View>
+            </View>
+          </KeyboardAvoidingView>
+        </SafeAreaView>
+      </ScreenBackground>
     </TouchableWithoutFeedback>
   )
 }
@@ -66,27 +89,96 @@ const Register = () => {
 export default Register
 
 const styles = StyleSheet.create({
-    title: {
-        marginVertical: 40,
-        fontSize: 20,
-    },
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    link: {
-        marginVertical: 20,
-        fontSize: 20,
-        textDecorationLine: 'underline'
-    },
-    error: {
-      color: "#fff000",
-      padding: 10,
-      backgroundColor: '#f5c1c8',
-      borderColor: "#fff000",
-      borderwidth: 1,
-      borderRadius: 6,
-      marginHorizontal: 10,
-    }
+  screenContent: {
+    flex: 1,
+  },
+  safeArea: {
+    flex: 1,
+  },
+  keyboardView: {
+    flex: 1,
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+  },
+  headerBlock: {
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  title: {
+    color: '#fff7f2',
+    fontSize: 30,
+    fontWeight: '800',
+    textAlign: 'center',
+    textShadowColor: '#524439',
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 4,
+  },
+  subtitle: {
+    color: '#f4ddd6',
+    fontSize: 15,
+    lineHeight: 22,
+    marginTop: 10,
+    textAlign: 'center',
+  },
+  card: {
+    backgroundColor: 'rgba(247, 234, 228, 0.95)',
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: '#ceb1a8',
+    padding: 20,
+  },
+  fieldLabel: {
+    color: '#5d343a',
+    fontSize: 14,
+    fontWeight: '700',
+    marginBottom: 8,
+  },
+  input: {
+    backgroundColor: '#fff8f5',
+    borderWidth: 1,
+    borderColor: '#ceb1a8',
+    borderRadius: 16,
+    paddingHorizontal: 15,
+    paddingVertical: 14,
+    fontSize: 15,
+    color: '#432328',
+    marginBottom: 16,
+  },
+  error: {
+    color: '#7d2f1f',
+    backgroundColor: '#f7d9cb',
+    borderWidth: 1,
+    borderColor: '#e3b29f',
+    borderRadius: 14,
+    padding: 12,
+    marginBottom: 14,
+  },
+  primaryButton: {
+    backgroundColor: '#723a45',
+    borderRadius: 18,
+    minHeight: 52,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 12,
+  },
+  primaryButtonText: {
+    color: '#f7e7e2',
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  secondaryButton: {
+    backgroundColor: '#ead8d2',
+    borderRadius: 18,
+    minHeight: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  secondaryButtonText: {
+    color: '#6a4a4f',
+    fontSize: 15,
+    fontWeight: '700',
+  },
 })

@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native'
+import { StyleSheet, Text, View, Pressable } from 'react-native'
 import { useRouter } from 'expo-router'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { useWorkouts } from '../../../hooks/useWorkouts'
+import AppShell from '../../../components/AppShell'
+import SectionCard from '../../../components/SectionCard'
 
 
 const CATEGORIES = [
@@ -10,7 +10,7 @@ const CATEGORIES = [
     name: 'Weights',
     icon: '🏋️',
     count: '3 workout types',
-    iconBg: '#F3E7FE',
+    iconBg: '#f7d9cb',
     lastSession: 'Upper body · Today',
     sessions: 18,
     streak: 3,
@@ -26,7 +26,7 @@ const CATEGORIES = [
     name: 'Cardio',
     icon: '🏃',
     count: '3 workout types',
-    iconBg: '#FEF3E7',
+    iconBg: '#f4b183',
     lastSession: 'Running · 3 days ago',
     sessions: 24,
     streak: 6,
@@ -43,7 +43,7 @@ const CATEGORIES = [
     name: 'Calisthenics',
     icon: '🤸',
     count: '4 workout types',
-    iconBg: '#E7F3FE',
+    iconBg: '#eed7c0',
     lastSession: 'Core · Yesterday',
     sessions: 31,
     streak: 12,
@@ -61,7 +61,7 @@ const CATEGORIES = [
     name: 'Create',
     icon: '➕',
     count: 'Build your own',
-    iconBg: '#E7FEF0',
+    iconBg: '#e8d5cf',
     href: '/dashboard/workout/createWorkout',
   },
 ]
@@ -85,52 +85,52 @@ const Workout = () => {
   })
 
   return (
-    <SafeAreaView style={styles.safe}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.title}>Workout</Text>
-        <Text style={styles.subtitle}>{today}</Text>
+    <AppShell
+      title="Workout"
+      subtitle={`Choose a training lane for ${today}. Each card follows the same warm, camp-inspired look as your kitchen tools.`}
+    >
+      <SectionCard style={styles.summaryCard}>
+        <Text style={styles.summaryTitle}>Training categories</Text>
+        <Text style={styles.summaryBody}>
+          Jump into a guided workout type, review stats for the category, or open the custom workout builder.
+        </Text>
+      </SectionCard>
 
-        <View style={styles.grid}>
-          {CATEGORIES.map((cat) => (
-            <Pressable
-              key={cat.id}
-              style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
-              onPress={() => handleCardPress(cat)}
-            >
-              <View style={[styles.iconWrap, { backgroundColor: cat.iconBg }]}>
-                <Text style={styles.iconText}>{cat.icon}</Text>
-              </View>
-              <Text style={styles.cardName}>{cat.name}</Text>
-              <Text style={styles.cardCount}>{cat.count}</Text>
-            </Pressable>
-          ))}
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+      <View style={styles.grid}>
+        {CATEGORIES.map((cat) => (
+          <Pressable
+            key={cat.id}
+            style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
+            onPress={() => handleCardPress(cat)}
+          >
+            <View style={[styles.iconWrap, { backgroundColor: cat.iconBg }]}>
+              <Text style={styles.iconText}>{cat.icon}</Text>
+            </View>
+            <Text style={styles.cardName}>{cat.name}</Text>
+            <Text style={styles.cardCount}>{cat.count}</Text>
+          </Pressable>
+        ))}
+      </View>
+    </AppShell>
   )
 }
 
 export default Workout
 
 const styles = StyleSheet.create({
-  safe: {
-    flex: 1,
-    backgroundColor: '#f5f5f0',
+  summaryCard: {
+    marginBottom: 18,
   },
-  container: {
-    padding: 20,
-    paddingTop: 30,
+  summaryTitle: {
+    color: '#fff7f2',
+    fontSize: 19,
+    fontWeight: '800',
+    marginBottom: 8,
   },
-  title: {
-    fontSize: 28,
-    fontWeight: '700',
-    color: '#111',
-    marginBottom: 4,
-  },
-  subtitle: {
-    fontSize: 13,
-    color: '#888',
-    marginBottom: 24,
+  summaryBody: {
+    color: '#dac0b8',
+    fontSize: 14,
+    lineHeight: 21,
   },
   grid: {
     flexDirection: 'row',
@@ -139,20 +139,20 @@ const styles = StyleSheet.create({
   },
   card: {
     width: '47%',
-    backgroundColor: '#fff',
-    borderRadius: 16,
-    padding: 14,
-    borderWidth: 0.5,
-    borderColor: '#e5e5e5',
+    backgroundColor: 'rgba(247, 234, 228, 0.96)',
+    borderRadius: 22,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: '#ceb1a8',
   },
   cardPressed: {
-    backgroundColor: '#fafafa',
-    borderColor: '#ccc',
+    backgroundColor: '#f2dfd9',
+    borderColor: '#bd9b93',
   },
   iconWrap: {
-    width: 38,
-    height: 38,
-    borderRadius: 10,
+    width: 44,
+    height: 44,
+    borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 10,
@@ -161,13 +161,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   cardName: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#111',
-    marginBottom: 2,
+    fontSize: 15,
+    fontWeight: '800',
+    color: '#5c3238',
+    marginBottom: 4,
   },
   cardCount: {
-    fontSize: 11,
-    color: '#999',
+    fontSize: 12,
+    color: '#7b625d',
+    lineHeight: 18,
   },
 })

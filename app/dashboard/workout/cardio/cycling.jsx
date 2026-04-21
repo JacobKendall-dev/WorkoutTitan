@@ -1,30 +1,19 @@
-import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import PlaceholderScreen from '../../../../components/PlaceholderScreen'
 
 const Cycling = () => {
   return (
-        <View style={styles.container}>
-          <Text style={styles.title}>Cycling</Text>
-        </View>
-      )
-    }
-    
-    export default Cycling
-    
-const styles = StyleSheet.create({
-    title: {
-        marginVertical: 40,
-        fontSize: 20,
-    },
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    link: {
-        marginVertical: 20,
-        fontSize: 20,
-        textDecorationLine: 'underline'
-    },
+    <PlaceholderScreen
+      title="Cycling"
+      subtitle="A cardio route for rides, intervals, and endurance sessions."
+      highlights={[
+        'Track ride goals, timed efforts, and future route summaries.',
+        'Extend the same visual tone from kitchen tracking into cardio logging.',
+        'Leave space for cadence, pace, and distance cards once the feature is connected.',
+      ]}
+      note="This page is styled to match the rest of the app, but cycling metrics still need implementation."
+    />
+  )
+}
 
-})
+export default Cycling

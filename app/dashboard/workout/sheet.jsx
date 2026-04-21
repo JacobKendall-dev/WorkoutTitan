@@ -1,50 +1,45 @@
-import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native'
-import { useLocalSearchParams, useRouter, Link } from 'expo-router'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { StyleSheet, Text, View, Pressable } from 'react-native'
+import { useLocalSearchParams, Link } from 'expo-router'
+import AppShell from '../../../components/AppShell'
+import SectionCard from '../../../components/SectionCard'
 
 const Sheet = () => {
   const { data } = useLocalSearchParams()
-  const router = useRouter()
   const category = JSON.parse(data)
 
   return (
-    <SafeAreaView style={styles.safe} edges={['bottom']}>
-      {/* Handle */}
+    <AppShell scroll={false} contentContainerStyle={styles.container}>
       <View style={styles.handleWrap}>
         <View style={styles.handle} />
       </View>
 
-      <ScrollView contentContainerStyle={styles.container}>
-
-        {/* Header */}
+      <SectionCard style={styles.headerCard}>
         <Text style={styles.eyebrow}>Category</Text>
         <Text style={styles.title}>{category.name}</Text>
         <Text style={styles.lastSession}>Last session: {category.lastSession}</Text>
+      </SectionCard>
 
-        {/* Stats */}
-        <View style={styles.statsRow}>
-          <View style={styles.statCard}>
-            <Text style={styles.statValue}>{category.sessions}</Text>
-            <Text style={styles.statLabel}>Sessions</Text>
-          </View>
-          <View style={styles.statCard}>
-            <Text style={styles.statValue}>🔥 {category.streak}</Text>
-            <Text style={styles.statLabel}>Week streak</Text>
-          </View>
+      <View style={styles.statsRow}>
+        <SectionCard style={styles.statCard}>
+          <Text style={styles.statValue}>{category.sessions}</Text>
+          <Text style={styles.statLabel}>Sessions</Text>
+        </SectionCard>
+        <SectionCard style={styles.statCard}>
+          <Text style={styles.statValue}>🔥 {category.streak}</Text>
+          <Text style={styles.statLabel}>Week streak</Text>
+        </SectionCard>
+      </View>
+
+      {category.pb && (
+        <View style={styles.pbRow}>
+          <Text style={styles.pbLabel}>{category.pbLabel ?? 'Personal best'}</Text>
+          <Text style={styles.pbValue}>{category.pb}</Text>
         </View>
+      )}
 
-        {/* PB Badge */}
-        {category.pb && (
-          <View style={styles.pbRow}>
-            <Text style={styles.pbLabel}>{category.pbLabel ?? 'Personal best'}</Text>
-            <Text style={styles.pbValue}>{category.pb}</Text>
-          </View>
-        )}
+      <Text style={styles.sectionLabel}>Choose a workout</Text>
 
-        <View style={styles.divider} />
-        <Text style={styles.sectionLabel}>Choose a workout</Text>
-
-        {/* Workout Links */}
+      <View style={styles.workoutList}>
         {category.workouts.map((workout) => (
           <Link key={workout.href} href={workout.href} asChild>
             <Pressable style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}>
@@ -56,131 +51,126 @@ const Sheet = () => {
             </Pressable>
           </Link>
         ))}
-
-      </ScrollView>
-    </SafeAreaView>
+      </View>
+    </AppShell>
   )
 }
 
 export default Sheet
 
 const styles = StyleSheet.create({
-  safe: {
+  container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   handleWrap: {
     alignItems: 'center',
-    paddingTop: 12,
-    paddingBottom: 4,
+    marginBottom: 14,
   },
   handle: {
     width: 36,
     height: 4,
     borderRadius: 2,
-    backgroundColor: '#ddd',
+    backgroundColor: 'rgba(255,255,255,0.35)',
   },
-  container: {
-    padding: 20,
-    paddingTop: 12,
+  headerCard: {
+    marginBottom: 14,
   },
   eyebrow: {
-    fontSize: 11,
-    color: '#999',
+    fontSize: 12,
+    color: '#f7d9c6',
     textTransform: 'uppercase',
-    letterSpacing: 1,
-    marginBottom: 4,
+    letterSpacing: 1.2,
+    marginBottom: 6,
   },
   title: {
     fontSize: 26,
-    fontWeight: '700',
-    color: '#111',
+    fontWeight: '800',
+    color: '#fff7f2',
     marginBottom: 4,
   },
   lastSession: {
-    fontSize: 12,
-    color: '#999',
-    marginBottom: 16,
+    fontSize: 13,
+    color: '#dac0b8',
   },
   statsRow: {
     flexDirection: 'row',
     gap: 10,
-    marginBottom: 12,
+    marginBottom: 14,
   },
   statCard: {
     flex: 1,
-    backgroundColor: '#f5f5f0',
-    borderRadius: 12,
-    padding: 12,
+    backgroundColor: 'rgba(247, 234, 228, 0.94)',
+    borderColor: '#ceb1a8',
   },
   statValue: {
     fontSize: 22,
-    fontWeight: '600',
-    color: '#111',
+    fontWeight: '800',
+    color: '#5c3238',
   },
   statLabel: {
-    fontSize: 10,
-    color: '#999',
+    fontSize: 11,
+    color: '#7b625d',
     textTransform: 'uppercase',
-    letterSpacing: 0.5,
-    marginTop: 2,
+    letterSpacing: 0.8,
+    marginTop: 4,
   },
   pbRow: {
-    backgroundColor: '#F3E7FE',
-    borderRadius: 10,
-    padding: 12,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    backgroundColor: '#f7d9cb',
+    borderRadius: 18,
+    padding: 14,
     marginBottom: 16,
   },
   pbLabel: {
     fontSize: 11,
-    color: '#7c3aed',
-    fontWeight: '600',
+    color: '#7d2f1f',
+    fontWeight: '800',
     textTransform: 'uppercase',
-    letterSpacing: 0.5,
+    letterSpacing: 0.7,
+    marginBottom: 4,
   },
   pbValue: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: '#5b21b6',
-  },
-  divider: {
-    borderTopWidth: 0.5,
-    borderTopColor: '#eee',
-    marginBottom: 14,
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#5c3238',
   },
   sectionLabel: {
-    fontSize: 11,
-    color: '#999',
+    fontSize: 12,
+    color: '#f4ddd6',
     textTransform: 'uppercase',
-    letterSpacing: 1,
-    marginBottom: 8,
+    letterSpacing: 1.2,
+    marginBottom: 10,
+  },
+  workoutList: {
+    backgroundColor: 'rgba(247, 234, 228, 0.94)',
+    borderRadius: 22,
+    borderWidth: 1,
+    borderColor: '#ceb1a8',
+    overflow: 'hidden',
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingVertical: 14,
-    borderBottomWidth: 0.5,
-    borderBottomColor: '#eee',
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ead8d2',
   },
   rowPressed: {
-    backgroundColor: '#fafafa',
+    backgroundColor: '#f1ded8',
   },
   rowName: {
     fontSize: 15,
-    color: '#111',
-    fontWeight: '500',
-    marginBottom: 2,
+    color: '#5c3238',
+    fontWeight: '700',
+    marginBottom: 3,
   },
   rowMeta: {
-    fontSize: 11,
-    color: '#aaa',
+    fontSize: 12,
+    color: '#7b625d',
   },
   rowArrow: {
     fontSize: 20,
-    color: '#ccc',
+    color: '#8f6b64',
   },
 })

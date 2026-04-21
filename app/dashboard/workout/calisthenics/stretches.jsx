@@ -1,30 +1,19 @@
-import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import PlaceholderScreen from '../../../../components/PlaceholderScreen'
 
 const Stretches = () => {
   return (
-        <View style={styles.container}>
-          <Text style={styles.title}>Stretches</Text>
-        </View>
-      )
-    }
-    
-    export default Stretches
-    
-const styles = StyleSheet.create({
-    title: {
-        marginVertical: 40,
-        fontSize: 20,
-    },
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    link: {
-        marginVertical: 20,
-        fontSize: 20,
-        textDecorationLine: 'underline'
-    },
+    <PlaceholderScreen
+      title="Stretches"
+      subtitle="A mobility and flexibility screen for cooldowns, recovery, and movement prep."
+      highlights={[
+        'Support guided stretch flows, mobility checkpoints, and session notes.',
+        'Keep the same warm, camp-style visual polish as the kitchen tools.',
+        'Leave room for timed holds and recovery streaks in a future iteration.',
+      ]}
+      note="This route now matches the rest of the app visually, but the stretch content is still pending."
+    />
+  )
+}
 
-})
+export default Stretches
