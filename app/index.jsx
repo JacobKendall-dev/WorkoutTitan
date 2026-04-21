@@ -1,4 +1,4 @@
-import { StyleSheet, Text, Pressable, View } from 'react-native'
+import { StyleSheet, Text, Pressable, View, Image } from 'react-native'
 import { Link } from 'expo-router'
 import AppShell from '../components/AppShell'
 import SectionCard from '../components/SectionCard'
@@ -7,37 +7,36 @@ const Home = () => {
   return (
     <AppShell
       title="Workout Titan"
-      subtitle="A warm, camp-inspired home base for meal planning, training, and tracking your progress."
+      subtitle="A workout partner right in your pocket"
       contentContainerStyle={styles.content}
     >
       <SectionCard style={styles.heroCard}>
-        <Text style={styles.heroText}>
-          Step into the dashboard to explore your kitchen, workouts, leaderboard, and profile in one shared space.
-        </Text>
+        <Image
+          source={require('../assets/AppAssets/Armoire/Front/Gr.Non.gif')}
+          style={styles.heroImage}
+          resizeMode="contain"
+        />
+        
       </SectionCard>
 
       <View style={styles.actions}>
-        <Link href="/dashboard" asChild>
-          <Pressable style={[styles.button, styles.primaryButton]}>
-            <Text style={styles.primaryButtonText}>Enter Dashboard</Text>
-          </Pressable>
-        </Link>
-
         <Link href="/login" asChild>
-          <Pressable style={[styles.button, styles.secondaryButton]}>
-            <Text style={styles.secondaryButtonText}>Log In</Text>
+          <Pressable style={[styles.button, styles.loginButton]}>
+            <Text style={styles.loginButtonText}>Log In</Text>
           </Pressable>
         </Link>
 
         <Link href="/register" asChild>
-          <Pressable style={[styles.button, styles.secondaryButton]}>
-            <Text style={styles.secondaryButtonText}>Create Account</Text>
+          <Pressable style={[styles.button, styles.createButton]}>
+            <Text style={styles.createButtonText}>Create Account</Text>
           </Pressable>
         </Link>
       </View>
     </AppShell>
   )
 }
+
+export default Home
 
 const styles = StyleSheet.create({
   content: {
@@ -46,41 +45,70 @@ const styles = StyleSheet.create({
   },
   heroCard: {
     marginBottom: 18,
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    borderWidth: 0,
+    padding: 0,
+  },
+  heroImage: {
+    width: 300,
+    height: 300,
+    marginTop: 8,
+    marginBottom: 12,
   },
   heroText: {
-    color: '#f8ece7',
+    color: '#5c3238',
     fontSize: 16,
     lineHeight: 24,
     textAlign: 'center',
   },
   actions: {
     gap: 12,
+    width: '100%',
   },
   button: {
-    minHeight: 54,
-    borderRadius: 18,
+    minHeight: 58,
+    borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
+    paddingHorizontal: 20,
+    width: '100%',
   },
-  primaryButton: {
+  loginButton: {
+    backgroundColor: '#723a45',
+    borderColor: '#b98d84',
+    shadowColor: '#2d1418',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.18,
+    shadowRadius: 16,
+    elevation: 4,
+  },
+  createButton: {
     backgroundColor: '#f4b183',
     borderColor: '#ffd6be',
+    shadowColor: '#5a2e22',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.14,
+    shadowRadius: 16,
+    elevation: 4,
   },
-  secondaryButton: {
-    backgroundColor: 'rgba(247, 234, 228, 0.94)',
-    borderColor: '#ceb1a8',
+  loginButtonText: {
+    color: '#f7e7e2',
+    fontSize: 16,
+    fontWeight: '800',
+    letterSpacing: 0.3,
   },
-  primaryButtonText: {
+  createButtonText: {
     color: '#4c271d',
     fontSize: 16,
     fontWeight: '800',
-  },
-  secondaryButtonText: {
-    color: '#5c3238',
-    fontSize: 16,
-    fontWeight: '700',
+    letterSpacing: 0.3,
   },
 })
 
-export default Home
+
+
+
+

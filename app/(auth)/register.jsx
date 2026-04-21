@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable, TextInput, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform } from 'react-native'
+import { StyleSheet, Text, View, Pressable, TextInput, Keyboard, KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import { Link, useRouter } from 'expo-router'
 import { useUser } from '../../hooks/useUser'
@@ -23,24 +23,28 @@ const Register = () => {
   }
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ScreenBackground
-        imageSource={require('../../assets/images/Gradient2.png')}
-        overlay
-        overlayOpacity={0.34}
-        contentStyle={styles.screenContent}
-        resizeMode="cover"
-      >
-        <SafeAreaView style={styles.safeArea}>
-          <KeyboardAvoidingView
-            style={styles.keyboardView}
-            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    <ScreenBackground
+      imageSource={require('../../assets/images/Gradient2.png')}
+      overlay
+      overlayOpacity={0.34}
+      contentStyle={styles.screenContent}
+      resizeMode="cover"
+    >
+      <SafeAreaView style={styles.safeArea}>
+        <KeyboardAvoidingView
+          style={styles.keyboardView}
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        >
+          <ScrollView
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={styles.scrollContent}
+            showsVerticalScrollIndicator={false}
           >
-            <View style={styles.container}>
+            <Pressable style={styles.container} onPress={Keyboard.dismiss}>
               <View style={styles.headerBlock}>
                 <Text style={styles.title}>Create Your Account</Text>
                 <Text style={styles.subtitle}>
-                  Start a new profile so your recipes, meal plans, and exercise logs have a home.
+                  Create a new profile, and start your workout adventure
                 </Text>
               </View>
 
@@ -48,10 +52,14 @@ const Register = () => {
                 <Text style={styles.fieldLabel}>Email</Text>
                 <TextInput
                   style={styles.input}
-                  placeholder="you@example.com"
+                  placeholder="knight@adventure.com"
                   placeholderTextColor="#998a85"
                   keyboardType="email-address"
                   autoCapitalize="none"
+                  autoCorrect={false}
+                  returnKeyType="done"
+                  blurOnSubmit
+                  onSubmitEditing={Keyboard.dismiss}
                   onChangeText={setEmail}
                   value={email}
                 />
@@ -61,6 +69,9 @@ const Register = () => {
                   style={styles.input}
                   placeholder="Choose a password"
                   placeholderTextColor="#998a85"
+                  returnKeyType="done"
+                  blurOnSubmit
+                  onSubmitEditing={Keyboard.dismiss}
                   onChangeText={setPassword}
                   value={password}
                   secureTextEntry
@@ -78,11 +89,11 @@ const Register = () => {
                   </Pressable>
                 </Link>
               </View>
-            </View>
-          </KeyboardAvoidingView>
-        </SafeAreaView>
-      </ScreenBackground>
-    </TouchableWithoutFeedback>
+            </Pressable>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </ScreenBackground>
   )
 }
 
@@ -97,6 +108,9 @@ const styles = StyleSheet.create({
   },
   keyboardView: {
     flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
   },
   container: {
     flex: 1,
@@ -182,3 +196,4 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
 })
+

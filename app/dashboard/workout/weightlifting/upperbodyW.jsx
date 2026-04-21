@@ -532,3 +532,4 @@ const styles = StyleSheet.create({
     backgroundColor: '#723a45',
   },
 })
+
