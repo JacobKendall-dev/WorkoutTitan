@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native'
-import { useRouter } from 'expo-router'
+import { Link, useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useWorkouts } from '../../../hooks/useWorkouts'
 
@@ -104,6 +104,9 @@ const Workout = () => {
               <Text style={styles.cardCount}>{cat.count}</Text>
             </Pressable>
           ))}
+          <Link style={styles.link} href="/dashboard/workout/challenges">
+                  Start now
+                </Link>
         </View>
       </ScrollView>
     </SafeAreaView>

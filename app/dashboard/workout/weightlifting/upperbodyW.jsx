@@ -5,10 +5,13 @@ import Slider from '@react-native-community/slider';
 import { useWorkouts } from '../../../../hooks/useWorkouts';
 
 const WORKOUTS = [
-  {id: '1', name: 'Bench', sets: '4x8', muscle: 'Chest'},
-  {id: '2', name: 'Incline Bench', sets: '3x10', muscle: 'Upper Chest'},
-  {id: '3', name: 'Bicep Curls', sets: '3x12', muscle: 'Biceps'},
-  {id: '4', name: 'Dips', sets: '3x15', muscle: 'Lower Chest'}
+  {id: '1', name: 'Bench', muscle: 'Chest'},
+  {id: '2', name: 'Incline Bench', muscle: 'Upper Chest'},
+  {id: '3', name: 'Bicep Curls', muscle: 'Biceps'},
+  {id: '4', name: 'Shoulder Press', muscle: 'Shoulders'},
+  {id: '5', name: 'Lateral Raises', muscle: 'Lats'},
+  {id: '6', name: 'Cable Rows', muscle: 'Lats'},
+  {id: '7', name: 'Lap Pull-Downs', muscle: 'Lats'}
 ]
 
 const PRESETS = [
@@ -29,7 +32,7 @@ const [sets, setSets] = useState([
 ])
 const [personalBest, setPersonalBest] = useState('')
 
-const { logExercise, exercises } = useWorkouts()
+const { logExercise, exercises, addOwnedItem } = useWorkouts()
 
 const minutes = Math.floor(remaining / 60)
 const seconds = Math.floor(remaining % 60)
@@ -75,6 +78,12 @@ const handleDuration = (item) => {
 }
 
 const handleExit = (theSelected) =>{
+  clearInterval(intervalRef.current)
+  setRemaining(duration)
+  setSelected(null)
+}
+
+const handleLogAndExit = (theSelected) =>{
   clearInterval(intervalRef.current)
   setRemaining(duration)
   setSelected(null)
@@ -203,7 +212,7 @@ const handleLog = (theSelected) => {
       
         <Pressable onPress={() => handleExit(selected)}  style={styles.button}>
           <Text>
-            Log and Exit
+            Exit
           </Text>
         </Pressable>
 
@@ -217,6 +226,12 @@ const handleLog = (theSelected) => {
         <Pressable onPress={() => handleLog(selected)}  style={styles.button}>
           <Text>
             Logging
+          </Text>
+        </Pressable>
+
+        <Pressable onPress={() => handleLogAndExit(selected)}  style={styles.button}>
+          <Text>
+            Log and Exit
           </Text>
         </Pressable>
 

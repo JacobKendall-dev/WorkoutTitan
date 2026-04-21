@@ -1,53 +1,108 @@
 import { StyleSheet, Text, View } from 'react-native'
 import { db, auth } from "../lib/firebaseConfig";
-import {collection, doc, onSnapshot, setDoc, increment } from "firebase/firestore"
+import {collection, doc, onSnapshot, setDoc, increment, arrayUnion } from "firebase/firestore"
 import React, { useEffect, useState } from 'react'
+import {images} from '../data/challenges.js'
+import {checkAllChallenges} from '../utils/challengeEngine.js'
 
 export function useWorkouts(){
     const [exercises, setExercises] = useState({});
+    const [ownedItems, setOwnedItems] = useState([]);
     
     const user = auth.currentUser;
     const userId = user?.uid;
 
     //create or update in (db, 'users', userId, 'exercises')
     async function logExercise(exerciseName, muscle, sets, personalBest) {
-    if (!user) throw new Error("User not logged in");
+      if (!user) throw new Error("User not logged in");
 
-    const exerciseRef = doc(db, 'users', userId, 'exercises', exerciseName);
+      const exerciseRef = doc(db, 'users', userId, 'exercises', exerciseName);
 
-    await setDoc(exerciseRef, {
-        exerciseAmount: increment(1),
-        muscle: muscle,
-        sets: sets,
-        personalBest: personalBest,
-        lastUpdated: new Date()
-    });
+      try {
+        await updateDoc(exerciseRef, {
+          exerciseAmount: increment(1),
+          muscle: muscle,
+          sets: sets,
+          personalBest: personalBest,
+          lastUpdated: new Date()
+        });
+      } catch (err) {
+        // document doesn't exist yet → create it
+        await setDoc(exerciseRef, {
+          exerciseAmount: 1,
+          muscle: muscle,
+          sets: sets,
+          personalBest: personalBest,
+          lastUpdated: new Date()
+        })
+      }
 
-    console.log(`Updated ${exerciseName} for ${userId}`);
+      const updatedExercises = {
+        ...exercises,
+        [exerciseName]: {
+          ...exercises[exerciseName],
+          sets: sets, 
+          personalBest
+        }
+      }
+        await checkAllChallenges(updatedExercises, ownedItems, addOwnedItem)
+
+      console.log(`Updated ${exerciseName} for ${userId}`);
+    }
+
+    async function addOwnedItem(itemId) {
+      if (!user) throw new Error("User not logged in")
+
+      const userRef = doc(db, 'users', userId)
+
+      await setDoc(userRef, {
+        ownedItems: arrayUnion(itemId)
+      }, { merge: true })
     }
 
     //read the exercises from (db, 'users', userId, 'exercises')
     const subscribeToExercises = () => {
-    if (!userId) return () => {};
+      if (!userId) return
 
-    const unsubscribe = onSnapshot(
-      collection(db, 'users', userId, 'exercises'),
-      (snapshot) => {
-        const allData = {};
-        snapshot.docs.forEach(doc => {
+      const ref = collection(db, 'users', userId, 'exercises');
+
+      const unsubscribe = onSnapshot(ref, (snapshot) => {
+        const allData = {}
+
+        snapshot.forEach((doc) => {
           allData[doc.id] = doc.data();
-        });
+        })
+
         setExercises(allData);
-      }
-    )
-    return unsubscribe;
+      })
+
+      return unsubscribe;
+    }
+
+    const subscribeToOwnedItems = () => {
+      if (!userId) return () => {}
+
+      const userRef = doc(db, 'users', userId);
+
+      const unsubscribe = onSnapshot(userRef, (snap) => {
+        const data = snap.data()
+        setOwnedItems(data?.ownedItems || []);
+      })
+
+      return unsubscribe
     }
 
     useEffect(() => {
-        const unsubscribe = subscribeToExercises();
+      if (!userId) return
 
-        return () => unsubscribe();
-    }, [userId]);
+      const unsubExercises = subscribeToExercises()
+      const unsubOwnedItems = subscribeToOwnedItems()
 
-    return {logExercise, exercises}
+      return () => {
+        unsubExercises?.()
+        unsubOwnedItems?.()
+      }
+    }, [userId])
+
+    return {logExercise, exercises, ownedItems}
 }
