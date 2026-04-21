@@ -6,6 +6,11 @@ const Swimming = () => {
     <PlaceholderScreen
       title="Swimming"
       subtitle="A cardio route for lap sessions, drills, and longer swim efforts."
+      activityConfig={{
+        categoryId: 'cardio',
+        workoutName: 'Swimming',
+        buttonLabel: 'Start Swim Session',
+      }}
       highlights={[
         'Track pool workouts, intervals, and technique-focused swim sessions.',
         'Use the same warm palette and polished card treatment as the kitchen pages.',

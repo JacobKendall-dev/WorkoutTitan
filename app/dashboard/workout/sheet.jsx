@@ -1,14 +1,35 @@
-import { StyleSheet, Text, View, Pressable } from 'react-native'
+import { StyleSheet, Text, View, Pressable, ScrollView } from 'react-native'
 import { useLocalSearchParams, Link } from 'expo-router'
 import AppShell from '../../../components/AppShell'
 import SectionCard from '../../../components/SectionCard'
+import { useWorkouts } from '../../../hooks/useWorkouts'
 
 const Sheet = () => {
   const { data } = useLocalSearchParams()
   const category = JSON.parse(data)
+  const { exercises, getCategoryStats } = useWorkouts()
+  const categoryStats = getCategoryStats(category.id)
+
+  const weightliftingPersonalBests = Object.entries(exercises ?? {})
+    .map(([exerciseName, exercise]) => {
+      const personalBest = String(exercise?.personalBest ?? '').trim()
+
+      if (!personalBest) {
+        return null
+      }
+
+      return `${exerciseName}: ${personalBest}`
+    })
+    .filter(Boolean)
+
+  const personalBestValue = category.name === 'Weights'
+    ? (weightliftingPersonalBests.length
+        ? weightliftingPersonalBests.join(' • ')
+        : 'Your personal best is waiting')
+    : category.pb
 
   return (
-    <AppShell scroll={false} contentContainerStyle={styles.container}>
+    <AppShell contentContainerStyle={styles.container}>
       <View style={styles.handleWrap}>
         <View style={styles.handle} />
       </View>
@@ -21,37 +42,40 @@ const Sheet = () => {
 
       <View style={styles.statsRow}>
         <SectionCard style={styles.statCard}>
-          <Text style={styles.statValue}>{category.sessions}</Text>
+          <Text style={styles.statValue}>{categoryStats.sessions}</Text>
           <Text style={styles.statLabel}>Sessions</Text>
         </SectionCard>
         <SectionCard style={styles.statCard}>
-          <Text style={styles.statValue}>🔥 {category.streak}</Text>
+          <Text style={styles.statValue}>🔥 {categoryStats.streak}</Text>
           <Text style={styles.statLabel}>Week streak</Text>
         </SectionCard>
       </View>
 
-      {category.pb && (
+      {personalBestValue && (
         <View style={styles.pbRow}>
           <Text style={styles.pbLabel}>{category.pbLabel ?? 'Personal best'}</Text>
-          <Text style={styles.pbValue}>{category.pb}</Text>
+          <Text style={styles.pbValue}>{personalBestValue}</Text>
         </View>
       )}
 
       <Text style={styles.sectionLabel}>Choose a workout</Text>
 
-      <View style={styles.workoutList}>
+      <ScrollView
+        style={styles.workoutList}
+        contentContainerStyle={styles.workoutListContent}
+        showsVerticalScrollIndicator={false}
+      >
         {category.workouts.map((workout) => (
           <Link key={workout.href} href={workout.href} asChild>
             <Pressable style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}>
-              <View>
+              <View style={styles.rowContent}>
                 <Text style={styles.rowName}>{workout.label}</Text>
                 <Text style={styles.rowMeta}>{workout.meta}</Text>
               </View>
-              <Text style={styles.rowArrow}>›</Text>
             </Pressable>
           </Link>
         ))}
-      </View>
+      </ScrollView>
     </AppShell>
   )
 }
@@ -60,7 +84,7 @@ export default Sheet
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    paddingBottom: 24,
   },
   handleWrap: {
     alignItems: 'center',
@@ -146,32 +170,37 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ceb1a8',
     overflow: 'hidden',
+    maxHeight: 340,
+  },
+  workoutListContent: {
+    paddingVertical: 2,
   },
   row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    justifyContent: 'center',
     paddingVertical: 14,
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
     borderBottomWidth: 1,
     borderBottomColor: '#ead8d2',
   },
   rowPressed: {
     backgroundColor: '#f1ded8',
   },
+  rowContent: {
+    width: '100%',
+    alignItems: 'center',
+  },
   rowName: {
     fontSize: 15,
     color: '#5c3238',
     fontWeight: '700',
     marginBottom: 3,
+    textAlign: 'center',
   },
   rowMeta: {
     fontSize: 12,
     color: '#7b625d',
-  },
-  rowArrow: {
-    fontSize: 20,
-    color: '#8f6b64',
+    textAlign: 'center',
   },
 })
 

@@ -6,6 +6,11 @@ const UpperbodyC = () => {
     <PlaceholderScreen
       title="Upper Body Calisthenics"
       subtitle="A bodyweight training route for pushing, pulling, and skill progressions."
+      activityConfig={{
+        categoryId: 'calisthenics',
+        workoutName: 'Upper body',
+        buttonLabel: 'Start Upper Body Session',
+      }}
       highlights={[
         'Support push-up, dip, pull-up, and press progressions in one place.',
         'Leave room for bodyweight-based reps, holds, and progression notes.',

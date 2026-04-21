@@ -6,6 +6,11 @@ const LowerbodyW = () => {
     <PlaceholderScreen
       title="Lower Body Weights"
       subtitle="A strength screen for leg-focused lifting sessions and progress logs."
+      activityConfig={{
+        categoryId: 'weights',
+        workoutName: 'Lower body',
+        buttonLabel: 'Start Lower Body Session',
+      }}
       highlights={[
         'Track squat, hinge, and accessory work in a layout that matches the rest of the app.',
         'Keep a place for sets, reps, and personal bests once the workout flow is connected.',

@@ -8,13 +8,11 @@ const CATEGORIES = [
   {
     id: 'weights',
     name: 'Weights',
-    icon: '🏋️',
     count: '3 workout types',
-    iconBg: '#f7d9cb',
     lastSession: 'Upper body · Today',
     sessions: 18,
     streak: 3,
-    pb: `Incremented exerciseAmount for personalbests.bench`,
+    pb: `What is your personal best?`,
     workouts: [
       { label: 'Upper body', meta: 'Bench press, OHP, Triceps…', href: '/dashboard/workout/weightlifting/upperbodyW' },
       { label: 'Lower body', meta: 'Squats, Deadlift, Lunges…', href: '/dashboard/workout/weightlifting/lowerbodyW' },
@@ -24,9 +22,7 @@ const CATEGORIES = [
   {
     id: 'cardio',
     name: 'Cardio',
-    icon: '🏃',
     count: '3 workout types',
-    iconBg: '#f4b183',
     lastSession: 'Running · 3 days ago',
     sessions: 24,
     streak: 6,
@@ -41,9 +37,7 @@ const CATEGORIES = [
   {
     id: 'calisthenics',
     name: 'Calisthenics',
-    icon: '🤸',
     count: '4 workout types',
-    iconBg: '#eed7c0',
     lastSession: 'Core · Yesterday',
     sessions: 31,
     streak: 12,
@@ -59,9 +53,7 @@ const CATEGORIES = [
   {
     id: 'create',
     name: 'Create',
-    icon: '➕',
     count: 'Build your own',
-    iconBg: '#e8d5cf',
     href: '/dashboard/workout/createWorkout',
   },
 ]
@@ -87,7 +79,7 @@ const Workout = () => {
   return (
     <AppShell
       title="Workout"
-      subtitle={`Choose a training lane for ${today}. Each card follows the same warm, camp-inspired look as your kitchen tools.`}
+      subtitle={`Choose a workout for ${today}. Don't forget to log your personal best!`}
     >
       <SectionCard style={styles.summaryCard}>
         <Text style={styles.summaryTitle}>Training categories</Text>
@@ -103,9 +95,6 @@ const Workout = () => {
             style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
             onPress={() => handleCardPress(cat)}
           >
-            <View style={[styles.iconWrap, { backgroundColor: cat.iconBg }]}>
-              <Text style={styles.iconText}>{cat.icon}</Text>
-            </View>
             <Text style={styles.cardName}>{cat.name}</Text>
             <Text style={styles.cardCount}>{cat.count}</Text>
           </Pressable>
@@ -148,17 +137,6 @@ const styles = StyleSheet.create({
   cardPressed: {
     backgroundColor: '#f2dfd9',
     borderColor: '#bd9b93',
-  },
-  iconWrap: {
-    width: 44,
-    height: 44,
-    borderRadius: 14,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 10,
-  },
-  iconText: {
-    fontSize: 18,
   },
   cardName: {
     fontSize: 15,

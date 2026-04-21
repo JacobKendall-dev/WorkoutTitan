@@ -4,7 +4,7 @@ import PlaceholderScreen from '../../../components/PlaceholderScreen'
 const Leaderboard = () => {
   return (
     <PlaceholderScreen
-      title="Leaderboard"
+      title="Challenges"
       subtitle="A shared space for rankings, streaks, and challenge momentum."
       highlights={[
         'Show top performers across workouts, consistency, and challenge completions.',

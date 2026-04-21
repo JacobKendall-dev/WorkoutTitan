@@ -6,6 +6,11 @@ const LowerbodyC = () => {
     <PlaceholderScreen
       title="Lower Body Calisthenics"
       subtitle="A route for bodyweight leg work, mobility, and explosive lower-body training."
+      activityConfig={{
+        categoryId: 'calisthenics',
+        workoutName: 'Lower body',
+        buttonLabel: 'Start Lower Body Session',
+      }}
       highlights={[
         'Track single-leg strength, jumps, and endurance work without leaving the shared app style.',
         'Reserve space for progression notes and rep targets.',

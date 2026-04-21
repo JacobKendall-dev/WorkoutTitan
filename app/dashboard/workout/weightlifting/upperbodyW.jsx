@@ -42,7 +42,7 @@ const UpperbodyW = () => {
   const [sets, setSets] = useState(createBlankSets)
   const [personalBest, setPersonalBest] = useState('')
 
-  const { logExercise, exercises } = useWorkouts()
+  const { logExercise, exercises, logWorkoutActivity } = useWorkouts()
 
   const minutes = Math.floor(remaining / 60)
   const seconds = Math.floor(remaining % 60)
@@ -79,6 +79,10 @@ const UpperbodyW = () => {
     setPersonalBest('')
     setDuration(60)
     setRemaining(60)
+
+    logWorkoutActivity('weights', 'Upper body', item.name).catch((error) => {
+      console.log('Unable to log workout activity:', error)
+    })
   }
 
   const handleDuration = (item) => {

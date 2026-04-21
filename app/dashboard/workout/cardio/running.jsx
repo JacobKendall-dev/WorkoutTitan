@@ -4,6 +4,7 @@ import * as Location from 'expo-location'
 import AppShell from '../../../../components/AppShell'
 import SectionCard from '../../../../components/SectionCard'
 import { getDistance } from '../../../../components/GetDistance'
+import { useWorkouts } from '../../../../hooks/useWorkouts'
 
 const DISTANCE_GOALS = [
   { label: '10 m tester', value: 10 },
@@ -43,6 +44,7 @@ const Running = () => {
   const monitorRef = useRef(null)
   const totalDistanceRef = useRef(0)
   const timerIdRef = useRef(null)
+  const { logWorkoutActivity } = useWorkouts()
 
   const stopActiveRun = () => {
     monitorRef.current?.remove()
@@ -80,6 +82,9 @@ const Running = () => {
     }
 
     startTime.current = Date.now()
+    logWorkoutActivity('cardio', 'Running', label).catch((error) => {
+      console.log('Unable to log workout activity:', error)
+    })
 
     const endRun = () => {
       stopActiveRun()

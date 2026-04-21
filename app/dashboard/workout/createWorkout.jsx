@@ -6,6 +6,11 @@ const CreateWorkout = () => {
     <PlaceholderScreen
       title="Create Workout"
       subtitle="A custom-builder space for routines you want to design from scratch."
+      activityConfig={{
+        categoryId: 'create',
+        workoutName: 'Custom workout',
+        buttonLabel: 'Start Custom Session',
+      }}
       highlights={[
         'Assemble your own exercise list and organize the flow of a session.',
         'Set targets like reps, time, rest, and personal benchmark notes.',

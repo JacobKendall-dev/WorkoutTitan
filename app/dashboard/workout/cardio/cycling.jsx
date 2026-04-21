@@ -6,6 +6,11 @@ const Cycling = () => {
     <PlaceholderScreen
       title="Cycling"
       subtitle="A cardio route for rides, intervals, and endurance sessions."
+      activityConfig={{
+        categoryId: 'cardio',
+        workoutName: 'Cycling',
+        buttonLabel: 'Start Cycling Session',
+      }}
       highlights={[
         'Track ride goals, timed efforts, and future route summaries.',
         'Extend the same visual tone from kitchen tracking into cardio logging.',

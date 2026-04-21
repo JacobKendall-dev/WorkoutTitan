@@ -1,11 +1,23 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 import React from 'react'
+import { useRouter } from 'expo-router'
 import AppShell from '../../../components/AppShell'
 import SectionCard from '../../../components/SectionCard'
 import { useUser } from '../../../hooks/useUser'
 
 const Profile = () => {
   const { logout, user, authChecked } = useUser()
+  const router = useRouter()
+  const creationDate = user?.metadata?.creationTime ? new Date(user.metadata.creationTime) : null
+  const hasValidCreationDate = creationDate && !Number.isNaN(creationDate.getTime())
+  const adventuringDays = hasValidCreationDate
+    ? Math.max(1, Math.floor((Date.now() - creationDate.getTime()) / (1000 * 60 * 60 * 24)))
+    : null
+
+  const handleLogout = async () => {
+    await logout()
+    router.replace('/')
+  }
 
   return (
     <AppShell
@@ -18,13 +30,19 @@ const Profile = () => {
           {authChecked ? (user?.email ?? 'No account is signed in.') : 'Checking your session...'}
         </Text>
         <Text style={styles.helperText}>
-          Your recipes, meal plans, and logged workouts follow the signed-in Firebase account.
+          {authChecked
+            ? user
+              ? adventuringDays
+                ? `You have been adventuring for ${adventuringDays} day${adventuringDays === 1 ? '' : 's'}.`
+                : 'We could not determine how long you have been adventuring yet.'
+              : 'Sign in to see how many days you have been adventuring.'
+            : 'Checking how long you have been adventuring...'}
         </Text>
       </SectionCard>
 
       <SectionCard style={styles.secondaryCard}>
         <Text style={styles.secondaryTitle}>Session controls</Text>
-        <Pressable style={styles.logoutButton} onPress={logout}>
+        <Pressable style={styles.logoutButton} onPress={handleLogout}>
           <Text style={styles.logoutButtonText}>Logout of Current Session</Text>
         </Pressable>
       </SectionCard>

@@ -6,6 +6,11 @@ const BackW = () => {
     <PlaceholderScreen
       title="Back With Weights"
       subtitle="A dedicated screen for pulls, rows, and back-focused lifting sessions."
+      activityConfig={{
+        categoryId: 'weights',
+        workoutName: 'Back',
+        buttonLabel: 'Start Back Session',
+      }}
       highlights={[
         'Support lat, row, and pull variation tracking with set-by-set logging.',
         'Show recent back-day personal bests in the same soft-card layout used across the app.',
