@@ -91,7 +91,6 @@ export function useWorkouts(){
 
       return unsubscribe
     }
-  }
 
     useEffect(() => {
       if (!userId) return
