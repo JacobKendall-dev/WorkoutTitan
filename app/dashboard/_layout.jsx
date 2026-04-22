@@ -1,10 +1,11 @@
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import { useEffect, useState, useRef } from 'react';
 import { onChallengeEvent } from '../../utils/challengeEvents';
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 
 export default function DashboardLayout() {
 const [toast, setToast] = useState(null);
+  const router = useRouter()
 
   const queueRef = useRef([]);
 
@@ -40,7 +41,33 @@ const [toast, setToast] = useState(null);
 
 return (
   <View style={{ flex: 1 }}>
-    <Stack screenOptions={{ headerShown: true }} />
+    <Stack
+      screenOptions={{
+        headerShown: true,
+        title: "",
+        headerBackTitleVisible: false,
+        headerShadowVisible: false,
+        headerStyle: { backgroundColor: "#ffeace" },
+        headerTintColor: "#723a45",
+        headerTitleStyle: { fontFamily: "Kaitlynhw" },
+        headerBackTitleStyle: { fontFamily: "Kaitlynhw" },
+        headerLeft: () => (
+          <Pressable onPress={() => router.back()} style={{ paddingHorizontal: 8, paddingVertical: 6 }}>
+            <Text style={{ color: "#723a45", fontSize: 16, fontWeight: "700" }}>
+              {"Return"}
+            </Text>
+          </Pressable>
+        ),
+      }}
+    >
+      <Stack.Screen
+        name="index"
+        options={{
+          headerLeft: () => null,
+          gestureEnabled: false,
+        }}
+      />
+    </Stack>
 
     {toast && (
       <View pointerEvents="none" style={styles.toast}>

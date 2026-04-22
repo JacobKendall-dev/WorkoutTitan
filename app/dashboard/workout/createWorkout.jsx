@@ -13,6 +13,8 @@ import {
   View,
 } from 'react-native'
 import AppShell from '../../../components/AppShell'
+import SectionCard from '../../../components/SectionCard'
+import { appTheme } from '../../../constants/appTheme'
 
 const STORAGE_KEY = 'custom-workout-library'
 
@@ -273,9 +275,155 @@ const CreateWorkout = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>In Progress</Text>
-    </View>
+    <AppShell
+      title="Create Workout"
+      subtitle="Create and save your own workouts"
+    >
+      <Pressable
+        style={({ pressed }) => [
+          styles.addButton,
+          styles.addButtonFullWidth,
+          pressed && styles.addButtonPressed,
+        ]}
+        onPress={openCreateModal}
+      >
+        <Text style={styles.addButtonText}>Create Custom Workout</Text>
+      </Pressable>
+
+      <View style={styles.listSection}>
+        <Text style={styles.sectionLabel}>Saved workouts</Text>
+        <SectionCard style={styles.listCard}>
+          {isLoading ? (
+            <View style={styles.emptyState}>
+              <Text style={styles.emptyTitle}>Loading your library...</Text>
+              <Text style={styles.emptyBody}>We are gathering your custom workouts now.</Text>
+            </View>
+          ) : sortedWorkouts.length ? (
+            <View style={styles.listContent}>
+              {sortedWorkouts.map((workout) => {
+                const detailItems = buildWorkoutDetails(workout)
+
+                return (
+                  <View key={workout.id} style={styles.workoutCard}>
+                    <View style={styles.workoutHeader}>
+                      <Text style={styles.workoutTitle}>{workout.title}</Text>
+                      <View
+                        style={[
+                          styles.categoryPill,
+                          { backgroundColor: getCategoryAccent(workout.category) },
+                        ]}
+                      >
+                        <Text style={styles.categoryPillText}>{formatCategory(workout.category)}</Text>
+                      </View>
+                    </View>
+
+                    {detailItems.length ? (
+                      detailItems.map((detail) => (
+                        <Text key={`${workout.id}-${detail}`} style={styles.workoutMeta}>
+                          {detail}
+                        </Text>
+                      ))
+                    ) : (
+                      <Text style={styles.workoutMetaMuted}>No extra metrics saved yet.</Text>
+                    )}
+
+                    {workout.description ? (
+                      <Text style={styles.workoutDescription}>{workout.description}</Text>
+                    ) : null}
+                  </View>
+                )
+              })}
+            </View>
+          ) : (
+            <View style={styles.emptyState}>
+              <Text style={styles.emptyTitle}>No custom workouts yet</Text>
+              <Text style={styles.emptyBody}>
+                Start building your own workouts here and they will show up in this styled library.
+              </Text>
+            </View>
+          )}
+        </SectionCard>
+      </View>
+
+      <Modal
+        animationType="slide"
+        transparent
+        visible={isModalVisible}
+        onRequestClose={closeCreateModal}
+      >
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          style={styles.modalRoot}
+        >
+          <Pressable style={styles.modalBackdrop} onPress={closeCreateModal}>
+            <View style={styles.modalCard}>
+              <ScrollView contentContainerStyle={styles.modalContent} showsVerticalScrollIndicator={false}>
+                <Text style={styles.modalTitle}>New Custom Workout</Text>
+                <Text style={styles.modalSubtitle}>
+                  Set up the basics first, then add the workout-specific details below.
+                </Text>
+
+                <LabeledInput
+                  label="Workout Name"
+                  value={draftWorkout.title}
+                  onChangeText={(value) => updateDraftField('title', value)}
+                  placeholder="My custom workout"
+                />
+
+                <Text style={styles.inputLabel}>Category</Text>
+                <View style={styles.categoryRow}>
+                  {CATEGORY_OPTIONS.map((option) => {
+                    const isSelected = draftWorkout.category === option.id
+
+                    return (
+                      <Pressable
+                        key={option.id}
+                        style={[styles.categoryOption, isSelected && styles.categoryOptionSelected]}
+                        onPress={() => handleCategoryChange(option.id)}
+                      >
+                        <Text
+                          style={[
+                            styles.categoryOptionText,
+                            isSelected && styles.categoryOptionTextSelected,
+                          ]}
+                        >
+                          {option.label}
+                        </Text>
+                      </Pressable>
+                    )
+                  })}
+                </View>
+
+                {renderCategoryFields()}
+
+                <LabeledInput
+                  label="Description"
+                  value={draftWorkout.description}
+                  onChangeText={(value) => updateDraftField('description', value)}
+                  placeholder="Add a note or description"
+                  multiline
+                />
+
+                <View style={styles.modalButtonRow}>
+                  <Pressable
+                    style={({ pressed }) => [styles.secondaryButton, pressed && styles.secondaryButtonPressed]}
+                    onPress={closeCreateModal}
+                  >
+                    <Text style={styles.secondaryButtonText}>Cancel</Text>
+                  </Pressable>
+                  <Pressable
+                    style={({ pressed }) => [styles.primaryButton, pressed && styles.primaryButtonPressed]}
+                    onPress={handleSaveWorkout}
+                  >
+                    <Text style={styles.primaryButtonText}>Save Workout</Text>
+                  </Pressable>
+                </View>
+              </ScrollView>
+            </View>
+          </Pressable>
+        </KeyboardAvoidingView>
+      </Modal>
+    </AppShell>
   )
 }
 
@@ -299,6 +447,9 @@ const LabeledInput = ({
 export default CreateWorkout
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   addButton: {
     backgroundColor: '#723a45',
     borderRadius: 18,
@@ -330,7 +481,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   listCard: {
-    maxHeight: 440,
     backgroundColor: 'rgba(247, 234, 228, 0.96)',
     borderRadius: 24,
     borderWidth: 1,
@@ -420,6 +570,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff5ef',
     borderTopLeftRadius: 28,
     borderTopRightRadius: 28,
+    borderWidth: 1,
+    borderColor: appTheme.colors.borderSoft,
   },
   modalContent: {
     padding: 20,

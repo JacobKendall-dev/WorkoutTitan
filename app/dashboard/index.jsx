@@ -9,7 +9,7 @@ import { useUser } from '../../hooks/useUser'
 const ACTIVE_DESTINATIONS = [
   { label: 'Kitchen', href: '/dashboard/kitchen', detail: 'Recipes, meal plans, and calorie tracking.' },
   { label: 'Workout', href: '/dashboard/workout', detail: 'Training categories, exercise logs, and timers.' },
-  { label: 'Challenges', href: '/dashboard/leaderboard', detail: 'Complete chellenges and earn unlocks.' },
+  { label: 'Challenges', href: '/dashboard/workout/challenges', detail: 'Complete chellenges and earn unlocks.' },
   { label: 'Profile', href: '/dashboard/profile', detail: 'Account details and sign-out controls.' },
 ]
 

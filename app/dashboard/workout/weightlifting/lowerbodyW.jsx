@@ -1,22 +1,31 @@
 import React from 'react'
-import PlaceholderScreen from '../../../../components/PlaceholderScreen'
+import WorkoutLoggerScreen from '../../../../components/WorkoutLoggerScreen'
+
+const WORKOUTS = [
+  { id: '1', name: 'Squats', muscle: 'Quads', fieldType: 'weightReps' },
+  { id: '2', name: 'Leg Press', muscle: 'Quads', fieldType: 'weightReps' },
+  { id: '3', name: 'Leg Curls', muscle: 'Hamstrings', fieldType: 'weightReps' },
+  { id: '4', name: 'Deadlift', muscle: 'Posterior Chain', fieldType: 'weightReps' },
+  { id: '5', name: 'Leg Abductor', muscle: 'Glutes', fieldType: 'weightReps' },
+  { id: '6', name: 'Leg Adductor', muscle: 'Inner Thighs', fieldType: 'weightReps' },
+  { id: '7', name: 'Calf Raises', muscle: 'Calves', fieldType: 'weightReps' },
+  { id: '8', name: 'Romanian Deadlift', muscle: 'Hamstrings', fieldType: 'weightReps' },
+]
+
+const PRESETS = [
+  { label: '30s', seconds: 30 },
+  { label: '1m', seconds: 60 },
+  { label: '2m', seconds: 120 },
+]
 
 const LowerbodyW = () => {
   return (
-    <PlaceholderScreen
+    <WorkoutLoggerScreen
       title="Lower Body Weights"
-      subtitle="A strength screen for leg-focused lifting sessions and progress logs."
-      activityConfig={{
-        categoryId: 'weights',
-        workoutName: 'Lower body',
-        buttonLabel: 'Start Lower Body Session',
-      }}
-      highlights={[
-        'Track squat, hinge, and accessory work in a layout that matches the rest of the app.',
-        'Keep a place for sets, reps, and personal bests once the workout flow is connected.',
-        'Use the same warm visual identity already established in the kitchen screens.',
-      ]}
-      note="This route is styled and ready, but the workout logging workflow has not been built yet."
+      subtitle="Choose a workout and set your own reps and weight"
+      workouts={WORKOUTS}
+      presets={PRESETS}
+      emptyDescription="Select a workout by pressing on the exercise below"
     />
   )
 }

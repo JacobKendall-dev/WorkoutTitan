@@ -1,14 +1,17 @@
-import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { StyleSheet, Text, View, Pressable } from 'react-native'
 import { Link, useRouter } from 'expo-router'
-import React, { useState } from 'react'
+import React from 'react'
+import AppShell from '../../../components/AppShell'
+import SectionCard from '../../../components/SectionCard'
+import { appTheme } from '../../../constants/appTheme'
 
 const CATEGORIES = [
   {
     id: 'weights',
     name: 'Weights',
     icon: '🏋️',
-    iconBg: '#F3E7FE',
+    iconBg: '#f4ddd6',
+    description: 'Upper and lower body strength sessions, timers, and progress logging.',
     workouts: [
       { label: 'Upper body', href: '/dashboard/workout/weightlifting/upperbodyW' },
       { label: 'Lower body', href: '/dashboard/workout/weightlifting/lowerbodyW' },
@@ -18,17 +21,20 @@ const CATEGORIES = [
     id: 'cardio',
     name: 'Cardio',
     icon: '🏃',
-    iconBg: '#FEF3E7',
+    iconBg: '#f8e4d2',
+    description: 'Distance, timed sessions, and route-based training screens.',
     workouts: [
       { label: 'Running', href: '/dashboard/workout/cardio/running' },
       { label: 'Cycling', href: '/dashboard/workout/cardio/cycling' },
+      { label: 'Swimming', href: '/dashboard/workout/cardio/swimming' },
     ],
   },
   {
     id: 'calisthenics',
     name: 'Calisthenics',
     icon: '🤸',
-    iconBg: '#E7F3FE',
+    iconBg: '#efdde4',
+    description: 'Bodyweight-focused logging for upper, lower, and core work.',
     workouts: [
       { label: 'Upper body', href: '/dashboard/workout/calisthenics/upperbodyC' },
       { label: 'Lower body', href: '/dashboard/workout/calisthenics/lowerbodyC' },
@@ -39,23 +45,14 @@ const CATEGORIES = [
     id: 'create',
     name: 'Create',
     icon: '➕',
-    iconBg: '#E7FEF0',
-    workouts: [],
-    href: '/dashboard/workout/createWorkout',
+    iconBg: '#f4d5bf',
+    description: 'Build your own workout entries and keep them in one place.',
+    workouts: [{ label: 'Create custom workout', href: '/dashboard/workout/createWorkout' }],
   },
 ]
 
 const Workout = () => {
   const router = useRouter()
-  const [activeTab, setActiveTab] = useState(null)
-
-  const handleSelect = (cat) => {
-    if (cat.id === 'create') {
-      router.push(cat.href)
-      return
-    }
-    setActiveTab(prev => prev?.id === cat.id ? null : cat)
-  }
 
   const today = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
@@ -64,169 +61,172 @@ const Workout = () => {
   })
 
   return (
-    <SafeAreaView style={styles.safe}>
-      <ScrollView contentContainerStyle={styles.container}>
-
-        {/* HEADER */}
-        <View style={styles.headerRow}>
-          <Pressable onPress={() => router.back()} style={styles.backBtn}>
-            <Text style={styles.backText}>← Back</Text>
-          </Pressable>
-        </View>
-
-        <Text style={styles.title}>Workout</Text>
-        <Text style={styles.subtitle}>{today}</Text>
-
-        {/* TABS */}
-        <View style={styles.tabs}>
-          {CATEGORIES.map(cat => (
-            <Pressable
-              key={cat.id}
-              onPress={() => handleSelect(cat)}
-              style={[
-                styles.tab,
-                activeTab?.id === cat.id && styles.tabActive
-              ]}
-            >
-              <View style={[styles.iconWrap, { backgroundColor: cat.iconBg }]}>
-                <Text style={styles.iconText}>{cat.icon}</Text>
-              </View>
-              <Text style={styles.tabText}>{cat.name}</Text>
+    <AppShell
+      title="Workout"
+      subtitle={`Choose a workout from one of our present, or create your own custom workout. `}
+    >
+      <SectionCard style={styles.heroCard}>
+        <Text style={styles.heroLabel}>Workout hub</Text>
+        <Text style={styles.heroBody}>
+          Checkout the challenges or schedule upcoming workouts
+        </Text>
+        <View style={styles.heroActions}>
+          <Link href="/dashboard/workout/challenges" asChild>
+            <Pressable style={styles.primaryAction}>
+              <Text style={styles.primaryActionText}>Challenges</Text>
             </Pressable>
-          ))}
+          </Link>
+          <Link href="/dashboard/workout/calendar" asChild>
+            <Pressable style={styles.secondaryAction}>
+              <Text style={styles.secondaryActionText}>Calendar</Text>
+            </Pressable>
+          </Link>
         </View>
+      </SectionCard>
 
-        <Link href="/dashboard/workout/challenges" style={styles.challengeBtn}>
-          <Text style={styles.challengeText}>Challenges</Text>
-        </Link>
+      <View style={styles.categoryStack}>
+        {CATEGORIES.map((category) => (
+          <SectionCard key={category.id} style={styles.categoryCard}>
+            <View style={styles.categoryHeader}>
+              {category.id === 'create' ? (
+                <View style={[styles.iconWrap, { backgroundColor: category.iconBg }]}>
+                  <Text style={styles.iconText}>{category.icon}</Text>
+                </View>
+              ) : null}
+              <View style={styles.categoryCopy}>
+                <Text style={styles.categoryTitle}>{category.name}</Text>
+                <Text style={styles.categoryDescription}>{category.description}</Text>
+              </View>
+            </View>
 
-        {/* EXPANDED PANEL */}
-        {activeTab && (
-          <View style={styles.panel}>
-            <Text style={styles.panelTitle}>{activeTab.name}</Text>
-
-            {activeTab.workouts.map((w, i) => (
-              <Pressable
-                key={i}
-                style={styles.linkBox}
-                onPress={() => router.push(w.href)}
-              >
-                <Text style={styles.linkText}>{w.label}</Text>
-              </Pressable>
-            ))}
-          </View>
-        )}
-
-      </ScrollView>
-    </SafeAreaView>
+            <View style={styles.linkStack}>
+              {category.workouts.map((workout) => (
+                <Pressable
+                  key={workout.href}
+                  style={styles.linkCard}
+                  onPress={() => router.push(workout.href)}
+                >
+                  <Text style={styles.linkTitle}>{workout.label}</Text>
+                  <Text style={styles.linkDetail}>Open this workout page</Text>
+                </Pressable>
+              ))}
+            </View>
+          </SectionCard>
+        ))}
+      </View>
+    </AppShell>
   )
 }
 
 export default Workout
 
 const styles = StyleSheet.create({
-  summaryCard: {
-    marginBottom: 18,
+  heroCard: {
+    marginBottom: 16,
   },
-  summaryTitle: {
-    color: '#fff7f2',
-    fontSize: 19,
+  heroLabel: {
+    color: '#f7d9c6',
+    fontSize: 12,
     fontWeight: '800',
+    letterSpacing: 0.8,
     marginBottom: 8,
+    textTransform: 'uppercase',
   },
-
-  headerRow: {
-    marginBottom: 10,
+  heroBody: {
+    color: '#f8ece7',
+    fontSize: 15,
+    lineHeight: 22,
+    marginBottom: 16,
   },
-  backBtn: {
-    paddingVertical: 6,
-  },
-  backText: {
-    fontSize: 14,
-    color: '#444',
-  },
-
-  title: {
-    fontSize: 28,
-    fontWeight: '700',
-    marginBottom: 4,
-  },
-  subtitle: {
-    fontSize: 13,
-    color: '#888',
-    marginBottom: 20,
-  },
-
-  tabs: {
+  heroActions: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 10,
+    gap: 12,
   },
-  tab: {
-    width: '47%',
-    backgroundColor: '#fff',
-    borderRadius: 14,
-    padding: 14,
+  primaryAction: {
+    alignItems: 'center',
+    backgroundColor: '#f4b183',
+    borderColor: '#ffd6be',
+    borderRadius: 18,
     borderWidth: 1,
-    borderColor: '#e5e5e5',
+    flex: 1,
+    justifyContent: 'center',
+    minHeight: 50,
   },
-  tabActive: {
-    borderColor: '#999',
-    backgroundColor: '#fafafa',
+  primaryActionText: {
+    color: '#4c271d',
+    fontSize: 15,
+    fontWeight: '800',
   },
-
+  secondaryAction: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(247, 234, 228, 0.16)',
+    borderColor: 'rgba(255,255,255,0.18)',
+    borderRadius: 18,
+    borderWidth: 1,
+    flex: 1,
+    justifyContent: 'center',
+    minHeight: 50,
+  },
+  secondaryActionText: {
+    color: '#fff7f2',
+    fontSize: 15,
+    fontWeight: '700',
+  },
+  categoryStack: {
+    gap: 16,
+  },
+  categoryCard: {
+    backgroundColor: appTheme.colors.cardSoft,
+    borderColor: appTheme.colors.borderSoft,
+  },
+  categoryHeader: {
+    flexDirection: 'row',
+    gap: 14,
+    marginBottom: 16,
+  },
   iconWrap: {
-    width: 38,
-    height: 38,
-    borderRadius: 10,
+    width: 52,
+    height: 52,
+    borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 10,
   },
   iconText: {
-    fontSize: 18,
+    fontSize: 24,
   },
-  tabText: {
+  categoryCopy: {
+    flex: 1,
+  },
+  categoryTitle: {
+    color: appTheme.colors.primaryDeep,
+    fontSize: 20,
+    fontWeight: '800',
+    marginBottom: 4,
+  },
+  categoryDescription: {
+    color: '#775a56',
     fontSize: 14,
-    fontWeight: '600',
+    lineHeight: 20,
   },
-
-  panel: {
-    marginTop: 20,
-    padding: 14,
-    backgroundColor: '#fff',
-    borderRadius: 14,
+  linkStack: {
+    gap: 10,
+  },
+  linkCard: {
+    backgroundColor: '#fff8f5',
+    borderColor: '#ead8d2',
+    borderRadius: 18,
     borderWidth: 1,
-    borderColor: '#e5e5e5',
+    padding: 16,
   },
-  panelTitle: {
+  linkTitle: {
+    color: appTheme.colors.primaryDeep,
     fontSize: 16,
-    fontWeight: '700',
-    marginBottom: 10,
+    fontWeight: '800',
+    marginBottom: 4,
   },
-
-  linkBox: {
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+  linkDetail: {
+    color: '#7b625d',
+    fontSize: 13,
   },
-  linkText: {
-    fontSize: 14,
-    color: '#333',
-  },
-challengeBtn: {
-  marginTop: 12,
-  paddingVertical: 10,
-  paddingHorizontal: 12,
-  backgroundColor: '#111',
-  borderRadius: 10,
-  alignSelf: 'flex-start',
-},
-
-challengeText: {
-  color: '#fff',
-  fontWeight: '600',
-  fontSize: 13,
-},
 })
 

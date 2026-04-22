@@ -1,8 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native'
 import { db, auth } from "../lib/firebaseConfig";
-import {collection, doc, onSnapshot, setDoc, updateDoc, increment, arrayUnion } from "firebase/firestore"
+import {collection, doc, onSnapshot, setDoc, updateDoc, increment, arrayUnion, addDoc, serverTimestamp } from "firebase/firestore"
 import React, { useEffect, useState } from 'react'
-import {images} from '../data/challenges.js'
 import {checkAllChallenges} from '../utils/challengeEngine.js'
 
 export function useWorkouts(){
@@ -60,6 +58,19 @@ export function useWorkouts(){
       }, { merge: true })
     }
 
+    async function logWorkoutActivity(categoryId, workoutName, goalLabel = '') {
+      if (!user) throw new Error("User not logged in")
+
+      const activityRef = collection(db, 'users', userId, 'workoutActivity')
+
+      await addDoc(activityRef, {
+        categoryId,
+        workoutName,
+        goalLabel,
+        loggedAt: serverTimestamp(),
+      })
+    }
+
     //read the exercises from (db, 'users', userId, 'exercises')
     const subscribeToExercises = () => {
       if (!userId) return
@@ -104,5 +115,5 @@ export function useWorkouts(){
       }
     }, [userId])
 
-    return {logExercise, exercises, ownedItems}
+    return {logExercise, logWorkoutActivity, exercises, ownedItems}
 }
