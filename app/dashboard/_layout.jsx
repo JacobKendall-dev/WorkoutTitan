@@ -11,6 +11,8 @@ export default function DashboardLayout() {
         headerTintColor: '#723a45',
         headerStyle: { backgroundColor: "#ffeace" },
         title: '',
+        headerTitleStyle: { fontFamily: "Kaitlynhw" },
+        headerBackTitleStyle: { fontFamily: "Kaitlynhw" },
 
       }}>
       

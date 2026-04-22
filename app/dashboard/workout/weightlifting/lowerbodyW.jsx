@@ -1,30 +1,24 @@
-import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import PlaceholderScreen from '../../../../components/PlaceholderScreen'
 
 const LowerbodyW = () => {
   return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Lowerbody Weights</Text>
-      </View>
-    )
-  }
-  
-  export default LowerbodyW
-  
-const styles = StyleSheet.create({
-    title: {
-        marginVertical: 40,
-        fontSize: 20,
-    },
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    link: {
-        marginVertical: 20,
-        fontSize: 20,
-        textDecorationLine: 'underline'
-    },
+    <PlaceholderScreen
+      title="Lower Body Weights"
+      subtitle="A strength screen for leg-focused lifting sessions and progress logs."
+      activityConfig={{
+        categoryId: 'weights',
+        workoutName: 'Lower body',
+        buttonLabel: 'Start Lower Body Session',
+      }}
+      highlights={[
+        'Track squat, hinge, and accessory work in a layout that matches the rest of the app.',
+        'Keep a place for sets, reps, and personal bests once the workout flow is connected.',
+        'Use the same warm visual identity already established in the kitchen screens.',
+      ]}
+      note="This route is styled and ready, but the workout logging workflow has not been built yet."
+    />
+  )
+}
 
-})
+export default LowerbodyW

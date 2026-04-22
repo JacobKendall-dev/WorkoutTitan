@@ -1,30 +1,24 @@
-import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import PlaceholderScreen from '../../../../components/PlaceholderScreen'
 
 const LowerbodyC = () => {
   return (
-        <View style={styles.container}>
-          <Text style={styles.title}>Lowerbody for Calisthenics</Text>
-        </View>
-      )
-    }
-    
-    export default LowerbodyC
-    
-const styles = StyleSheet.create({
-    title: {
-        marginVertical: 40,
-        fontSize: 20,
-    },
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    link: {
-        marginVertical: 20,
-        fontSize: 20,
-        textDecorationLine: 'underline'
-    },
+    <PlaceholderScreen
+      title="Lower Body Calisthenics"
+      subtitle="A route for bodyweight leg work, mobility, and explosive lower-body training."
+      activityConfig={{
+        categoryId: 'calisthenics',
+        workoutName: 'Lower body',
+        buttonLabel: 'Start Lower Body Session',
+      }}
+      highlights={[
+        'Track single-leg strength, jumps, and endurance work without leaving the shared app style.',
+        'Reserve space for progression notes and rep targets.',
+        'Match the warm palette and rounded-card treatment from the kitchen pages.',
+      ]}
+      note="This screen is styled now, but the actual lower body calisthenics program still needs to be connected."
+    />
+  )
+}
 
-})
+export default LowerbodyC

@@ -1,171 +1,92 @@
-import { StyleSheet, Text, View } from 'react-native'
-import SignButton from "../../../components/SignButton"; 
-import SafeView from '../../../components/SafeView';
-import ScreenBackground from '../../../components/ScreenBackground';
-import PlainButton from '../../../components/SolidColorButton';
-import Card from '../../../components/Card';
+import { StyleSheet, Text, View, Pressable } from 'react-native'
 import { Link } from 'expo-router'
 import React from 'react'
+import AppShell from '../../../components/AppShell'
+import SectionCard from '../../../components/SectionCard'
+import { CookingCampsiteCard } from '../../../components/AvatarCard'
 
 const Kitchen = () => {
   return (
-    //../../assets/images/iphone gif background.gif
-     <ScreenBackground
-        imageSource={require('../../../assets/images/Gradient2.png')}
-        overlay
-        overlayOpacity={0.3}
-        contentStyle={styles.screenContent}
-        resizeMode='cover'
-        
-        >
-     
-        <View style = {styles.titleBlock}>                        
-          <Text style={styles.title}>Campsite Cooking</Text>
-        </View>
-
-//---------------------------------------------------------------------------------------------
-
-        <View style={styles.topRow}>                       
+    <AppShell
+      title="Campsite Cooking"
+      subtitle="Move between your planner, tracker, and recipe book while keeping the same warm campfire feel."
+    >
+      <View style={styles.actionStack}>
+        <View style={styles.row}>
           <Link href="/dashboard/kitchen/currentmealplan" asChild>
-            <PlainButton title="Current Meal Plan" style={styles.sideButtonLeft}/>
+            <Pressable style={styles.actionButton}>
+              <Text style={styles.actionButtonText}>Current Meal Plan</Text>
+            </Pressable>
           </Link>
         </View>
-        <View style={styles.middleRow}>
+        <View style={styles.row}>
           <Link href="/dashboard/kitchen/tracker" asChild>
-            <PlainButton title="Tracker" style={styles.sideButtonRight}/>
+            <Pressable style={styles.actionButton}>
+              <Text style={styles.actionButtonText}>Tracker</Text>
+            </Pressable>
           </Link>
         </View>
 
-        <View style={styles.bottomRow}>                                      
+        <View style={styles.row}>
           <Link href="/dashboard/kitchen/recipes" asChild>
-            <PlainButton title="Recipes" style={styles.bottomButton}/>
+            <Pressable style={styles.actionButton}>
+              <Text style={styles.actionButtonText}>Recipes</Text>
+            </Pressable>
           </Link>
         </View>
-//---------------------------------------------------------------------------------------------
-        <Card>
-            <ScreenBackground
-              imageSource={require("../../../assets/images/CookingIdleCustom.gif")}
-              overlay={false}
-              resizeMode='contain'
-              
-              />
-        </Card>
-      
-    
-</ScreenBackground>
-        
+      </View>
 
-        
-  
+      <SectionCard style={styles.previewCard}>
+        <CookingCampsiteCard
+          style={styles.previewImage}
+          cardStyle={styles.previewAvatarCard}
+        />
+      </SectionCard>
+    </AppShell>
   )
 }
 
 export default Kitchen
 
-
-
 const styles = StyleSheet.create({
-    title: {
-        marginVertical: 20,
-        fontSize: 30,
-        fontWeight: "bold",
-        textShadowColor: '#524439',
-        textShadowOffset: { width: 2, height: 2 },
-        textShadowRadius: 4,
-        marginTop: 15,
-        marginBottom: 15,
-        color: "#f0e3e0",
-        paddingVertical: 5,
-        paddingHorizontal: 10,
-        borderRadius: 5,
-        overflow: "hidden",
-        alignItems: 'center'
-        
-
-    },
-    titleBlock: {
-      alignItems: 'center',
-      marginBottom: 5,
-    },
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        width: '100%',
-    },
-    link: {
-        marginVertical: 20,
-        fontSize: 20,
-        paddingVertical: 5,
-        paddingHorizontal: 10,
-        textDecorationLine: 'underline'
-    },
-    buttonSpacing: {
-        marginVertical: 10,
-    },
-    buttonBlock: {
-       alignItems: 'center',
-       marginBottom: 24,
-    },
-    image: {
-        width: '140%',
-        height: 100,
-        resizeMode: 'contain',
-        alignItems: 'center',
-},
-    card: {
-        width: '90%',
-        height: 250,
-        backgroundColor: '#fff',
-        borderRadius: 20,
-        marginTop: 350,
-        marginLeft: 20,
-        overflow: 'hidden',
-      },
-      screenContent: {
-         flex: 1,
-         alignItems: 'center',
-         justifyContent: 'flex-start',
-         paddingTop: 30,
-      },
-     buttonSection: {
-        alignItems: 'center',
-        marginBottom: 24,
-      },
-
-      topRow: {
-        marginTop: 12,
-        alignItems: 'center',
-      },
-
-      middleRow: {
-        marginTop: 12,
-        alignItems: 'center',
-      
-      },
-
-      bottomRow: {
-        marginTop: 12,
-        alignItems: 'center',
-        marginBottom: 50,
-      },
-
-      sideButtonLeft: {
-        width: 150,
-        height: 55,
-        marginLeft: 1,
-        alignItems: 'center',
-      },
-      sideButtonRight: {
-        width: 150,
-        height: 55,
-        marginLeft: 1,
-        alignItems: 'center',
-      },
-
-      bottomButton: {
-        width: 150,
-        height: 55,
-      },
-
+  actionStack: {
+    gap: 12,
+    marginBottom: 18,
+  },
+  row: {
+    alignItems: 'center',
+  },
+  actionButton: {
+    width: '100%',
+    minHeight: 54,
+    borderRadius: 20,
+    backgroundColor: '#723a45',
+    borderWidth: 1,
+    borderColor: '#b98d84',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  actionButtonText: {
+    color: '#f7e7e2',
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  previewCard: {
+    minHeight: 260,
+    backgroundColor: 'rgba(247, 234, 228, 0.94)',
+    borderColor: '#ceb1a8',
+    overflow: 'hidden',
+    padding: 0,
+  },
+  previewImage: {
+    width: '100%',
+    minHeight: 260,
+  },
+  previewAvatarCard: {
+    width: '100%',
+    height: 260,
+    borderRadius: 0,
+    backgroundColor: 'transparent',
+  },
 })
+

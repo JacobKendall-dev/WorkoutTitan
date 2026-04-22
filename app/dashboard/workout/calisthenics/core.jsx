@@ -1,30 +1,24 @@
-import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import PlaceholderScreen from '../../../../components/PlaceholderScreen'
 
 const Core = () => {
   return (
-        <View style={styles.container}>
-          <Text style={styles.title}>Core</Text>
-        </View>
-      )
-    }
-    
-    export default Core
-    
-const styles = StyleSheet.create({
-    title: {
-        marginVertical: 40,
-        fontSize: 20,
-    },
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    link: {
-        marginVertical: 20,
-        fontSize: 20,
-        textDecorationLine: 'underline'
-    },
+    <PlaceholderScreen
+      title="Core"
+      subtitle="A focused training screen for trunk strength, holds, and control work."
+      activityConfig={{
+        categoryId: 'calisthenics',
+        workoutName: 'Core',
+        buttonLabel: 'Start Core Session',
+      }}
+      highlights={[
+        'Track planks, hollow holds, leg raises, and advanced core progressions.',
+        'Show progress clearly in the same visual system used across the app.',
+        'Keep space for benchmark stats and movement notes once the feature is built.',
+      ]}
+      note="The styling pass is complete here, but the core workout flow is still a future step."
+    />
+  )
+}
 
-})
+export default Core
