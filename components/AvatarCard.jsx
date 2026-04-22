@@ -2,6 +2,14 @@ import React from 'react'
 import { Image, StyleSheet, View } from 'react-native'
 import { ASSETS } from '../constants/Customizables'
 
+const DEFAULT_CAMPSITE_PRESET = {
+  hatKey: null,
+  knightColorKey: 'gray',
+  tentPatternsKey: null,
+  tentAndLeavesKey: 'nonnon',
+  groundAndSkyKey: 'sn',
+}
+
 const getFirstAssetKey = (assetGroup) => Object.keys(assetGroup ?? {})[0]
 
 const resolveAsset = (assetGroup, assetKey) => {
@@ -11,8 +19,12 @@ const resolveAsset = (assetGroup, assetKey) => {
     return assetGroup
   }
 
+  if (assetKey === null) {
+    return null
+  }
+
   const fallbackKey = getFirstAssetKey(assetGroup)
-  const resolvedKey = assetKey ?? fallbackKey
+  const resolvedKey = assetKey === undefined ? fallbackKey : assetKey
 
   return assetGroup[resolvedKey] ?? assetGroup[fallbackKey] ?? null
 }
@@ -35,27 +47,27 @@ const buildCleaningCampsiteLayers = ({
   },
   {
     key: 'cleaningHat',
-    source: resolveAsset(ASSETS.cleaningHat, cleaningHatKey),
+    source: resolveAsset(ASSETS.cleaningHat, cleaningHatKey ?? DEFAULT_CAMPSITE_PRESET.hatKey),
     style: layerStyles?.cleaningHat,
   },
   {
     key: 'cleaningKnightColor',
-    source: resolveAsset(ASSETS.cleaningKnightColor, cleaningKnightColorKey),
+    source: resolveAsset(ASSETS.cleaningKnightColor, cleaningKnightColorKey ?? DEFAULT_CAMPSITE_PRESET.knightColorKey),
     style: layerStyles?.cleaningKnightColor,
   },
   {
     key: 'cleaningTentPatterns',
-    source: resolveAsset(ASSETS.cleaningTentPatterns, cleaningTentPatternsKey),
+    source: resolveAsset(ASSETS.cleaningTentPatterns, cleaningTentPatternsKey ?? DEFAULT_CAMPSITE_PRESET.tentPatternsKey),
     style: layerStyles?.cleaningTentPatterns,
   },
   {
     key: 'cleaningTentAndLeaves',
-    source: resolveAsset(ASSETS.cleaningTentAndLeaves, cleaningTentAndLeavesKey),
+    source: resolveAsset(ASSETS.cleaningTentAndLeaves, cleaningTentAndLeavesKey ?? DEFAULT_CAMPSITE_PRESET.tentAndLeavesKey),
     style: layerStyles?.cleaningTentAndLeaves,
   },
   {
     key: 'cleaningGroundAndSky',
-    source: resolveAsset(ASSETS.cleaningGroundAndSky, cleaningGroundAndSkyKey),
+    source: resolveAsset(ASSETS.cleaningGroundAndSky, cleaningGroundAndSkyKey ?? DEFAULT_CAMPSITE_PRESET.groundAndSkyKey),
     style: layerStyles?.cleaningGroundAndSky,
   },
 ])
@@ -70,27 +82,27 @@ const buildCookingCampsiteLayers = ({
 }) => normalizeLayers([
   {
     key: 'cookingHat',
-    source: resolveAsset(ASSETS.cookingHat, cookingHatKey),
+    source: resolveAsset(ASSETS.cookingHat, cookingHatKey ?? DEFAULT_CAMPSITE_PRESET.hatKey),
     style: layerStyles?.cookingHat,
   },
   {
     key: 'cookingKnightColor',
-    source: resolveAsset(ASSETS.cookingKnightColor, cookingKnightColorKey),
+    source: resolveAsset(ASSETS.cookingKnightColor, cookingKnightColorKey ?? DEFAULT_CAMPSITE_PRESET.knightColorKey),
     style: layerStyles?.cookingKnightColor,
   },
   {
     key: 'cookingTentPatterns',
-    source: resolveAsset(ASSETS.cookingTentPatterns, cookingTentPatternsKey),
+    source: resolveAsset(ASSETS.cookingTentPatterns, cookingTentPatternsKey ?? DEFAULT_CAMPSITE_PRESET.tentPatternsKey),
     style: layerStyles?.cookingTentPatterns,
   },
   {
     key: 'cookingTentAndLeaves',
-    source: resolveAsset(ASSETS.cookingTentAndLeaves, cookingTentAndLeavesKey),
+    source: resolveAsset(ASSETS.cookingTentAndLeaves, cookingTentAndLeavesKey ?? DEFAULT_CAMPSITE_PRESET.tentAndLeavesKey),
     style: layerStyles?.cookingTentAndLeaves,
   },
   {
     key: 'cookingGroundAndSky',
-    source: resolveAsset(ASSETS.cookingGroundAndSky, cookingGroundAndSkyKey),
+    source: resolveAsset(ASSETS.cookingGroundAndSky, cookingGroundAndSkyKey ?? DEFAULT_CAMPSITE_PRESET.groundAndSkyKey),
     style: layerStyles?.cookingGroundAndSky,
   },
 ])
@@ -230,4 +242,3 @@ const styles = StyleSheet.create({
     height: '100%',
   },
 })
-

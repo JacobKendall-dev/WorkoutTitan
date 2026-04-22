@@ -9,7 +9,7 @@ const Kitchen = () => {
   return (
     <AppShell
       title="Campsite Cooking"
-      subtitle="Move between your planner, tracker, and recipe book while keeping the same warm campfire feel."
+      subtitle="Move between your planner, tracker, and recipe book while your knight cooks up a meal."
     >
       <View style={styles.actionStack}>
         <View style={styles.row}>
