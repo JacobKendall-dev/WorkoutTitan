@@ -3,6 +3,7 @@ import React from 'react'
 import { Link } from 'expo-router'
 import AppShell from '../../components/AppShell'
 import SectionCard from '../../components/SectionCard'
+import { CleaningCampsiteCard } from '../../components/AvatarCard'
 import { useUser } from '../../hooks/useUser'
 
 const ACTIVE_DESTINATIONS = [
@@ -32,6 +33,13 @@ const Dashboard = () => {
             </Link>
           ))}
         </View>
+      </SectionCard>
+
+      <SectionCard style={styles.previewCard}>
+        <CleaningCampsiteCard
+          style={styles.previewImage}
+          cardStyle={styles.previewAvatarCard}
+        />
       </SectionCard>
     </AppShell>
   )
@@ -69,6 +77,23 @@ const styles = StyleSheet.create({
     color: '#775a56',
     fontSize: 14,
     lineHeight: 20,
+  },
+  previewCard: {
+    minHeight: 260,
+    backgroundColor: 'rgba(247, 234, 228, 0.94)',
+    borderColor: '#ceb1a8',
+    overflow: 'hidden',
+    padding: 0,
+  },
+  previewImage: {
+    width: '100%',
+    minHeight: 260,
+  },
+  previewAvatarCard: {
+    width: '100%',
+    height: 260,
+    borderRadius: 0,
+    backgroundColor: 'transparent',
   },
 })
 
