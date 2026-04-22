@@ -7,39 +7,18 @@ import DropdownMenu from '../../components/DropdownMenu'
 import TabbedMenu from '../../components/TabbedMenu'
 import {ArmorContext} from '../../contexts/ArmorContext'
 import {resolveAsset} from '../../utils/resolveAsset'
+import {UNLOCKS, Unlocks} from '../../constants/Unlocks'
 
 
 
 const columnConfig =[
-  ["title", "assetImage"],
-  ["title", "assetImage"]
+  ["title", "asset"],
+  ["title", "asset"]
 ]
 
-const ARMOR_DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'Bucket Hat',
-    key: 'buc',
-    assetImage: require('../../assets/images/hats/BucketHat.png'),
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Beanie',
-    key: 'bea',
-    assetImage: require('../../assets/images/hats/Beanie.png'),
-  }
-];
+const ARMOR_DATA = Object.values(UNLOCKS.armorUnlocks)
+const COLOR_DATA = Object.values(UNLOCKS.armorSwatches)
 
-
-
-const COLOR_DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'Blue',
-    key: 'b',
-    assetImage: require('../../assets/images/colors/BlueColor.png'),
-  },
-];
 
 
 
@@ -124,7 +103,6 @@ const Armoire = () => {
         style={styles.armorImage}
         resizeMode="contain"
       />
-      <Text style={styles.cardTitle}>{armor.name}</Text>
     </View>
 
       
@@ -148,8 +126,10 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject
   },
   title: {
-    marginVertical: 40,
     fontSize: 28,
+    marginTop: 10,
+    marginBottom: 12,
+    textAlign: "center"
   },
    list: {
     padding: 16,
@@ -159,7 +139,7 @@ const styles = StyleSheet.create({
   buttonOpen: {
     backgroundColor: '#2a2a2a',
     marginHorizontal: 20,
-    marginTop: 10,
+    marginTop: 5,
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 12,

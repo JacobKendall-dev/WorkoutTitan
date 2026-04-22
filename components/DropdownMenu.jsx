@@ -19,16 +19,9 @@ const DropdownMenu = ({
 
     return (
         <View style = {[styles.container, containerStyle]}>
-            <Pressable
-            style =  {({pressed}) => [styles.button, 
-                buttonStyle, 
-                pressed && styles.buttonPressed]}
-            onPress = {() => toggleMenu(menuName)}
-            >
                 <Text style = {[styles.text, textStyle]}>
                     {title}
                 </Text>
-            </Pressable>
 
             {isOpen && (
                 <View style = {[styles.menu, menuStyle]}>
@@ -60,9 +53,11 @@ const styles = StyleSheet.create({
         fontSize: 16
     },
     menu: {
-        backgroundColor: "",
+        backgroundColor: "#fff",
         padding: 12,
-        borderRadius: 8,
-        maxHeight: 250
-    }
+        borderRadius: 12,
+        maxHeight: 250,
+        overflow: "hidden",
+        alignSelf: "stretch",
+        }
 })

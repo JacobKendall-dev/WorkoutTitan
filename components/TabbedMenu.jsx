@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
     },
     dataTable: {
         marginTop: 4,
+        maxHeight: 180,   // 🔥 critical
     },
     dataRow: {
         paddingVertical: 12,
