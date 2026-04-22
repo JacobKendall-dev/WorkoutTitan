@@ -1,47 +1,68 @@
-import {createContext, useState} from 'react';
+import { createContext, useMemo, useState } from "react"
+import { ASSETS } from "../constants/Customizables"
 
-export const SceneContext = createContext();
+export const SceneryContext = createContext()
 
-export const SceneProvider = ({children}) => {
-    const [scene, setScene] = useState({
-        season: {
-            seasonName: null,
-            skyName: "Sunny",
-            skyAsset: "sn",
-        },
-        tent: {
-            tentPatternName: "Default",
-            tentPatternAsset: null,
-            tentColorName: "Default",
-            tentColor: "nonnon",
-        }
-    });
+const resolveSceneLayer = ({ map, key }) => {
+  if (!map) return null
 
-    const updateSeason = (updates) => {
-        setScene(prev => ({
-            ...prev,
-            season: {
-                ...prev.season,
-                ...updates
-            }
-        }))
-    }
+  if (!key) {
+    const fallbackKey = Object.keys(map)[0]
+    return map[fallbackKey] ?? null
+  }
 
-    const updateTent = (updates) => {
-        setScene(prev => ({
-            ...prev,
-            tent: {
-                ...prev.tent,
-                ...updates
-            }
-        }))
-    }
+  return map[key] ?? null
+}
 
-    return (
-        <SceneContext.Provider value = {{
-            updateSeason,
-            updateTent}}>
-            {children}
-        </SceneContext.Provider>
-    )
+export const SceneryProvider = ({ children }) => {
+  const [scenery, setScenery] = useState({
+    hatKey: "BaseballCap",
+    groundKey: "DefaultGround",
+    skyKey: "BlueSky",
+  })
+
+  const updateScenery = (updates) => {
+    setScenery((prev) => ({
+      ...prev,
+      ...updates,
+    }))
+  }
+
+  const layers = useMemo(() => {
+    return [
+      {
+        key: "sky",
+        source: resolveSceneLayer({
+          map: ASSETS.scenerySky,
+          key: scenery.skyKey,
+        }),
+      },
+      {
+        key: "ground",
+        source: resolveSceneLayer({
+          map: ASSETS.sceneryGround,
+          key: scenery.groundKey,
+        }),
+      },
+      {
+        key: "hat",
+        source: resolveSceneLayer({
+          map: ASSETS.armorUnlocks,
+          key: scenery.hatKey,
+        }),
+      },
+    ]
+  }, [scenery])
+
+  return (
+    <SceneryContext.Provider
+      value={{
+        scenery,
+        updateScenery,
+        layers,
+      }}
+    >
+      {children}
+    </SceneryContext.Provider>
+  )
 }
