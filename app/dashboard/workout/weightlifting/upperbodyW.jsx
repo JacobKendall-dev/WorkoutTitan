@@ -16,10 +16,13 @@ import AppShell from '../../../../components/AppShell'
 import { useWorkouts } from '../../../../hooks/useWorkouts'
 
 const WORKOUTS = [
-  { id: '1', name: 'Bench', sets: '4x8', muscle: 'Chest' },
-  { id: '2', name: 'Incline Bench', sets: '3x10', muscle: 'Upper Chest' },
-  { id: '3', name: 'Bicep Curls', sets: '3x12', muscle: 'Biceps' },
-  { id: '4', name: 'Dips', sets: '3x15', muscle: 'Lower Chest' },
+  {id: '1', name: 'Bench', muscle: 'Chest'},
+  {id: '2', name: 'Incline Bench', muscle: 'Upper Chest'},
+  {id: '3', name: 'Bicep Curls', muscle: 'Biceps'},
+  {id: '4', name: 'Shoulder Press', muscle: 'Shoulders'},
+  {id: '5', name: 'Lateral Raises', muscle: 'Lats'},
+  {id: '6', name: 'Cable Rows', muscle: 'Lats'},
+  {id: '7', name: 'Lap Pull-Downs', muscle: 'Lats'}
 ]
 
 const PRESETS = [
@@ -42,36 +45,24 @@ const UpperbodyW = () => {
   const [sets, setSets] = useState(createBlankSets)
   const [personalBest, setPersonalBest] = useState('')
 
-  const { logExercise, exercises, logWorkoutActivity } = useWorkouts()
+const { logExercise, exercises, addOwnedItem } = useWorkouts()
 
   const minutes = Math.floor(remaining / 60)
   const seconds = Math.floor(remaining % 60)
 
-  const stopTimer = () => {
-    clearInterval(intervalRef.current)
-    intervalRef.current = null
-    setRemaining(duration)
-  }
+const stopTimer = () => {
+  clearInterval(intervalRef.current)
+  intervalRef.current = null
+  setRemaining(duration)
+}
 
-  const startTimer = () => {
-    if (intervalRef.current) return
+const addSet = () => {
+  setSets([...sets, {weight: '', reps: ''}])
+}
 
-    intervalRef.current = setInterval(() => {
-      setRemaining((prev) => {
-        if (prev <= 1) {
-          clearInterval(intervalRef.current)
-          intervalRef.current = null
-          return 0
-        }
-
-        return prev - 1
-      })
-    }, 1000)
-  }
-
-  const addSet = () => {
-    setSets((currentSets) => [...currentSets, { weight: '', reps: '' }])
-  }
+const deleteSet = () => {
+  setSets(prev => prev.length <= 1 ? prev : prev.slice(0, -1))
+}
 
   const handleSelect = (item) => {
     setSelected(item)
@@ -91,11 +82,18 @@ const UpperbodyW = () => {
     setRemaining(item.seconds)
   }
 
-  const handleExit = async (selectedWorkout) => {
-    stopTimer()
-    setSelected(null)
-    await logExercise(selectedWorkout.name, selectedWorkout.muscle, sets, personalBest)
-  }
+const handleExit = (theSelected) =>{
+  clearInterval(intervalRef.current)
+  setRemaining(duration)
+  setSelected(null)
+}
+
+const handleLogAndExit = (theSelected) =>{
+  clearInterval(intervalRef.current)
+  setRemaining(duration)
+  setSelected(null)
+  logExercise(theSelected.name, theSelected.muscle, sets, personalBest)
+}
 
   const handleLog = async (selectedWorkout) => {
     await logExercise(selectedWorkout.name, selectedWorkout.muscle, sets, personalBest)
@@ -173,49 +171,29 @@ const UpperbodyW = () => {
                     <Text style={styles.tableHeaderText}>Reps</Text>
                   </View>
 
-                  {sets.map((set, index) => (
-                    <View key={`set-${index}`} style={styles.setRow}>
-                      <Text style={styles.setIndex}>{index + 1}</Text>
-                      <TextInput
-                        style={styles.input}
-                        onChangeText={(value) =>
-                          setSets((currentSets) =>
-                            currentSets.map((currentSet, currentIndex) =>
-                              currentIndex === index ? { ...currentSet, weight: value } : currentSet
-                            )
-                          )
-                        }
-                        value={set.weight}
-                        keyboardType="numeric"
-                        placeholder="lbs"
-                        placeholderTextColor="#998a85"
-                      />
-                      <TextInput
-                        style={styles.input}
-                        onChangeText={(value) =>
-                          setSets((currentSets) =>
-                            currentSets.map((currentSet, currentIndex) =>
-                              currentIndex === index ? { ...currentSet, reps: value } : currentSet
-                            )
-                          )
-                        }
-                        value={set.reps}
-                        keyboardType="numeric"
-                        placeholder="reps"
-                        placeholderTextColor="#998a85"
-                      />
-                    </View>
-                  ))}
-
-                  <Pressable onPress={addSet} style={styles.addSetButton}>
-                    <Text style={styles.addSetButtonText}>Add Set</Text>
-                  </Pressable>
-
-                  <View style={styles.timerCard}>
-                    <Text style={styles.timerLabel}>Rest timer</Text>
-                    <Text style={styles.timerValue}>
-                      {minutes}:{seconds.toString().padStart(2, '0')}
-                    </Text>
+      {sets.map((set, index) => (
+      <View key={index} style={styles.rowStyle}>
+        <Text>{index + 1}</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={(val) => setSets(sets.map((s, i) => i === index ? {...s, weight: val} : s))}
+          value={set.weight}
+          keyboardType="numeric"
+          placeholder="lbs"
+          />
+        <TextInput
+        style={styles.input}
+        onChangeText={(val) => setSets(sets.map((s, i) => i === index ? {...s, reps: val} : s))}
+        value={set.reps}
+        keyboardType="numeric"
+        placeholder="reps"
+        />
+      </View>
+      ))}
+      <View style={styles.rowStyle}>
+        <Pressable onPress={addSet}><Text>Add Set +</Text></Pressable>
+        <Pressable onPress={deleteSet}><Text>Remove Set -</Text></Pressable>
+      </View>
 
                     <Slider
                       style={styles.slider}
@@ -228,65 +206,68 @@ const UpperbodyW = () => {
                       disabled
                     />
 
-                    <Slider
-                      step={5}
-                      style={styles.slider}
-                      value={duration}
-                      minimumValue={0}
-                      maximumValue={300}
-                      minimumTrackTintColor="#723a45"
-                      maximumTrackTintColor="#d6b8b0"
-                      thumbTintColor="#723a45"
-                      disabled={intervalRef.current !== null}
-                      onValueChange={(value) => {
-                        setDuration(value)
-                        setRemaining(value)
-                      }}
-                    />
+        <Slider
+          step={5}
+          style={{width: '80%', height: 40, marginVertical: 20}}
+          value={duration}
+          minimumValue={0}
+          maximumValue={300}
+          minimumTrackTintColor="#21cc8d"
+          maximumTrackTintColor="#ddd"
+          thumbTintColor="#21cc8d"
+          disabled={intervalRef.current !== null}
+          onValueChange={(val) => {
+            setDuration(val)
+            setRemaining(val)
+          }}
+        />
+      
+      <View style={styles.rowStyle}>
+        {PRESETS.map((item) => ( 
+          <Pressable key={item.label} onPress={() => handleDuration(item)} style={styles.button}>
+            <Text>{item.label}</Text>
+          </Pressable>
+        ))}
+      
+      </View>
+      <Pressable onPress={startTimer} style={styles.button}>
+        <Text>Start Timer: {minutes}:{seconds.toString().padStart(2, '0')}</Text>
+      </Pressable>
+      <Pressable onPress={stopTimer} style={styles.button}>
+        <Text>Stop Timer</Text>
+      </Pressable>
+      
+        <Pressable onPress={() => handleExit(selected)}  style={styles.button}>
+          <Text>
+            Exit
+          </Text>
+        </Pressable>
 
-                    <View style={styles.presetRow}>
-                      {PRESETS.map((item) => (
-                        <Pressable key={item.label} onPress={() => handleDuration(item)} style={styles.presetButton}>
-                          <Text style={styles.presetButtonText}>{item.label}</Text>
-                        </Pressable>
-                      ))}
-                    </View>
+        <TextInput
+        style={styles.input}
+        onChangeText={setPersonalBest}
+        value={personalBest}
+        keyboardType="numeric"
+        />
 
-                    <View style={styles.timerButtonRow}>
-                      <Pressable onPress={startTimer} style={styles.primaryAction}>
-                        <Text style={styles.primaryActionText}>Start Timer</Text>
-                      </Pressable>
-                      <Pressable onPress={stopTimer} style={styles.secondaryAction}>
-                        <Text style={styles.secondaryActionText}>Reset Timer</Text>
-                      </Pressable>
-                    </View>
-                  </View>
+        <Pressable onPress={() => handleLog(selected)}  style={styles.button}>
+          <Text>
+            Logging
+          </Text>
+        </Pressable>
 
-                  <Text style={styles.personalBestLabel}>Personal best</Text>
-                  <TextInput
-                    style={styles.personalBestInput}
-                    onChangeText={setPersonalBest}
-                    value={personalBest}
-                    keyboardType="numeric"
-                    placeholder="Optional personal best"
-                    placeholderTextColor="#998a85"
-                  />
+        <Pressable onPress={() => handleLogAndExit(selected)}  style={styles.button}>
+          <Text>
+            Log and Exit
+          </Text>
+        </Pressable>
 
-                  <View style={styles.footerButtons}>
-                    <Pressable onPress={() => handleLog(selected)} style={styles.secondaryActionWide}>
-                      <Text style={styles.secondaryActionText}>Save Progress</Text>
-                    </Pressable>
-                    <Pressable onPress={() => handleExit(selected)} style={styles.primaryActionWide}>
-                      <Text style={styles.primaryActionText}>Log And Exit</Text>
-                    </Pressable>
-                  </View>
-                </ScrollView>
-              </View>
-            </View>
-          </TouchableWithoutFeedback>
-        </Modal>
-      ) : null}
-    </>
+        </View>
+      
+      </TouchableWithoutFeedback>
+    </Modal>
+    )}
+  </SafeAreaView>
   )
 }
 
