@@ -36,7 +36,7 @@ const COLOR_DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
     title: 'Blue',
-    key: 'bl',
+    key: 'b',
     assetImage: require('../../assets/images/colors/BlueColor.png'),
   },
 ];
@@ -46,17 +46,24 @@ const COLOR_DATA = [
 
 const Armoire = () => {
 
-  
-
   const [activeMenu, setActiveMenu] = useState(null)
 
   const [color, setActiveColor] = useState("blue")
   const {armor, updateArmor} = useContext(ArmorContext)
 
+  const armorAsset = resolveAsset({
+    category: "armor",
+    direction: "front", 
+    parsed: {
+      color: armor.color,
+      item: armor.item
+    }
+  })
+
   console.log(armor)
   console.log(armor?.name)
   console.log(armor?.color)
-  console.log(armor?.asset)
+  console.log(armor?.item)
 
 
   return (
@@ -94,14 +101,14 @@ const Armoire = () => {
             tabs ={['Armor', 'Color']} 
             data ={[ARMOR_DATA, COLOR_DATA]}
             columns ={columnConfig}
-            onItemPress={(item, tabIndex) => {
-              if (tabIndex === 0) {
+            onRowPress={(activeTab, item) => {
+              if (activeTab === "Armor") {
                 updateArmor({
-                  key: item.key
+                  item: item.key
                 })
               } else {
                 updateArmor({
-                  key: item.key
+                  color: item.key
                 })
               }
             }}
@@ -113,7 +120,7 @@ const Armoire = () => {
 
     <View style={styles.card}>
       <Image
-        source={armor.asset}
+        source={armorAsset}
         style={styles.armorImage}
         resizeMode="contain"
       />

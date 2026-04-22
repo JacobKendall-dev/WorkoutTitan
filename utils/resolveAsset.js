@@ -62,16 +62,19 @@ export const resolveAsset = ({ category, direction, key , parsed}) => {
     if(!config) return null
     
     let finalKey = key
-
-    if (config.parser) {
-        const parsedData = parsed || config.parser(key)
-
-        if (!parsedData) return null
-
-        finalKey = config.buildKey
-        ? config.buildKey(parsedData)
-        : key
+        
+    if (config.buildKey && parsed) {
+        finalKey = config.buildKey(parsed)
     }
+
+    if (!finalKey&& config.parser && key) {
+        const parsedData= config.parser(key)
+        if (parsedData) {
+            finalKey = config.buildKey(parsed)
+        }
+    }
+
+    if (!finalKey) return null
 
     if (config.requiresDirection && direction) {
         return config.map[direction]?.[finalKey] || null
