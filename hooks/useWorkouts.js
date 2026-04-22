@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 import { db, auth } from "../lib/firebaseConfig";
-import {collection, doc, onSnapshot, setDoc, increment, arrayUnion } from "firebase/firestore"
+import {collection, doc, onSnapshot, setDoc, updateDoc, increment, arrayUnion } from "firebase/firestore"
 import React, { useEffect, useState } from 'react'
 import {images} from '../data/challenges.js'
 import {checkAllChallenges} from '../utils/challengeEngine.js'
@@ -23,7 +23,7 @@ export function useWorkouts(){
           exerciseAmount: increment(1),
           muscle: muscle,
           sets: sets,
-          personalBest: personalBest,
+          personalBest: Number(personalBest) || 0,
           lastUpdated: new Date()
         });
       } catch (err) {
@@ -32,7 +32,7 @@ export function useWorkouts(){
           exerciseAmount: 1,
           muscle: muscle,
           sets: sets,
-          personalBest: personalBest,
+          personalBest: Number(personalBest) || 0,
           lastUpdated: new Date()
         })
       }

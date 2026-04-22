@@ -14,7 +14,7 @@ export const images = [
       {
         type: 'exercise',
         exercise: 'Bench',
-        metric: 'maxWeightForReps',
+        metric: 'minimumWeightForReps',
         minReps: 10,
         minSets: 3,
         target: 10
@@ -41,7 +41,7 @@ export const images = [
       {
         type: 'exercise',
         exercise: 'Bench',
-        metric: 'maxWeightForReps',
+        metric: 'minimumWeightForReps',
         minReps: 10,
         minSets: 3,
         target: 23
@@ -68,7 +68,7 @@ export const images = [
       {
         type: 'exercise',
         exercise: 'Bench',
-        metric: 'maxWeightForReps',
+        metric: 'minimumWeightForReps',
         minReps: 10,
         minSets: 3,
         target: 45
@@ -96,7 +96,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Incline Bench',
         target: 10,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -121,7 +121,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Incline Bench',
         target: 23,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -146,7 +146,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Incline Bench',
         target: 45,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -171,7 +171,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Bicep Curls',
         target: 10,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -196,7 +196,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Bicep Curls',
         target: 15,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -221,7 +221,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Bicep Curls',
         target: 25,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -246,7 +246,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Shoulder Press',
         target: 10,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -271,7 +271,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Shoulder Press',
         target: 15,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -296,7 +296,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Shoulder Press',
         target: 25,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -321,7 +321,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Lateral Raises',
         target: 5,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -346,7 +346,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Lateral Raises',
         target: 10,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -371,7 +371,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Lateral Raises',
         target: 20,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -396,7 +396,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Cable Rows',
         target: 25,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -421,7 +421,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Cable Rows',
         target: 50,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -446,7 +446,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Cable Rows',
         target: 75,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -471,7 +471,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Lap Pull-Downs',
         target: 25,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -496,7 +496,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Lap Pull-Downs',
         target: 50,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -521,7 +521,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Lap Pull-Downs',
         target: 75,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -548,7 +548,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Squats',
         target: 10,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -573,7 +573,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Squats',
         target: 25,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -598,7 +598,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Squats',
         target: 45,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -623,7 +623,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Leg Curls',
         target: 10,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -648,7 +648,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Leg Curls',
         target: 25,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -673,7 +673,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Leg Curls',
         target: 45,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -698,7 +698,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Leg Press',
         target: 45,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -723,7 +723,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Leg Press',
         target: 90,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -748,7 +748,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Leg Press',
         target: 135,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -773,7 +773,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Deadlift',
         target: 10,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -798,7 +798,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Deadlift',
         target: 25,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -823,7 +823,7 @@ export const images = [
         type: 'exercise',
         exercise: 'Deadlift',
         target: 45,
-        metric: 'personalBest'
+        metric: 'minimumWeightForReps'
       }
     ]
   },
@@ -1165,8 +1165,9 @@ export const images = [
       {
         type: 'exercise',
         exercise: 'Lunges',
-        metric: 'minimumReps',
+        metric: 'minimumValue',
         minSets: 3,
+        field: 'reps',
         target: 15
       }
     ]
@@ -1191,8 +1192,9 @@ export const images = [
       {
         type: 'exercise',
         exercise: 'Lunges',
-        metric: 'minimumReps',
+        metric: 'minimumValue',
         minSets: 3,
+        field: 'reps',
         target: 30
       }
     ]
@@ -1217,34 +1219,9 @@ export const images = [
       {
         type: 'exercise',
         exercise: 'Lunges',
-        metric: 'minimumReps',
+        metric: 'minimumValue',
         minSets: 3,
-        target: 50
-      }
-    ]
-  },
-    reward: {
-      id: 'W_Stars'
-    }  
-  },
-  //new item 48
-  {
-    id: 'lunges_50_t3', 
-    name: "White Stars(Pattern)",
-    description: "Do a minimum of 50 Lunges in 3 or more sets(Each leg)",
-    image: require('../assets/AppAssets/Unlocks/Reveals/W.Stars.png'),
-    hidden: require('../assets/AppAssets/Unlocks/Silhouettes/Patterns.png'),
-    tab: 'Calisthenics',
-    subTab: 'Lower',
-    tier: 'Tier 3',
-    logic: 'AND',
-    requirements: {
-      rules: [
-      {
-        type: 'exercise',
-        exercise: 'Lunges',
-        metric: 'minimumReps',
-        minSets: 3,
+        field: 'reps',
         target: 50
       }
     ]
@@ -1268,9 +1245,10 @@ export const images = [
       rules: [
       {
         type: 'exercise',
-        exercise: 'Lunges',
-        metric: 'minimumReps',
+        exercise: 'Calfraises',
+        metric: 'minimumValue',
         minSets: 3,
+        field: 'reps',
         target: 15
       }
     ]
@@ -1294,9 +1272,10 @@ export const images = [
       rules: [
       {
         type: 'exercise',
-        exercise: 'Lunges',
-        metric: 'minimumReps',
+        exercise: 'Calfraises',
+        metric: 'minimumValue',
         minSets: 3,
+        field: 'reps',
         target: 15
       }
     ]
@@ -1307,10 +1286,37 @@ export const images = [
   },
 //new item 51
   {
-    id: 'calfraises_50_t2', 
-    name: "Red Wave(Pattern)",
+    id: 'calfraises_50_t3', 
+    name: "EggHat",
     description: "Do a minimum of 50 Calf Raises in 3 or more sets(Each leg)",
-    image: require('../assets/AppAssets/Unlocks/Reveals/R.Waves.png'),
+    image: require('../assets/AppAssets/Unlocks/Reveals/Egg.png'),
+    hidden: require('../assets/AppAssets/Unlocks/Silhouettes/Egg.png'),
+    tab: 'Calisthenics',
+    subTab: 'Lower',
+    tier: 'Tier 3',
+    logic: 'AND',
+    requirements: {
+      rules: [
+      {
+        type: 'exercise',
+        exercise: 'Wall sit',
+        metric: 'minimumValue',
+        minSets: 3,
+        field: 'reps',
+        target: 50
+      }
+    ]
+  },
+    reward: {
+      id: 'Egg'
+    }  
+  },
+//new item 52
+  {
+    id: 'wallsits_30_t1', 
+    name: "White Heart(Pattern)",
+    description: "Sit a minimum of 30 seconds against a wall in 3 or more sets",
+    image: require('../assets/AppAssets/Unlocks/Reveals/W.Hearts.png'),
     hidden: require('../assets/AppAssets/Unlocks/Silhouettes/Patterns.png'),
     tab: 'Calisthenics',
     subTab: 'Lower',
@@ -1320,15 +1326,462 @@ export const images = [
       rules: [
       {
         type: 'exercise',
-        exercise: 'Lunges',
-        metric: 'minimumReps',
+        exercise: 'Wall sit',
+        metric: 'minimumValue',
         minSets: 3,
-        target: 15
+        field: 'seconds',
+        target: 30
       }
     ]
   },
     reward: {
-      id: 'W_Stars'
+      id: 'W_Hearts'
+    }  
+  },
+//new item 53
+  {
+    id: 'wallsits_60_t2', 
+    name: "Black Heart(Pattern)",
+    description: "Sit a minimum of 1min against a wall in 3 or more sets",
+    image: require('../assets/AppAssets/Unlocks/Reveals/Bl.Hearts.png'),
+    hidden: require('../assets/AppAssets/Unlocks/Silhouettes/Patterns.png'),
+    tab: 'Calisthenics',
+    subTab: 'Lower',
+    tier: 'Tier 2',
+    logic: 'AND',
+    requirements: {
+      rules: [
+      {
+        type: 'exercise',
+        exercise: 'Wall sit',
+        metric: 'minimumValue',
+        minSets: 3,
+        field: 'seconds',
+        target: 60
+      }
+    ]
+  },
+    reward: {
+      id: 'Bl_Hearts'
+    }  
+  },
+//new item 54
+  {
+    id: 'wallsits_150_t3', 
+    name: "Brown Dots(Pattern)",
+    description: "Sit a minimum of 2min and 30 secs against a wall in 3 or more sets",
+    image: require('../assets/AppAssets/Unlocks/Reveals/Br.Dots.png'),
+    hidden: require('../assets/AppAssets/Unlocks/Silhouettes/Patterns.png'),
+    tab: 'Calisthenics',
+    subTab: 'Lower',
+    tier: 'Tier 3',
+    logic: 'AND',
+    requirements: {
+      rules: [
+      {
+        type: 'exercise',
+        exercise: 'Wall sit',
+        metric: 'minimumValue',
+        minSets: 3,
+        field: 'seconds',
+        target: 150
+      }
+    ]
+  },
+    reward: {
+      id: 'Br_Dots'
+    }  
+  },
+
+  // CORE/AB Exercises
+//new item 55
+  {
+    id: 'situps_20_t1', 
+    name: "Purple Tent Color",
+    description: "Do a minimum of 20 Sit-ups in 3 or more sets",
+    image: require('../assets/AppAssets/Unlocks/Reveals/Tent.P.png'),
+    hidden: require('../assets/AppAssets/Unlocks/Silhouettes/TentColor.png'),
+    tab: 'Core',
+    tier: 'Tier 1',
+    logic: 'AND',
+    requirements: {
+      rules: [
+      {
+        type: 'exercise',
+        exercise: 'Sit-ups',
+        metric: 'minimumValue',
+        minSets: 3,
+        field: 'reps',
+        target: 20
+      }
+    ]
+  },
+    reward: {
+      id: 'Tent_P'
+    }  
+  },
+//new item 56
+  {
+    id: 'situps_35_t2', 
+    name: "Yellow Stars(Pattern)",
+    description: "Do a minimum of 35 Sit-ups in 3 or more sets",
+    image: require('../assets/AppAssets/Unlocks/Reveals/Y.Stars.png'),
+    hidden: require('../assets/AppAssets/Unlocks/Silhouettes/Patterns.png'),
+    tab: 'Core',
+    tier: 'Tier 2',
+    logic: 'AND',
+    requirements: {
+      rules: [
+      {
+        type: 'exercise',
+        exercise: 'Sit-ups',
+        metric: 'minimumValue',
+        minSets: 3,
+        field: 'reps',
+        target: 35
+      }
+    ]
+  },
+    reward: {
+      id: 'Y_Stars'
+    }  
+  },
+//new item 57
+  {
+    id: 'situps_50_t3', 
+    name: "Headphones Hat",
+    description: "Do a minimum of 50 Sit-ups in 3 or more sets",
+    image: require('../assets/AppAssets/Unlocks/Reveals/Headphones.png'),
+    hidden: require('../assets/AppAssets/Unlocks/Silhouettes/Headphones.png'),
+    tab: 'Core',
+    tier: 'Tier 3',
+    logic: 'AND',
+    requirements: {
+      rules: [
+      {
+        type: 'exercise',
+        exercise: 'Sit-ups',
+        metric: 'minimumValue',
+        minSets: 3,
+        field: 'reps',
+        target: 50
+      }
+    ]
+  },
+    reward: {
+      id: 'Headphones'
+    }  
+  },
+//new item 59
+  {
+    id: 'crunches_20_t1', 
+    name: "No Reward",
+    description: "Do a minimum of 20 Crunches in 3 or more sets",
+    image: require('../assets/AppAssets/Unlocks/Reveals/Headphones.png'),
+    hidden: require('../assets/AppAssets/Unlocks/Silhouettes/Headphones.png'),
+    tab: 'Core',
+    tier: 'Tier 1',
+    logic: 'AND',
+    requirements: {
+      rules: [
+      {
+        type: 'exercise',
+        exercise: 'Crunches',
+        metric: 'minimumValue',
+        minSets: 3,
+        field: 'reps',
+        target: 20
+      }
+    ]
+  },
+    reward: {
+      id: 'Headphones'
+    }  
+  },
+//new item 59
+  {
+    id: 'crunches_35_t2', 
+    name: "Purple Flowers(Pattern)",
+    description: "Do a minimum of 35 Crunches in 3 or more sets",
+    image: require('../assets/AppAssets/Unlocks/Reveals/P.Flowers.png'),
+    hidden: require('../assets/AppAssets/Unlocks/Silhouettes/Patterns.png'),
+    tab: 'Core',
+    tier: 'Tier 2',
+    logic: 'AND',
+    requirements: {
+      rules: [
+      {
+        type: 'exercise',
+        exercise: 'Crunches',
+        metric: 'minimumValue',
+        minSets: 3,
+        field: 'reps',
+        target: 35
+      }
+    ]
+  },
+    reward: {
+      id: 'P_Flowers'
+    }  
+  },
+//new item 60
+  {
+    id: 'crunches_50_t3', 
+    name: "Green Tent Color",
+    description: "Do a minimum of 50 Crunches in 3 or more sets",
+    image: require('../assets/AppAssets/Unlocks/Reveals/Tent.G.png'),
+    hidden: require('../assets/AppAssets/Unlocks/Silhouettes/TentColor.png'),
+    tab: 'Core',
+    tier: 'Tier 3',
+    logic: 'AND',
+    requirements: {
+      rules: [
+      {
+        type: 'exercise',
+        exercise: 'Crunches',
+        metric: 'minimumValue',
+        minSets: 3,
+        field: 'reps',
+        target: 50
+      }
+    ]
+  },
+    reward: {
+      id: 'Tent_G'
+    }  
+  },
+//new item 61
+  {
+    id: 'plank_30_t1', 
+    name: "Red Flowers(Pattern)",
+    description: "Hold a Plank position for a minimum of 30 secs in 3 or more sets",
+    image: require('../assets/AppAssets/Unlocks/Reveals/R.Flowers.png'),
+    hidden: require('../assets/AppAssets/Unlocks/Silhouettes/Patterns.png'),
+    tab: 'Core',
+    tier: 'Tier 1',
+    logic: 'AND',
+    requirements: {
+      rules: [
+      {
+        type: 'exercise',
+        exercise: 'Plank',
+        metric: 'minimumValue',
+        minSets: 3,
+        field: 'seconds',
+        target: 30
+      }
+    ]
+  },
+    reward: {
+      id: 'R_Flowers'
+    }  
+  },
+//new item 62
+  {
+    id: 'plank_60_t2', 
+    name: "Green Hearts(Pattern)",
+    description: "Hold a Plank position for a minimum of 1min in 3 or more sets",
+    image: require('../assets/AppAssets/Unlocks/Reveals/G.Hearts.png'),
+    hidden: require('../assets/AppAssets/Unlocks/Silhouettes/Patterns.png'),
+    tab: 'Core',
+    tier: 'Tier 2',
+    logic: 'AND',
+    requirements: {
+      rules: [
+      {
+        type: 'exercise',
+        exercise: 'Plank',
+        metric: 'minimumValue',
+        minSets: 3,
+        field: 'seconds',
+        target: 60
+      }
+    ]
+  },
+    reward: {
+      id: 'G_Hearts'
+    }  
+  },
+//new item 63
+  {
+    id: 'plank_150_t3', 
+    name: "Propeller Hat",
+    description: "Hold a Plank position for a minimum of 2min and 30s in 3 or more sets",
+    image: require('../assets/AppAssets/Unlocks/Reveals/Propeller.png'),
+    hidden: require('../assets/AppAssets/Unlocks/Silhouettes/Propeller.png'),
+    tab: 'Core',
+    tier: 'Tier 3',
+    logic: 'AND',
+    requirements: {
+      rules: [
+      {
+        type: 'exercise',
+        exercise: 'Plank',
+        metric: 'minimumValue',
+        minSets: 3,
+        field: 'seconds',
+        target: 150
+      }
+    ]
+  },
+    reward: {
+      id: 'Propeller'
+    }  
+  },
+//new item 64
+  {
+    id: '6inleghold_60_t1', 
+    name: "Orange Stars(Pattern)",
+    description: "Hold an upward 6 inch leg position for a minimum of 60s in 3 or more sets",
+    image: require('../assets/AppAssets/Unlocks/Reveals/O.Stars.png'),
+    hidden: require('../assets/AppAssets/Unlocks/Silhouettes/Patterns.png'),
+    tab: 'Core',
+    tier: 'Tier 1',
+    logic: 'AND',
+    requirements: {
+      rules: [
+      {
+        type: 'exercise',
+        exercise: '6in Leg Hold',
+        metric: 'minimumValue',
+        minSets: 3,
+        field: 'seconds',
+        target: 60
+      }
+    ]
+  },
+    reward: {
+      id: 'O_Stars'
+    }  
+  },
+//new item 65
+  {
+    id: '6inleghold_120_t2', 
+    name: "Orange Stars(Pattern)",
+    description: "Hold an upward 6 inch leg position for a minimum of 2min in 3 or more sets",
+    image: require('../assets/AppAssets/Unlocks/Reveals/Gr.Dots.png'),
+    hidden: require('../assets/AppAssets/Unlocks/Silhouettes/Patterns.png'),
+    tab: 'Core',
+    tier: 'Tier 2',
+    logic: 'AND',
+    requirements: {
+      rules: [
+      {
+        type: 'exercise',
+        exercise: '6in Leg Hold',
+        metric: 'minimumValue',
+        minSets: 3,
+        field: 'seconds',
+        target: 120
+      }
+    ]
+  },
+    reward: {
+      id: 'Gr_Dots'
+    }  
+  },
+//new item 66
+  {
+    id: '6inleghold_180_t3', 
+    name: "Winter Season",
+    description: "Hold an upward 6 inch leg position for a minimum of 3min in 3 or more sets",
+    image: require('../assets/AppAssets/Unlocks/Reveals/Winter.png'),
+    hidden: require('../assets/AppAssets/Unlocks/Silhouettes/Seasons.png'),
+    tab: 'Core',
+    tier: 'Tier 3',
+    logic: 'AND',
+    requirements: {
+      rules: [
+      {
+        type: 'exercise',
+        exercise: '6in Leg Hold',
+        metric: 'minimumValue',
+        minSets: 3,
+        field: 'seconds',
+        target: 180
+      }
+    ]
+  },
+    reward: {
+      id: 'Winter'
+    }  
+  },
+//new item 67
+  {
+    id: 'legraises_10_t1', 
+    name: "Yellow Hearts(Pattern)",
+    description: "Do a minimum of 10 Leg Raises in 3 or more sets",
+    image: require('../assets/AppAssets/Unlocks/Reveals/Y.Hearts.png'),
+    hidden: require('../assets/AppAssets/Unlocks/Silhouettes/Patterns.png'),
+    tab: 'Core',
+    tier: 'Tier 1',
+    logic: 'AND',
+    requirements: {
+      rules: [
+      {
+        type: 'exercise',
+        exercise: 'Leg Raises',
+        metric: 'minimumValue',
+        minSets: 3,
+        field: 'reps',
+        target: 10
+      }
+    ]
+  },
+    reward: {
+      id: 'Y_Hearts'
+    }  
+  },
+//new item 68
+  {
+    id: 'legraises_20_t2', 
+    name: "Red Stripes(Pattern)",
+    description: "Do a minimum of 20 Leg Raises in 3 or more sets",
+    image: require('../assets/AppAssets/Unlocks/Reveals/R.Stripes.png'),
+    hidden: require('../assets/AppAssets/Unlocks/Silhouettes/Patterns.png'),
+    tab: 'Core',
+    tier: 'Tier 2',
+    logic: 'AND',
+    requirements: {
+      rules: [
+      {
+        type: 'exercise',
+        exercise: 'Leg Raises',
+        metric: 'minimumValue',
+        minSets: 3,
+        field: 'reps',
+        target: 20
+      }
+    ]
+  },
+    reward: {
+      id: 'R_Stripes'
+    }  
+  },
+//new item 69
+  {
+    id: 'legraises_30_t3', 
+    name: "Blue Waves(Pattern)",
+    description: "Do a minimum of 30 Leg Raises in 3 or more sets",
+    image: require('../assets/AppAssets/Unlocks/Reveals/B.Waves.png'),
+    hidden: require('../assets/AppAssets/Unlocks/Silhouettes/Patterns.png'),
+    tab: 'Core',
+    tier: 'Tier 3',
+    logic: 'AND',
+    requirements: {
+      rules: [
+      {
+        type: 'exercise',
+        exercise: 'Leg Raises',
+        metric: 'minimumValue',
+        minSets: 3,
+        field: 'reps',
+        target: 30
+      }
+    ]
+  },
+    reward: {
+      id: 'B_Waves'
     }  
   },
 

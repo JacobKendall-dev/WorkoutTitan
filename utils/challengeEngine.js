@@ -5,21 +5,24 @@ import { emitChallengeEvent } from './challengeEvents';
 // Helper: calculates max weight for qualifying sets
 // Only counts sets that meet min reps requirement
 // ---------------------------------------------
-export const getMaxWeightForReps = (sets, minReps, minSets) => {
-  if (!sets || sets.length === 0) return 0;
+export const getMinimumWeightForReps = (sets, minReps, minSets) => {
+  if (!Array.isArray(sets) || sets.length === 0) return 0;
 
-  // Filter sets that satisfy minimum reps condition
   const validSets = sets.filter(
     set => Number(set.reps) >= minReps
   );
 
-  // Not enough valid sets → challenge not progressed
+  // must meet required number of qualifying sets
   if (validSets.length < minSets) return 0;
 
-  // Return heaviest valid set
-  return Math.max(
-    ...validSets.map(set => Number(set.weight) || 0)
-  );
+  const weights = validSets
+    .map(set => Number(set.weight))
+    .filter(w => Number.isFinite(w));
+
+  // 🔥 final safety guard (prevents Math.min on empty array)
+  if (weights.length === 0) return 0;
+
+  return Math.min(...weights);
 };
 
 // ---------------------------------------------
@@ -30,10 +33,10 @@ export const checkRule = (rule, exercises, session) => {
   switch (rule.metric) {
 
     // Strength-based progression (e.g. bench press)
-    case 'maxWeightForReps': {
+    case 'minimumWeightForReps': {
       const sets = exercises[rule.exercise]?.sets || [];
 
-      const value = getMaxWeightForReps(
+      const value = getMinimumWeightForReps(
         sets,
         rule.minReps,
         rule.minSets
@@ -45,11 +48,21 @@ export const checkRule = (rule, exercises, session) => {
     case 'minimumReps': {
       const sets = exercises[rule.exercise]?.sets || [];
 
-      const qualifyingSets = sets.filter(
+      return sets.every(
         set => Number(set.reps) >= rule.target
       );
+    }
+    //Checks for minimum value within the minimum amount of allowed Sets
+    case 'minimumValue': {
+      const sets = exercises[rule.exercise]?.sets || [];
 
-      return qualifyingSets.length >= rule.minSets;
+      if (!sets.length) return false;
+
+      // every set must meet or exceed target
+      return sets.every(set => {
+        const value = Number(set[rule.field]) || 0;
+        return value >= rule.target;
+      });
     }
 
     // Simple max value check (e.g. personal best lift)
@@ -110,10 +123,10 @@ export const getProgress = (rule, exercises) => {
   switch (rule.metric) {
 
     // Strength progression tracking
-    case 'maxWeightForReps': {
+    case 'minimumWeightForReps': {
     const sets = exercises[rule.exercise]?.sets || [];
 
-      return getMaxWeightForReps(
+      return getMinimumWeightForReps(
         sets,
         rule.minReps,
         rule.minSets
@@ -121,17 +134,24 @@ export const getProgress = (rule, exercises) => {
     }
     //Reps progression tracking
     case 'minimumReps': {
-    const sets = exercises[rule.exercise]?.sets || [];
-      // get best qualifying set reps (or latest valid set)
-      const validSets = sets.filter(
-        set => Number(set.reps) >= rule.target
+      const sets = exercises[rule.exercise]?.sets || [];
+
+      if (!sets.length) return 0;
+
+      return Math.min(
+        ...sets.map(set => Number(set.reps) || 0)
       );
+    }
+    //Value progression tracking
+    case 'minimumValue': {
+      const sets = exercises[rule.exercise]?.sets || [];
 
-      const bestReps = validSets.length
-        ? Math.max(...validSets.map(s => Number(s.reps)))
-        : 0;
+      if (!sets.length) return 0;
 
-      return bestReps;
+      // worst set determines progress
+      return Math.min(
+        ...sets.map(set => Number(set[rule.field]) || 0)
+      );
     }
 
     // Simple tracked best value

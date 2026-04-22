@@ -62,6 +62,10 @@ const addSet = () => {
   setSets([...sets, {weight: '', reps: ''}])
 }
 
+const deleteSet = () => {
+  setSets(prev => prev.length <= 1 ? prev : prev.slice(0, -1))
+}
+
 const handleSelect = (item) => {
   setSelected(item)
   setSets([
@@ -163,9 +167,8 @@ const handleLog = (theSelected) => {
       </View>
       ))}
       <View style={styles.rowStyle}>
-        <Pressable onPress={addSet}>
-        <Text>Add Set + </Text>
-        </Pressable>
+        <Pressable onPress={addSet}><Text>Add Set +</Text></Pressable>
+        <Pressable onPress={deleteSet}><Text>Remove Set -</Text></Pressable>
       </View>
 
       <Slider 

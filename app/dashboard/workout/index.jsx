@@ -1,113 +1,122 @@
 import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native'
-import { Link, useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useWorkouts } from '../../../hooks/useWorkouts'
-
+import { Link, useRouter } from 'expo-router'
+import React, { useState } from 'react'
 
 const CATEGORIES = [
   {
     id: 'weights',
     name: 'Weights',
     icon: '🏋️',
-    count: '3 workout types',
     iconBg: '#F3E7FE',
-    lastSession: 'Upper body · Today',
-    sessions: 18,
-    streak: 3,
-    pb: `Incremented exerciseAmount for personalbests.bench`,
     workouts: [
-      { label: 'Upper body', meta: 'Bench press, OHP, Triceps…', href: '/dashboard/workout/weightlifting/upperbodyW' },
-      { label: 'Lower body', meta: 'Squats, Deadlift, Lunges…', href: '/dashboard/workout/weightlifting/lowerbodyW' },
-      { label: 'Back', meta: 'Rows, Pull-ups, Lat pulldown…', href: '/dashboard/workout/weightlifting/backW' },
+      { label: 'Upper body', href: '/dashboard/workout/weightlifting/upperbodyW' },
+      { label: 'Lower body', href: '/dashboard/workout/weightlifting/lowerbodyW' },
     ],
   },
   {
     id: 'cardio',
     name: 'Cardio',
     icon: '🏃',
-    count: '3 workout types',
     iconBg: '#FEF3E7',
-    lastSession: 'Running · 3 days ago',
-    sessions: 24,
-    streak: 6,
-    pb: 'Best 5k · 24:30',
-    pbLabel: 'Best run',
     workouts: [
-      { label: 'Running', meta: 'Outdoor & treadmill runs', href: '/dashboard/workout/cardio/running' },
-      { label: 'Swimming', meta: 'Laps, drills, open water', href: '/dashboard/workout/cardio/swimming' },
-      { label: 'Cycling', meta: 'Road, trail, stationary', href: '/dashboard/workout/cardio/cycling' },
+      { label: 'Running', href: '/dashboard/workout/cardio/running' },
+      { label: 'Cycling', href: '/dashboard/workout/cardio/cycling' },
     ],
   },
   {
     id: 'calisthenics',
     name: 'Calisthenics',
     icon: '🤸',
-    count: '4 workout types',
     iconBg: '#E7F3FE',
-    lastSession: 'Core · Yesterday',
-    sessions: 31,
-    streak: 12,
-    pb: 'Max pull-ups · 18',
-    pbLabel: 'Personal best',
     workouts: [
-      { label: 'Upper body', meta: 'Push-ups, Dips, Pike press…', href: '/dashboard/workout/calisthenics/upperbodyC' },
-      { label: 'Lower body', meta: 'Pistol squats, Jumps…', href: '/dashboard/workout/calisthenics/lowerbodyC' },
-      { label: 'Core', meta: 'Planks, L-sits, Dragon flags…', href: '/dashboard/workout/calisthenics/core' },
-      { label: 'Stretches', meta: 'Mobility & flexibility work', href: '/dashboard/workout/calisthenics/stretches' },
+      { label: 'Upper body', href: '/dashboard/workout/calisthenics/upperbodyC' },
+      { label: 'Lower body', href: '/dashboard/workout/calisthenics/lowerbodyC' },
+      { label: 'Core', href: '/dashboard/workout/calisthenics/core' },
     ],
   },
   {
     id: 'create',
     name: 'Create',
     icon: '➕',
-    count: 'Build your own',
     iconBg: '#E7FEF0',
+    workouts: [],
     href: '/dashboard/workout/createWorkout',
   },
 ]
 
 const Workout = () => {
   const router = useRouter()
+  const [activeTab, setActiveTab] = useState(null)
 
-  const handleCardPress = (category) => {
-    if (category.id === 'create') {
-      router.push(category.href)
+  const handleSelect = (cat) => {
+    if (cat.id === 'create') {
+      router.push(cat.href)
       return
     }
-    router.push({
-      pathname: '/dashboard/workout/sheet',
-      params: { data: JSON.stringify(category) },
-    })
+    setActiveTab(prev => prev?.id === cat.id ? null : cat)
   }
 
   const today = new Date().toLocaleDateString('en-US', {
-    weekday: 'long', month: 'long', day: 'numeric',
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
   })
 
   return (
     <SafeAreaView style={styles.safe}>
       <ScrollView contentContainerStyle={styles.container}>
+
+        {/* HEADER */}
+        <View style={styles.headerRow}>
+          <Pressable onPress={() => router.back()} style={styles.backBtn}>
+            <Text style={styles.backText}>← Back</Text>
+          </Pressable>
+        </View>
+
         <Text style={styles.title}>Workout</Text>
         <Text style={styles.subtitle}>{today}</Text>
 
-        <View style={styles.grid}>
-          {CATEGORIES.map((cat) => (
+        {/* TABS */}
+        <View style={styles.tabs}>
+          {CATEGORIES.map(cat => (
             <Pressable
               key={cat.id}
-              style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
-              onPress={() => handleCardPress(cat)}
+              onPress={() => handleSelect(cat)}
+              style={[
+                styles.tab,
+                activeTab?.id === cat.id && styles.tabActive
+              ]}
             >
               <View style={[styles.iconWrap, { backgroundColor: cat.iconBg }]}>
                 <Text style={styles.iconText}>{cat.icon}</Text>
               </View>
-              <Text style={styles.cardName}>{cat.name}</Text>
-              <Text style={styles.cardCount}>{cat.count}</Text>
+              <Text style={styles.tabText}>{cat.name}</Text>
             </Pressable>
           ))}
-          <Link style={styles.link} href="/dashboard/workout/challenges">
-                  Start now
-                </Link>
         </View>
+
+        <Link href="/dashboard/workout/challenges" style={styles.challengeBtn}>
+          <Text style={styles.challengeText}>Challenges</Text>
+        </Link>
+
+        {/* EXPANDED PANEL */}
+        {activeTab && (
+          <View style={styles.panel}>
+            <Text style={styles.panelTitle}>{activeTab.name}</Text>
+
+            {activeTab.workouts.map((w, i) => (
+              <Pressable
+                key={i}
+                style={styles.linkBox}
+                onPress={() => router.push(w.href)}
+              >
+                <Text style={styles.linkText}>{w.label}</Text>
+              </Pressable>
+            ))}
+          </View>
+        )}
+
       </ScrollView>
     </SafeAreaView>
   )
@@ -124,34 +133,47 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 30,
   },
+
+  headerRow: {
+    marginBottom: 10,
+  },
+  backBtn: {
+    paddingVertical: 6,
+  },
+  backText: {
+    fontSize: 14,
+    color: '#444',
+  },
+
   title: {
     fontSize: 28,
     fontWeight: '700',
-    color: '#111',
     marginBottom: 4,
   },
   subtitle: {
     fontSize: 13,
     color: '#888',
-    marginBottom: 24,
+    marginBottom: 20,
   },
-  grid: {
+
+  tabs: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 12,
+    gap: 10,
   },
-  card: {
+  tab: {
     width: '47%',
     backgroundColor: '#fff',
-    borderRadius: 16,
+    borderRadius: 14,
     padding: 14,
-    borderWidth: 0.5,
+    borderWidth: 1,
     borderColor: '#e5e5e5',
   },
-  cardPressed: {
+  tabActive: {
+    borderColor: '#999',
     backgroundColor: '#fafafa',
-    borderColor: '#ccc',
   },
+
   iconWrap: {
     width: 38,
     height: 38,
@@ -163,14 +185,46 @@ const styles = StyleSheet.create({
   iconText: {
     fontSize: 18,
   },
-  cardName: {
+  tabText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#111',
-    marginBottom: 2,
   },
-  cardCount: {
-    fontSize: 11,
-    color: '#999',
+
+  panel: {
+    marginTop: 20,
+    padding: 14,
+    backgroundColor: '#fff',
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#e5e5e5',
   },
+  panelTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    marginBottom: 10,
+  },
+
+  linkBox: {
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  linkText: {
+    fontSize: 14,
+    color: '#333',
+  },
+challengeBtn: {
+  marginTop: 12,
+  paddingVertical: 10,
+  paddingHorizontal: 12,
+  backgroundColor: '#111',
+  borderRadius: 10,
+  alignSelf: 'flex-start',
+},
+
+challengeText: {
+  color: '#fff',
+  fontWeight: '600',
+  fontSize: 13,
+},
 })

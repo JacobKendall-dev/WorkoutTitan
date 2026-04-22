@@ -4,7 +4,7 @@ import React from 'react'
 const CreateWorkout = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>CreateWorkout</Text>
+      <Text style={styles.title}>In Progress</Text>
     </View>
   )
 }
