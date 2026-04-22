@@ -10,6 +10,8 @@ const ACTIVE_DESTINATIONS = [
   { label: 'Kitchen', href: '/dashboard/kitchen', detail: 'Recipes, meal plans, and calorie tracking.' },
   { label: 'Workout', href: '/dashboard/workout', detail: 'Training categories, exercise logs, and timers.' },
   { label: 'Challenges', href: '/dashboard/workout/challenges', detail: 'Complete chellenges and earn unlocks.' },
+  { label: 'Campsite', href: '/dashboard/campsite', detail: 'Preview campsite scenes and environment customization.' },
+  { label: 'Armoire', href: '/dashboard/armoire', detail: 'Browse armor looks and wardrobe color previews.' },
   { label: 'Profile', href: '/dashboard/profile', detail: 'Account details and sign-out controls.' },
 ]
 
