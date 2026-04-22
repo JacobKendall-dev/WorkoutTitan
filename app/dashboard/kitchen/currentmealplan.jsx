@@ -342,7 +342,7 @@ const CurrentMealPlan = () => {
               Plan breakfast, lunch, dinner, and snacks for this week and next week using recipes from your recipe book.
             </Text>
             <Text style={styles.helperText}>
-              Your planner rolls over every Sunday at 12:00 AM, so the screen always shows the current week plus the following week.
+              Your planner starts over every Sunday at 12:00 AM each week
             </Text>
           </View>
 
