@@ -14,25 +14,23 @@ Workout Titan was developed as a team capstone project. My primary contributions
 
 ### Authentication
 
-![Login Screen](docs/login.png)
-
-![Registration Screen](docs/register.png)
+![Login Screen](docs/images/login.png)
 
 ### Dashboard
 
-![Dashboard](docs/dashboard.png)
+![Dashboard](docs/images/home.png)
 
 ### Workout Tracking
 
-![Workout Screen](docs/workout.png)
+![Workout Screen](docs/images/workout.png)
 
 ### GPS Running
 
-![Running Screen](docs/running.png)
+![Running Screen](docs/images/running.png)
 
 ### Rewards & Character Customization
 
-![Rewards Screen](docs/rewards.png)
+![Rewards Screen](docs/images/rewards.png)
 
 ---
 
