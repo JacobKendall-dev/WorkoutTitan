@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native'
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import { Link } from 'expo-router'
 import AppShell from '../../components/AppShell'
 import SectionCard from '../../components/SectionCard'
@@ -17,32 +17,42 @@ const ACTIVE_DESTINATIONS = [
 
 const Dashboard = () => {
   const { user } = useUser()
+  const [previewHeight, setPreviewHeight] = useState(220)
+
+  const onPreviewLayout = useCallback((e) => {
+    const { height } = e.nativeEvent.layout
+    if (height > 0) setPreviewHeight(height)
+  }, [])
 
   return (
     <AppShell
       title="Welcome, Traveler"
       subtitle={user?.email ? `Signed in as ${user.email}` : 'Choose where you want to head next.'}
     >
-      <SectionCard style={styles.sectionCard}>
-        <Text style={styles.sectionTitle}>Dashboard</Text>
-        <View style={styles.destinationList}>
-          {ACTIVE_DESTINATIONS.map((destination) => (
-            <Link key={destination.href} href={destination.href} asChild>
-              <Pressable style={styles.linkCard}>
-                <Text style={styles.linkTitle}>{destination.label}</Text>
-                <Text style={styles.linkDetail}>{destination.detail}</Text>
-              </Pressable>
-            </Link>
-          ))}
-        </View>
-      </SectionCard>
+      <View style={styles.container}>
+        <SectionCard style={styles.sectionCard}>
+          <Text style={styles.sectionTitle}>Dashboard</Text>
+          <View style={styles.destinationGrid}>
+            {ACTIVE_DESTINATIONS.map((destination) => (
+              <Link key={destination.href} href={destination.href} asChild>
+                <Pressable style={styles.linkCard}>
+                  <Text style={styles.linkTitle}>{destination.label}</Text>
+                  <Text style={styles.linkDetail} numberOfLines={2}>
+                    {destination.detail}
+                  </Text>
+                </Pressable>
+              </Link>
+            ))}
+          </View>
+        </SectionCard>
 
-      <SectionCard style={styles.previewCard}>
-        <CleaningCampsiteCard
-          style={styles.previewImage}
-          cardStyle={styles.previewAvatarCard}
-        />
-      </SectionCard>
+        <SectionCard style={styles.previewCard} onLayout={onPreviewLayout}>
+          <CleaningCampsiteCard
+            style={[styles.previewImage, { height: previewHeight }]}
+            cardStyle={[styles.previewAvatarCard, { height: previewHeight }]}
+          />
+        </SectionCard>
+      </View>
     </AppShell>
   )
 }
@@ -50,52 +60,57 @@ const Dashboard = () => {
 export default Dashboard
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   sectionCard: {
-    marginBottom: 16,
+    marginBottom: 12,
   },
   sectionTitle: {
     color: '#fff7f2',
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '700',
-    marginBottom: 14,
+    marginBottom: 10,
   },
-  destinationList: {
-    gap: 12,
+  destinationGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    rowGap: 10,
   },
   linkCard: {
+    width: '48.5%',
     backgroundColor: 'rgba(247, 234, 228, 0.94)',
-    borderRadius: 18,
+    borderRadius: 16,
     borderWidth: 1,
     borderColor: '#ceb1a8',
-    padding: 16,
+    padding: 12,
   },
   linkTitle: {
     color: '#5c3238',
-    fontSize: 17,
+    fontSize: 15,
     fontWeight: '800',
-    marginBottom: 4,
+    marginBottom: 3,
   },
   linkDetail: {
     color: '#775a56',
-    fontSize: 14,
-    lineHeight: 20,
+    fontSize: 12,
+    lineHeight: 16,
   },
   previewCard: {
-    minHeight: 260,
+    flex: 1,
     backgroundColor: 'rgba(247, 234, 228, 0.94)',
     borderColor: '#ceb1a8',
     overflow: 'hidden',
     padding: 0,
+    marginBottom: 0,
   },
   previewImage: {
     width: '100%',
-    minHeight: 260,
   },
   previewAvatarCard: {
     width: '100%',
-    height: 260,
     borderRadius: 0,
     backgroundColor: 'transparent',
   },
 })
-
